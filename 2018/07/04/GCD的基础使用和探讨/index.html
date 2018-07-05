@@ -79,14 +79,18 @@
 
 
 
+<meta name="description" content="title:GCD的基础使用及探讨#GCD的基础使用 ##名次解释 线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 ##异步串行 123456789101112dispa">
 <meta name="keywords" content="iOS">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Zic_Magic">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/07/04/GCD的基础使用和探讨/index.html">
 <meta property="og:site_name" content="Zic_Magic">
+<meta property="og:description" content="title:GCD的基础使用及探讨#GCD的基础使用 ##名次解释 线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 ##异步串行 123456789101112dispa">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-05T06:02:29.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zic_Magic">
+<meta name="twitter:description" content="title:GCD的基础使用及探讨#GCD的基础使用 ##名次解释 线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 ##异步串行 123456789101112dispa">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/04/GCD的基础使用和探讨/"/>
 
 
 
 
 
-  <title>Zic_Magic</title>
+  <title> | Zic_Magic</title>
   
 
 
@@ -141,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -215,9 +218,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -247,9 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/04/GCD的基础使用和探讨/" itemprop="url">Untitled</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -299,9 +300,7 @@
       
 
       
-        
-          
-            <hr>
+        <hr>
 <h2 id="title-GCD的基础使用及探讨"><a href="#title-GCD的基础使用及探讨" class="headerlink" title="title:GCD的基础使用及探讨"></a>title:GCD的基础使用及探讨</h2><p>#GCD的基础使用</p>
 <p>##名次解释</p>
 <p><strong>线程</strong>：程序中执行任务的最小单位</p>
@@ -376,8 +375,6 @@
 <p>可以使用NSLock来解决刚刚出现的问题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;</span><br><span class="line">NSLock *lock = [NSLock new];</span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    [lock lock];</span><br><span class="line">    _number++;</span><br><span class="line">    [lock unlock];</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
 
-          
-        
       
     </div>
     
@@ -394,142 +391,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/京东开普勒SDK集成/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zic_magic">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zic_Magic">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/03/京东开普勒SDK集成/" itemprop="url">京东开普勒sdk集成</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
-                2018-07-03
-              </time>
+              <a href="/2018/07/03/京东开普勒SDK集成/" rel="next" title="京东开普勒sdk集成">
+                <i class="fa fa-chevron-left"></i> 京东开普勒sdk集成
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>非代码层的集成方式参考开普勒的<a href="http://kepler.jd.com/console/docCenterCatalog/docContent?channelId=46" target="_blank" rel="noopener">官方文档</a></p>
-<h1 id="初始化SDK"><a href="#初始化SDK" class="headerlink" title="初始化SDK"></a>初始化SDK</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] asyncInitSdk:JDappKey secretKey:JDSecretKey sucessCallback:^&#123;</span><br><span class="line">    </span><br><span class="line">&#125; failedCallback:^(NSError *error) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br><span class="line">[KeplerApiManager sharedKPService].JDappBackTagID = @&quot;kpl_jdxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;;//这个tagid需要找京东申请</span><br></pre></td></tr></table></figure>
-<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><h2 id="授权状态检测"><a href="#授权状态检测" class="headerlink" title="授权状态检测"></a>授权状态检测</h2><p>在响应京东sdk的时候需要检测一下一下授权状态,不然有些操作会失败</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] keplerLoginWithSuccess:^&#123;</span><br><span class="line">         </span><br><span class="line">&#125; failure:^&#123;</span><br><span class="line">    </span><br><span class="line">    [JDSDKManager login];</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h2><p>检测授权状态就一行，但是实际运用的时候还需要本地记录一下用户的authCode，和用户id对应起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] keplerLoginWithViewController:[[JDSDKManager sharedManager] getCurrentVC] success:^&#123;</span><br><span class="line">               </span><br><span class="line">&#125; failure:^(NSError *error) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="取消授权"><a href="#取消授权" class="headerlink" title="取消授权"></a>取消授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] cancelAuth];</span><br></pre></td></tr></table></figure>
-<h1 id="跳转手机京东或者h5"><a href="#跳转手机京东或者h5" class="headerlink" title="跳转手机京东或者h5"></a>跳转手机京东或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[KeplerApiManager sharedKPService].isOpenByH5 = YES;</span><br><span class="line"></span><br><span class="line">[[KeplerApiManager sharedKPService]openNavigationPage:viewController jumpType:2 customParams:[RdAppUserProfile getUserUserid]];</span><br><span class="line"> @param jumpType         跳转类型(默认 push) 1代表present 2代表push</span><br><span class="line"> @param customParams     自定义订单统计参数 需要传入用户id不然不好统计订单来源</span><br><span class="line"> //参数格式错误会导致跳转失败</span><br></pre></td></tr></table></figure>
-<h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>这里和淘宝的处理方式一样，参照上一片博文，就是拦截的地址不一样</p>
-<h1 id="细节补充"><a href="#细节补充" class="headerlink" title="细节补充"></a>细节补充</h1><p>1、京东有些页面会出现点击下载的空间，拦截也需要注入js，处理方式和前面一片描述的相同</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -539,148 +422,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/阿里百川电商服务sdk集成/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zic_magic">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zic_Magic">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/03/阿里百川电商服务sdk集成/" itemprop="url">百川电商sdk集成</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
-                2018-07-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>非代码层的集成方式参考百川的<a href="http://baichuan.taobao.com/docs/doc.htm?spm=a3c0d.7629140.0.0.Yx5h60&amp;treeId=129&amp;articleId=105648&amp;docType=1" target="_blank" rel="noopener">官方文档</a>，除了安全图片的V4还是V5的选择有点坑，文档已经很详细细节上基本都描述的很到位。</p>
-<h1 id="初始化SDK"><a href="#初始化SDK" class="headerlink" title="初始化SDK"></a>初始化SDK</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[[AlibcTradeSDK sharedInstance] asyncInitWithSuccess:^&#123;</span><br><span class="line">    </span><br><span class="line">&#125; failure:^(NSError *error) &#123;</span><br><span class="line">    NSLog(@&quot;Init failed: %@&quot;, error.description);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">// 开发阶段打开日志开关，方便排查错误信息</span><br><span class="line">//默认调试模式打开日志,release关闭,可以不调用下面的函数</span><br><span class="line">[[AlibcTradeSDK sharedInstance] setDebugLogOpen:YES];</span><br><span class="line"></span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">//pid需要从从淘宝联盟中获取，格式mm_xxxxxxxx_xxxxxxxx_xxxxxxxx</span><br><span class="line">//不要使用后面都是0的这种pid，mm_xxxxxxxx_00000000_0000000</span><br><span class="line">[[AlibcTradeSDK sharedInstance] setTaokeParams:taokeParams];</span><br><span class="line"></span><br><span class="line">// 设置全局配置，是否强制使用h5，后面也有一个类似的参数，此处的等级比后面的低</span><br><span class="line">[[AlibcTradeSDK sharedInstance] setIsForceH5:NO];</span><br><span class="line">[[AlibcTradeSDK sharedInstance] setIsSyncForTaoke:YES];</span><br></pre></td></tr></table></figure>
-<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><h2 id="授权状态检测"><a href="#授权状态检测" class="headerlink" title="授权状态检测"></a>授权状态检测</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ALBBSession sharedInstance].isLogin</span><br></pre></td></tr></table></figure>
-<p>检测授权状态就一行，但是实际运用的时候还需要本地记录一下用户的authCode，和用户id对应起来。</p>
-<h2 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] ALBBSDKInit];</span><br><span class="line">[[ALBBSDK sharedInstance] setAuthOption:NormalAuth];</span><br><span class="line">[[ALBBSDK sharedInstance] auth:[传入当前的控制器] successCallback:^(ALBBSession *session) &#123;</span><br><span class="line">                   </span><br><span class="line">//可以通过session获取用户的AuthCode，不需要利用这里的session也一样能获取到AuthCode</span><br><span class="line">                   </span><br><span class="line">&#125; failureCallback:^(ALBBSession *session, NSError *error) &#123;</span><br><span class="line">          NSLog(@&quot;auth failure&quot;);</span><br><span class="line">&#125;]；</span><br></pre></td></tr></table></figure>
-<h2 id="获取AuthCode"><a href="#获取AuthCode" class="headerlink" title="获取AuthCode"></a>获取AuthCode</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALBBSession *session =[ALBBSession sharedInstance];</span><br><span class="line">ALBBUser *userInfomation = [session getUser];</span><br><span class="line">authCode =  userInfomation.topAuthCode;</span><br></pre></td></tr></table></figure>
-<h2 id="取消授权"><a href="#取消授权" class="headerlink" title="取消授权"></a>取消授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] logout];</span><br></pre></td></tr></table></figure>
-<h1 id="跳转手淘或者h5"><a href="#跳转手淘或者h5" class="headerlink" title="跳转手淘或者h5"></a>跳转手淘或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">id &lt;AlibcTradePage&gt;  page = [AlibcTradePageFactory page:urlStr];</span><br><span class="line"></span><br><span class="line">AlibcTradeShowParams* showParam = [[AlibcTradeShowParams alloc] init];</span><br><span class="line">showParam.isNeedPush= YES;</span><br><span class="line">showParam.backUrl = @&quot;tbopenxxxxxxx&quot;;//不设置的话在淘宝端无法出现返回按钮</span><br><span class="line">  </span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">showParam.openType = AlibcOpenTypeNative; //这里控制跳转手淘还是h5</span><br><span class="line">           </span><br><span class="line">   //这里可以传入百川自带的webview或者自己封装的webview</span><br><span class="line">   //因为需求的关系要做一下骚操作所以选择传入了自己的webviewController</span><br><span class="line">[[AlibcTradeSDK sharedInstance].tradeService show:viewController page:page showParams:showParam taoKeParams:taokeParams trackParam:nil tradeProcessSuccessCallback:^(AlibcTradeResult * _Nullable result) &#123;</span><br><span class="line"> </span><br><span class="line">&#125; tradeProcessFailedCallback:^(NSError * _Nullable error) &#123;</span><br><span class="line">               </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
-<h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>需要在跳转到商品详情的时候获取到带商品id的链接，然后传给服务器打上标记，并且用sdk跳转到手机淘宝，这样才会为一次成功的推广，用户在完成购物流程之后，我们就能在淘宝联盟的后台中看到购物记录。<br>在webview的代理中，获取点击时候的跳转链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;</span><br></pre></td></tr></table></figure></p>
-<p>处理跳转链接：1、链接中包含 <strong>tbopen://</strong> 都拦截住不做响应 2、链接中包含<strong>detail.htm</strong>、<strong>item.html</strong>、<strong>uland.taobao.com/coupon/edetail</strong>，通过url的方式唤起手淘</p>
-<h2 id="处理应用间跳转"><a href="#处理应用间跳转" class="headerlink" title="处理应用间跳转"></a>处理应用间跳转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary&lt;NSString *,id&gt; *)options &#123;</span><br><span class="line"></span><br><span class="line">    // 新接口写法</span><br><span class="line">    if ([url.absoluteString rangeOfString:@&quot;tbopenxxxxxxx://safepay/&quot;].location != NSNotFound) &#123;</span><br><span class="line">        //支付成功 处理跳转</span><br><span class="line">        在web页购物车中支付成功的时候会收到此回调，但是淘宝的web页不会主动处理页面跳转，需要在这里手动处理</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    if (![[AlibcTradeSDK sharedInstance] application:application</span><br><span class="line">                                             openURL:url</span><br><span class="line">                                             options:options]) &#123;</span><br><span class="line">        //处理其他app跳转到自己的app，如果百川处理过会返回YES</span><br><span class="line">    &#125;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="抓取淘宝订单列表"><a href="#抓取淘宝订单列表" class="headerlink" title="抓取淘宝订单列表"></a>抓取淘宝订单列表</h2><p>由于服务器没有百川高级接口，需要我们主动抓取用户的订单信息，淘宝接口的私密性比较好不能通过直接访问获取，在页面访问的时候就要直接拦截获取。所以需要重写一下NSURLProtocol。在appdelegate中注册一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSURLProtocol registerClass:[ZQURLProtocol class]];</span><br></pre></td></tr></table></figure></p>
-<p>附上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">@interface ZQURLProtocol()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) NSMutableData *responseData;</span><br><span class="line">@property (nonatomic, strong) NSURLConnection *connection;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ZQURLProtocol</span><br><span class="line"></span><br><span class="line">static NSString * const URLProtocolHandledKey = @&quot;URLProtocolHandledKey&quot;;</span><br><span class="line"></span><br><span class="line">+ (BOOL)canInitWithRequest:(NSURLRequest *)request</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //拦截淘宝订单页面的地址 h5api.m.taobao.com/h5/mtop.order.queryboughtlist</span><br><span class="line">    NSString *scheme = [[request URL] scheme];</span><br><span class="line">    if ( ([scheme caseInsensitiveCompare:@&quot;http&quot;] == NSOrderedSame || [scheme caseInsensitiveCompare:@&quot;https&quot;] == NSOrderedSame)) &#123;</span><br><span class="line"></span><br><span class="line">        NSString *str = request.URL.absoluteString;</span><br><span class="line">        if ([str rangeOfString:@&quot;h5api.m.taobao.com/h5/mtop.order.queryboughtlist&quot;].location != NSNotFound</span><br><span class="line">        &amp;&amp; ![NSURLProtocol propertyForKey:URLProtocolHandledKey inRequest:request]) &#123;</span><br><span class="line"></span><br><span class="line">            return YES;</span><br><span class="line">        &#125;</span><br><span class="line">          </span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request</span><br><span class="line">&#123;</span><br><span class="line">    return request;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)startLoading</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    NSMutableURLRequest *mutableReqeust = [[self request] mutableCopy];</span><br><span class="line">    </span><br><span class="line">    //打标签，防止无限循环</span><br><span class="line">    [NSURLProtocol setProperty:@YES forKey:URLProtocolHandledKey inRequest:mutableReqeust];</span><br><span class="line">    self.connection = [NSURLConnection connectionWithRequest:mutableReqeust delegate:self];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)stopLoading</span><br><span class="line">&#123;</span><br><span class="line">    [self.connection cancel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response &#123;</span><br><span class="line">    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];</span><br><span class="line">    self.responseData = [[NSMutableData alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data &#123;</span><br><span class="line">    [self.client URLProtocol:self didLoadData:data];</span><br><span class="line">    [self.responseData appendData:data];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)connectionDidFinishLoading:(NSURLConnection *)connection &#123;</span><br><span class="line">    [self.client URLProtocolDidFinishLoading:self];</span><br><span class="line">    NSString *infoStr = [[NSString alloc]initWithData:self.responseData encoding:NSUTF8StringEncoding];</span><br><span class="line">    //这个string就是获取到的订单信息，后面的话就根据需求处理 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error &#123;</span><br><span class="line">    [self.client URLProtocol:self didFailWithError:error];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="细节补充"><a href="#细节补充" class="headerlink" title="细节补充"></a>细节补充</h1><p>1、有时候出现一下莫名的问题无法响应手淘的时候，检查一下安全图片是不是对的。</p>
-<p>2、用户通过我们的应用跳转到手机淘宝后，如果用户使用的了一些其他的优惠券，是有大概率掉单的，淘宝会把这单算为其他的推广渠道。</p>
-<p>3、如果用户的购物车页面的商品，没有通过应用跳转到手淘过，那么用户直接结算，是不会被淘宝算为我们推广的。所以需要在购物车页面做相关提示。</p>
-<p>4、购物车页面的处理，可以通过注入JS，获取到点击事件以及链接，然后做相关的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(void)webViewDidFinishLoad:(UIWebView *)webView &#123;</span><br><span class="line">	[webView stringByEvaluatingJavaScriptFromString:[self getJDRemoteText]];</span><br><span class="line">	//这里是通过加载一个远程txt文件转换成sring</span><br><span class="line">	//也可以直接写js的代码加载</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -688,6 +434,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -708,8 +458,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -751,6 +510,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-GCD的基础使用及探讨"><span class="nav-number">1.</span> <span class="nav-text">title:GCD的基础使用及探讨</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -884,6 +659,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
