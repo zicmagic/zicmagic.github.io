@@ -102,7 +102,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -183,7 +183,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -193,7 +193,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -259,9 +259,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -353,9 +353,9 @@
 <p><strong>实际上semaphore就是一种线程锁</strong>下面再介绍两种常用的线程锁</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(2);</span><br><span class="line">dispatch_apply(5, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    NSLog(@&quot;%zd&quot;,index);</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;%zd ok&quot;,index);</span><br><span class="line">    dispatch_semaphore_signal(semaphore);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239516] 1</span><br><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239437] 0</span><br><span class="line">2018-07-04 17:20:03.905419+0800 GCDTest[44526:4239437] 0 ok</span><br><span class="line">2018-07-04 17:20:03.905614+0800 GCDTest[44526:4239512] 2</span><br><span class="line">2018-07-04 17:20:03.906958+0800 GCDTest[44526:4239516] 1 ok</span><br><span class="line">2018-07-04 17:20:03.907148+0800 GCDTest[44526:4239517] 3</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239517] 3 ok</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239512] 2 ok</span><br><span class="line">2018-07-04 17:20:05.909922+0800 GCDTest[44526:4239437] 4</span><br><span class="line">2018-07-04 17:20:07.911063+0800 GCDTest[44526:4239437] 4 ok</span><br></pre></td></tr></table></figure>
-<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h3><p>synchronized在县城锁当中的<strong>性能</strong>是最差的，在数量级大的情况下不建议使用，会造成严重的卡顿</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>synchronized在县城锁当中的<strong>性能</strong>是最差的，在数量级大的情况下不建议使用，会造成严重的卡顿</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">   </span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        NSLog(@&quot;1&quot;);</span><br><span class="line">        sleep(1);</span><br><span class="line">        NSLog(@&quot;1 ok&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="nonatomic和atomic"><a href="#nonatomic和atomic" class="headerlink" title="nonatomic和atomic"></a>nonatomic和atomic</h3><p><strong>nonatomic</strong>和<strong>atomic</strong>,字面意思就是原子性和非原子性，atomic会在<strong>set/get</strong>的时候加锁，但是会影响使用的性能。</p>
+<h2 id="nonatomic和atomic"><a href="#nonatomic和atomic" class="headerlink" title="nonatomic和atomic"></a>nonatomic和atomic</h2><p><strong>nonatomic</strong>和<strong>atomic</strong>,字面意思就是原子性和非原子性，atomic会在<strong>set/get</strong>的时候加锁，但是会影响使用的性能。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;//用atomic定义</span><br><span class="line"></span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    _number++;</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
 <p>从打印结果来看并没有得到预期的10000，因为只能在set/get的时候使用，使用上非常的有局限性并不能保证线程的安全而且十分的影响性能。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-07-05 11:22:02.286226+0800 GCDTest[47438:4721450] 5618</span><br></pre></td></tr></table></figure>
@@ -438,9 +438,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -568,9 +568,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -711,7 +711,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -761,7 +761,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -769,7 +769,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
