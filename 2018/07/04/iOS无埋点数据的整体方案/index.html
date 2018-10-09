@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="zic_magic" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS无埋点数据方案">
+<meta property="og:url" content="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/index.html">
+<meta property="og:site_name" content="Zic_Magic">
+<meta property="og:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/image1.png">
+<meta property="og:updated_time" content="2018-10-09T01:46:12.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS无埋点数据方案">
+<meta name="twitter:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/image1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/"/>
+
+
+
+
+
+  <title>iOS无埋点数据方案 | Zic_Magic</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zic_Magic</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS无埋点数据方案</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>设计思路参考了网上的多个方案，核心部分关系如下图所示。</p>
+<p><img src="/2018/07/04/iOS无埋点数据的整体方案/image1.png" alt="图片1"></p>
+<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成</p>
+<p>##实现AOP编程</p>
+<h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
+<p>核心的代码部分就是以下这段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleWithClass:(Class)processedClass originalSelector:(SEL)originSelector swizzleSelector:(SEL)swizzlSelector &#123;</span><br><span class="line"></span><br><span class="line">    Method originMethod = class_getInstanceMethod(processedClass, originSelector);</span><br><span class="line">    Method swizzleMethod = class_getInstanceMethod(processedClass, swizzlSelector);</span><br><span class="line">    BOOL addMethod = class_addMethod(processedClass, originSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));</span><br><span class="line">    </span><br><span class="line">    if (addMethod) &#123;</span><br><span class="line">    </span><br><span class="line">        class_replaceMethod(processedClass, swizzlSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod));</span><br><span class="line">    </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        method_exchangeImplementations(originMethod, swizzleMethod);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="hook类："><a href="#hook类：" class="headerlink" title="hook类："></a>hook类：</h3><p>收集页面数据、点击事件、启动、退出时间等主要需要hook这些类方法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">系统类</th>
+<th style="text-align:center">类方法       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">UIControl</td>
+<td style="text-align:center">sendAction:to:forEvent</td>
+</tr>
+<tr>
+<td style="text-align:left">UIGestureRecognizer</td>
+<td style="text-align:center">addTarget:action:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">initWithTarget:action:   </td>
+</tr>
+<tr>
+<td style="text-align:left">UIView</td>
+<td style="text-align:center">addGestureRecognizer   </td>
+</tr>
+<tr>
+<td style="text-align:left">UITableView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">tableView:didSelectRowAtIndexPath:</td>
+</tr>
+<tr>
+<td style="text-align:left">UICollectionView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">collectionView:didSelectItemAtIndexPath:       </td>
+</tr>
+<tr>
+<td style="text-align:left">NSNotificationCenter</td>
+<td style="text-align:center">postNotification </td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">postNotificationName:object:userInfo:  </td>
+</tr>
+<tr>
+<td style="text-align:left">UIViewController</td>
+<td style="text-align:center">viewDidAppear:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">viewDidDisappear:</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Hook说明："><a href="#Hook说明：" class="headerlink" title="Hook说明："></a>Hook说明：</h3><p>1、所有的 UIControl 类型的控件、UITabBarButton 以及在导航栏上自定义添加的 UIBarButtonItem 的点击事件，都可以通过 hook 系统类 UIApplication 的 sendAction:to:from:forEvent: 方法进行拦截。但是，这个方法并不能拦截到导航栏上系统自动添加的返回按钮的点击，实际中没有用到系统导航栏的话就可以不hook，如果需要就可以通过navigationBar:shouldPopItem: 方法来实现对它的点击的拦截。</p>
+<p>2、针对与手势相关的事件，首先通过 hook 系统类 UIGestureRecognizer 的 initWithTarget:action: 与 addTarget:action: 这 2 个方法拿到 target 对象与 action 方法，然后再去 hook target 的 action 方法，从而能够拦截到手势相关的事件，但是<strong>本方案中的点击事件的记录不是在此方案中记录的</strong>，这里只是用来获取手势的方法名。具体的作用后面进行说明。而是通过hook 系统类 UIView 的 addGestureRecognizer，这样可以方便的获取类名用于行成路径。</p>
+<p>3、对于 UITableView、UICollectionView 某一行的点击，首先 hook 它们的 setDelegate: 方法，从而拿到 delegate 对象，然后再去 hook delegate 的 didSelectRowAtIndexPath: 方法即可。</p>
+<p>4、对于启动和退出app的事件，则需要通过hook 系统类 NSNotificationCenter 的 postNotification 和 postNotificationName:object:userInfo: 通过捕捉 UIApplicationDidBecomeActiveNotification 、 UIApplicationWillResignActiveNotification 和 UIApplicationWillTerminateNotification 分别记录此类事件。另外如果需要记录输入框的事件也可以在此处拦截 UITextFieldTextDidChangeNotification </p>
+<p>5、对于UIViewController的进出事件 ，有一些其他方案则是通过 viewWillAppear 进行统计记录，个人认为这里使用 viewDidAppear 会合理一点。</p>
+<p>6、针对滑动事件的处理目前还没有集成，目前需求还没有到此处。</p>
+<p>##Event Collector</p>
+<p>这些要收集的事件数据中包含一些基本信息，分为通用信息和事件信息，通用信息统一放在接口中传输，通用信息包括：                                    userid、 productName（bundleID用于识别不同的项目） 、 version、 osType、osVersion 、 osDeviceType 、networkType 、 isp 、clientid（这里采用IDFA和SIDFA结合）、 gps（如果应用中开启过GPS功能和权限会自动获取否则不获取）。除此之外，还有一些与特定事件相关的信息，例如对于 view 的点击事件，还需要收集与 view 的相关信息；对于列表行的点击，还需要收集点击行的 indexPath 信息。事件信息包括： type 、 uniqueId、 className 、 createTime、 page 、 path 、 functionDescription（功能描述参数） 、 otherDescription（目前没有使用、预留传参参数）</p>
+<p>下面针对一些特别的参数做一些描述</p>
+<p>###uniqueId </p>
+<p>id 的生成是通过 path 加密形成，为了后台存储的统一性，不直接采用 path 作为 id 而是进行了了一层哈希加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSString *)Sha256:(NSString *)rawStr  &#123;</span><br><span class="line"></span><br><span class="line">    NSData *keyData = [rawStr dataUsingEncoding:NSUTF8StringEncoding];    </span><br><span class="line">    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = &#123;0&#125;;</span><br><span class="line">    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);</span><br><span class="line">    NSData *out = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];</span><br><span class="line">    NSString *hash = [out description];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot; &quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&lt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&gt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###type</p>
+<p>如果页面设置了 self.title 的属性会自动的取title的名字，如果没有则会使用类名。</p>
+<p>###functionDescription</p>
+<p>这里有好几种情况，针对 UIContorl 直接使用了action的名称，<strong>这里就需要每个程序员规范对每个事件方法名的命名</strong>，可以减少后期和统计人员的核对工作。这个参数主要功能也是这个。 UIView 的话则是先通 Hook 先获取了每个手势的 actionName 。 UITableView 和 UICollectionView 则是获取他们的 indexpath 信息。</p>
+<p>###path</p>
+<p>下面说明这个参数如何获取的。先关键附上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)uniqueIdOfHierarchy &#123;</span><br><span class="line">    </span><br><span class="line">    if (![self isKindOfClass:[UIView class]]) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UIView *curView = self;</span><br><span class="line">    UIView *superView = curView.superview;</span><br><span class="line">    NSMutableString *content = [NSMutableString new];</span><br><span class="line">    </span><br><span class="line">    while (superView) &#123;</span><br><span class="line">        NSArray *subviews = superView.subviews;</span><br><span class="line">        NSInteger counts = subviews.count;</span><br><span class="line">        for (NSInteger index = 0; index &lt; counts; index++) &#123;</span><br><span class="line">            UIView *tView = subviews[index];</span><br><span class="line">            if ([tView isEqual:curView]) &#123;</span><br><span class="line">                [content appendFormat:@&quot;%@[%ld]&quot;,NSStringFromClass([tView class]),(long)index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        curView = superView;</span><br><span class="line">        superView = curView.superview;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个 APP 的视图结构可以看成是一颗树（viewTree），树的根节点就是 UIWindow，树的枝干由UIViewController及UIView组成，树的叶节点都是由UIView组成。</p>
+<p>那么在viewTree中用什么信息来表示其中任意一个 view 的位置呢？很容易想到的就是使用目标 view 到根之间的每个节点的深度（层次）组成一个路径，而节点的深度（层次）是指此节点在父节点中的 index。这样确实能够唯一的表示此 view 了，但是有一个缺点：它的可读性很差。因此在此基础上又增加了每个节点的名称，节点的名称由当前节点的 view 的类名来表示。同时在开头都添加了一个页面名称作为标识。</p>
+<p>因此，在 viewTree 中，由一个 view 到根节点之间的每个节点的名称与深度（层次）共同组成的信息构成了此 view 的viewPath。另外，由于在做 view 的统计分析时，都是以页面为单位的，因此 SDK 在生成 viewPath 时，只到 view 所在的 UIViewController 级别，而非根部的 UIWindow。这样做也在一定程度上减少了viewPath 的长度。</p>
+<p><strong>项目中 UITableView 和 UICollectionView 的树级关系没有到每个具体的 cell</strong> ，避免产生很多无用的id，而是将 indexpath 作为描述信息传入。上述已经描述过了。</p>
+<p>##Event Cache</p>
+<p>数据的存储主要由 ZCTrackManage 和 ZCTrackFileManger 完成的。 每一次的事件都会被直接存入本地文件之中。目前这个部分的性能还没有经过测试，还要更细致的啊考虑线程安全的问题，后期还可以采用压缩单挑数据的方式减少传输的数据量。</p>
+<p>存储的代码如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)writeToFileWithRecord:(NSString *)aTrackRecord &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">    </span><br><span class="line">    if(![fileManager fileExistsAtPath:self.trackFilePath])&#123;</span><br><span class="line"></span><br><span class="line">        [aTrackRecord writeToFile:self.trackFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line"></span><br><span class="line">        NSString *newStr = [NSString stringWithFormat:@&quot;,%@&quot;,aTrackRecord];</span><br><span class="line">        NSFileHandle * fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.trackFilePath];</span><br><span class="line">        [fileHandle seekToEndOfFile];</span><br><span class="line">        [fileHandle writeData:[newStr dataUsingEncoding:NSUTF8StringEncoding]];</span><br><span class="line">        [fileHandle closeFile];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##Event Upload</p>
+<p>目前数据上传设置了几个触发点，在页面切换、APP启动和APP关闭的时候会进行数据的上传，页面切换的时候还要符合一下的两个策略中的其中一个：<strong>间隔时间大于30秒</strong> 或 <strong>记录的条数大于10条</strong>。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/03/京东开普勒SDK集成/" rel="next" title="京东开普勒sdk集成">
+                <i class="fa fa-chevron-left"></i> 京东开普勒sdk集成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/04/GCD的基础使用和探讨/" rel="prev" title="GCD的初级探讨">
+                GCD的初级探讨 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zic_magic</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#整体思路"><span class="nav-number">1.</span> <span class="nav-text">整体思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP核心代码："><span class="nav-number">1.1.1.</span> <span class="nav-text">AOP核心代码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hook类："><span class="nav-number">1.1.2.</span> <span class="nav-text">hook类：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hook说明："><span class="nav-number">1.1.3.</span> <span class="nav-text">Hook说明：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zic_magic</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

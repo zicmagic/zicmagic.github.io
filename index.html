@@ -102,7 +102,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -183,7 +183,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -193,7 +193,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -230,7 +230,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/OC难点知识汇总/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/OC必须知道的小知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zic_magic">
@@ -249,7 +249,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/05/OC难点知识汇总/" itemprop="url">OC难点知识汇总</a></h1>
+                <a class="post-title-link" href="/2018/07/05/OC必须知道的小知识/" itemprop="url">OC必须知道的小知识</a></h1>
         
 
         <div class="post-meta">
@@ -259,9 +259,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T14:55:41+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-05T14:55:41+08:00">
                 2018-07-05
               </time>
             
@@ -301,15 +301,149 @@
       
         
           
-            <p>#必备工具安装</p>
-<p>1、ida </p>
-<p>2、重签名工具 signer</p>
-<p>3、越狱工具包 monkeyDev <a href="https://github.com/AloneMonkey/MonkeyDev" target="_blank" rel="noopener">下载地址及教程</a></p>
-<p>#cycript配置</p>
-<p>1、下载cycript <a href="http://www.cycript.org/" target="_blank" rel="noopener">下载地址</a></p>
-<p>2、将文件放到放到/opt的文件目录下</p>
-<p>3、配置.bash_profile文件 加入export PATH=”/opt/cycript:$PATH”</p>
-<p>4、终端运行cycript 如果报错Reason: image not found。将/System/Library/Frameworks/Ruby.framework/Versions/2.3 文件复制一份命名成2.0. <a href="https://www.cnblogs.com/WinJayQ/p/8886978.html" target="_blank" rel="noopener">攻略</a></p>
+            <p>#必须知道的小知识</p>
+<p>###问题1 Category(类别)、 Extension(扩展)和继承的区别</p>
+<p>1、分类有名字，类扩展没有分类名字，是⼀一种特殊的分类。<br>2、分类只能扩展⽅方法(属性仅仅是声明，并没真正实现)，类扩展可以扩展属性、成员变量和⽅法。<br>3、 继承可以增加，修改或者删除⽅方法，并且可以增加属性。</p>
+<p>###问题2 MVC模式中包含的常用设计模式<br>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
+<p>###问题3 oc中字典实现的原理<br>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
+<p>###问题4 selectors是什么</p>
+<p>###问题5 消息发送机制和消息转发机制的区别 </p>
+<p>###问题6 静态库和动态库的区别</p>
+<p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
+<p>###问题6 SDWebImage是怎么清理缓存的</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/AFN详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/05/AFN详解/" itemprop="url">AFN详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-05T14:55:41+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#单类解析</p>
+<p>##AFHTTPSessionManager</p>
+<pre><code>首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。
+</code></pre><p>###初始化AFHTTPSessionManager    </p>
+<pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager]
+</code></pre><p>初始化的时候AFN帮我们初始化了session和一些功能类的默认值（线程数、https证书策略、响应方式、线程锁），还进行了后台返回时候的安全处理。</p>
+<p>###请求数据</p>
+<p>###问题2 AFURLSessionManager<br>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
+<p>###问题3 oc中字典实现的原理<br>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
+<p>###问题4 selectors是什么</p>
+<p>###问题5 消息发送机制和消息转发机制的区别 </p>
+<p>###问题6 静态库和动态库的区别</p>
+<p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
+<p>###问题6 SDWebImage是怎么清理缓存的</p>
 
           
         
@@ -387,9 +521,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -537,6 +671,220 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/iOS无埋点数据的整体方案/" itemprop="url">iOS无埋点数据方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>设计思路参考了网上的多个方案，核心部分关系如下图所示。</p>
+<p><img src="/2018/07/04/iOS无埋点数据的整体方案/image1.png" alt="图片1"></p>
+<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成</p>
+<p>##实现AOP编程</p>
+<h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
+<p>核心的代码部分就是以下这段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleWithClass:(Class)processedClass originalSelector:(SEL)originSelector swizzleSelector:(SEL)swizzlSelector &#123;</span><br><span class="line"></span><br><span class="line">    Method originMethod = class_getInstanceMethod(processedClass, originSelector);</span><br><span class="line">    Method swizzleMethod = class_getInstanceMethod(processedClass, swizzlSelector);</span><br><span class="line">    BOOL addMethod = class_addMethod(processedClass, originSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));</span><br><span class="line">    </span><br><span class="line">    if (addMethod) &#123;</span><br><span class="line">    </span><br><span class="line">        class_replaceMethod(processedClass, swizzlSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod));</span><br><span class="line">    </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        method_exchangeImplementations(originMethod, swizzleMethod);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="hook类："><a href="#hook类：" class="headerlink" title="hook类："></a>hook类：</h3><p>收集页面数据、点击事件、启动、退出时间等主要需要hook这些类方法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">系统类</th>
+<th style="text-align:center">类方法       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">UIControl</td>
+<td style="text-align:center">sendAction:to:forEvent</td>
+</tr>
+<tr>
+<td style="text-align:left">UIGestureRecognizer</td>
+<td style="text-align:center">addTarget:action:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">initWithTarget:action:   </td>
+</tr>
+<tr>
+<td style="text-align:left">UIView</td>
+<td style="text-align:center">addGestureRecognizer   </td>
+</tr>
+<tr>
+<td style="text-align:left">UITableView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">tableView:didSelectRowAtIndexPath:</td>
+</tr>
+<tr>
+<td style="text-align:left">UICollectionView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">collectionView:didSelectItemAtIndexPath:       </td>
+</tr>
+<tr>
+<td style="text-align:left">NSNotificationCenter</td>
+<td style="text-align:center">postNotification </td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">postNotificationName:object:userInfo:  </td>
+</tr>
+<tr>
+<td style="text-align:left">UIViewController</td>
+<td style="text-align:center">viewDidAppear:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">viewDidDisappear:</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Hook说明："><a href="#Hook说明：" class="headerlink" title="Hook说明："></a>Hook说明：</h3><p>1、所有的 UIControl 类型的控件、UITabBarButton 以及在导航栏上自定义添加的 UIBarButtonItem 的点击事件，都可以通过 hook 系统类 UIApplication 的 sendAction:to:from:forEvent: 方法进行拦截。但是，这个方法并不能拦截到导航栏上系统自动添加的返回按钮的点击，实际中没有用到系统导航栏的话就可以不hook，如果需要就可以通过navigationBar:shouldPopItem: 方法来实现对它的点击的拦截。</p>
+<p>2、针对与手势相关的事件，首先通过 hook 系统类 UIGestureRecognizer 的 initWithTarget:action: 与 addTarget:action: 这 2 个方法拿到 target 对象与 action 方法，然后再去 hook target 的 action 方法，从而能够拦截到手势相关的事件，但是<strong>本方案中的点击事件的记录不是在此方案中记录的</strong>，这里只是用来获取手势的方法名。具体的作用后面进行说明。而是通过hook 系统类 UIView 的 addGestureRecognizer，这样可以方便的获取类名用于行成路径。</p>
+<p>3、对于 UITableView、UICollectionView 某一行的点击，首先 hook 它们的 setDelegate: 方法，从而拿到 delegate 对象，然后再去 hook delegate 的 didSelectRowAtIndexPath: 方法即可。</p>
+<p>4、对于启动和退出app的事件，则需要通过hook 系统类 NSNotificationCenter 的 postNotification 和 postNotificationName:object:userInfo: 通过捕捉 UIApplicationDidBecomeActiveNotification 、 UIApplicationWillResignActiveNotification 和 UIApplicationWillTerminateNotification 分别记录此类事件。另外如果需要记录输入框的事件也可以在此处拦截 UITextFieldTextDidChangeNotification </p>
+<p>5、对于UIViewController的进出事件 ，有一些其他方案则是通过 viewWillAppear 进行统计记录，个人认为这里使用 viewDidAppear 会合理一点。</p>
+<p>6、针对滑动事件的处理目前还没有集成，目前需求还没有到此处。</p>
+<p>##Event Collector</p>
+<p>这些要收集的事件数据中包含一些基本信息，分为通用信息和事件信息，通用信息统一放在接口中传输，通用信息包括：                                    userid、 productName（bundleID用于识别不同的项目） 、 version、 osType、osVersion 、 osDeviceType 、networkType 、 isp 、clientid（这里采用IDFA和SIDFA结合）、 gps（如果应用中开启过GPS功能和权限会自动获取否则不获取）。除此之外，还有一些与特定事件相关的信息，例如对于 view 的点击事件，还需要收集与 view 的相关信息；对于列表行的点击，还需要收集点击行的 indexPath 信息。事件信息包括： type 、 uniqueId、 className 、 createTime、 page 、 path 、 functionDescription（功能描述参数） 、 otherDescription（目前没有使用、预留传参参数）</p>
+<p>下面针对一些特别的参数做一些描述</p>
+<p>###uniqueId </p>
+<p>id 的生成是通过 path 加密形成，为了后台存储的统一性，不直接采用 path 作为 id 而是进行了了一层哈希加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSString *)Sha256:(NSString *)rawStr  &#123;</span><br><span class="line"></span><br><span class="line">    NSData *keyData = [rawStr dataUsingEncoding:NSUTF8StringEncoding];    </span><br><span class="line">    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = &#123;0&#125;;</span><br><span class="line">    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);</span><br><span class="line">    NSData *out = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];</span><br><span class="line">    NSString *hash = [out description];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot; &quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&lt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&gt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###type</p>
+<p>如果页面设置了 self.title 的属性会自动的取title的名字，如果没有则会使用类名。</p>
+<p>###functionDescription</p>
+<p>这里有好几种情况，针对 UIContorl 直接使用了action的名称，<strong>这里就需要每个程序员规范对每个事件方法名的命名</strong>，可以减少后期和统计人员的核对工作。这个参数主要功能也是这个。 UIView 的话则是先通 Hook 先获取了每个手势的 actionName 。 UITableView 和 UICollectionView 则是获取他们的 indexpath 信息。</p>
+<p>###path</p>
+<p>下面说明这个参数如何获取的。先关键附上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)uniqueIdOfHierarchy &#123;</span><br><span class="line">    </span><br><span class="line">    if (![self isKindOfClass:[UIView class]]) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UIView *curView = self;</span><br><span class="line">    UIView *superView = curView.superview;</span><br><span class="line">    NSMutableString *content = [NSMutableString new];</span><br><span class="line">    </span><br><span class="line">    while (superView) &#123;</span><br><span class="line">        NSArray *subviews = superView.subviews;</span><br><span class="line">        NSInteger counts = subviews.count;</span><br><span class="line">        for (NSInteger index = 0; index &lt; counts; index++) &#123;</span><br><span class="line">            UIView *tView = subviews[index];</span><br><span class="line">            if ([tView isEqual:curView]) &#123;</span><br><span class="line">                [content appendFormat:@&quot;%@[%ld]&quot;,NSStringFromClass([tView class]),(long)index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        curView = superView;</span><br><span class="line">        superView = curView.superview;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个 APP 的视图结构可以看成是一颗树（viewTree），树的根节点就是 UIWindow，树的枝干由UIViewController及UIView组成，树的叶节点都是由UIView组成。</p>
+<p>那么在viewTree中用什么信息来表示其中任意一个 view 的位置呢？很容易想到的就是使用目标 view 到根之间的每个节点的深度（层次）组成一个路径，而节点的深度（层次）是指此节点在父节点中的 index。这样确实能够唯一的表示此 view 了，但是有一个缺点：它的可读性很差。因此在此基础上又增加了每个节点的名称，节点的名称由当前节点的 view 的类名来表示。同时在开头都添加了一个页面名称作为标识。</p>
+<p>因此，在 viewTree 中，由一个 view 到根节点之间的每个节点的名称与深度（层次）共同组成的信息构成了此 view 的viewPath。另外，由于在做 view 的统计分析时，都是以页面为单位的，因此 SDK 在生成 viewPath 时，只到 view 所在的 UIViewController 级别，而非根部的 UIWindow。这样做也在一定程度上减少了viewPath 的长度。</p>
+<p><strong>项目中 UITableView 和 UICollectionView 的树级关系没有到每个具体的 cell</strong> ，避免产生很多无用的id，而是将 indexpath 作为描述信息传入。上述已经描述过了。</p>
+<p>##Event Cache</p>
+<p>数据的存储主要由 ZCTrackManage 和 ZCTrackFileManger 完成的。 每一次的事件都会被直接存入本地文件之中。目前这个部分的性能还没有经过测试，还要更细致的啊考虑线程安全的问题，后期还可以采用压缩单挑数据的方式减少传输的数据量。</p>
+<p>存储的代码如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)writeToFileWithRecord:(NSString *)aTrackRecord &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">    </span><br><span class="line">    if(![fileManager fileExistsAtPath:self.trackFilePath])&#123;</span><br><span class="line"></span><br><span class="line">        [aTrackRecord writeToFile:self.trackFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line"></span><br><span class="line">        NSString *newStr = [NSString stringWithFormat:@&quot;,%@&quot;,aTrackRecord];</span><br><span class="line">        NSFileHandle * fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.trackFilePath];</span><br><span class="line">        [fileHandle seekToEndOfFile];</span><br><span class="line">        [fileHandle writeData:[newStr dataUsingEncoding:NSUTF8StringEncoding]];</span><br><span class="line">        [fileHandle closeFile];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##Event Upload</p>
+<p>目前数据上传设置了几个触发点，在页面切换、APP启动和APP关闭的时候会进行数据的上传，页面切换的时候还要符合一下的两个策略中的其中一个：<strong>间隔时间大于30秒</strong> 或 <strong>记录的条数大于10条</strong>。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/京东开普勒SDK集成/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -566,9 +914,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -619,6 +967,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[KeplerApiManager sharedKPService].isOpenByH5 = YES;</span><br><span class="line"></span><br><span class="line">[[KeplerApiManager sharedKPService]openNavigationPage:viewController jumpType:2 customParams:[RdAppUserProfile getUserUserid]];</span><br><span class="line"> @param jumpType         跳转类型(默认 push) 1代表present 2代表push</span><br><span class="line"> @param customParams     自定义订单统计参数 需要传入用户id不然不好统计订单来源</span><br><span class="line"> //参数格式错误会导致跳转失败</span><br></pre></td></tr></table></figure>
 <h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>这里和淘宝的处理方式一样，参照上一片博文，就是拦截的地址不一样</p>
 <h1 id="细节补充"><a href="#细节补充" class="headerlink" title="细节补充"></a>细节补充</h1><p>1、京东有些页面会出现点击下载的空间，拦截也需要注入js，处理方式和前面一片描述的相同</p>
+<p>2、京东会出现以下两种掉单情况：（1）后端接口能查询到购买商品，京东后台无法查到购物商品（2）后台订单中有订单，但是找不到对应的购买人ID。为了解决此问题也需要像淘宝的一样，后台拉取用户订单列表。</p>
+<p>通过后台访问订单列表页（不能只实例化，不持有，不然无法获取内容）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://wqs.jd.com/order/orderlist_merge.shtml</span><br></pre></td></tr></table></figure>
+<p>拦截以下接口地址内容,提交给后台。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://wqdeal.jd.com/bases/orderlist/deallist</span><br></pre></td></tr></table></figure>
+<p>3、京东sdk是和bundleID绑定，更换bundleID需要更换整套的sdk。其他设置无需更改。</p>
 
           
         
@@ -696,9 +1050,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -745,7 +1099,8 @@
 <h2 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] ALBBSDKInit];</span><br><span class="line">[[ALBBSDK sharedInstance] setAuthOption:NormalAuth];</span><br><span class="line">[[ALBBSDK sharedInstance] auth:[传入当前的控制器] successCallback:^(ALBBSession *session) &#123;</span><br><span class="line">                   </span><br><span class="line">//可以通过session获取用户的AuthCode，不需要利用这里的session也一样能获取到AuthCode</span><br><span class="line">                   </span><br><span class="line">&#125; failureCallback:^(ALBBSession *session, NSError *error) &#123;</span><br><span class="line">          NSLog(@&quot;auth failure&quot;);</span><br><span class="line">&#125;]；</span><br></pre></td></tr></table></figure>
 <h2 id="获取AuthCode"><a href="#获取AuthCode" class="headerlink" title="获取AuthCode"></a>获取AuthCode</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALBBSession *session =[ALBBSession sharedInstance];</span><br><span class="line">ALBBUser *userInfomation = [session getUser];</span><br><span class="line">authCode =  userInfomation.topAuthCode;</span><br></pre></td></tr></table></figure>
 <h2 id="取消授权"><a href="#取消授权" class="headerlink" title="取消授权"></a>取消授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] logout];</span><br></pre></td></tr></table></figure>
-<h1 id="跳转手淘或者h5"><a href="#跳转手淘或者h5" class="headerlink" title="跳转手淘或者h5"></a>跳转手淘或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">id &lt;AlibcTradePage&gt;  page = [AlibcTradePageFactory page:urlStr];</span><br><span class="line"></span><br><span class="line">AlibcTradeShowParams* showParam = [[AlibcTradeShowParams alloc] init];</span><br><span class="line">showParam.isNeedPush= YES;</span><br><span class="line">showParam.backUrl = @&quot;tbopenxxxxxxx&quot;;//不设置的话在淘宝端无法出现返回按钮</span><br><span class="line">  </span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">showParam.openType = AlibcOpenTypeNative; //这里控制跳转手淘还是h5</span><br><span class="line">           </span><br><span class="line">   //这里可以传入百川自带的webview或者自己封装的webview</span><br><span class="line">   //因为需求的关系要做一下骚操作所以选择传入了自己的webviewController</span><br><span class="line">[[AlibcTradeSDK sharedInstance].tradeService show:viewController page:page showParams:showParam taoKeParams:taokeParams trackParam:nil tradeProcessSuccessCallback:^(AlibcTradeResult * _Nullable result) &#123;</span><br><span class="line"> </span><br><span class="line">&#125; tradeProcessFailedCallback:^(NSError * _Nullable error) &#123;</span><br><span class="line">               </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
+<h1 id="跳转手淘或者h5"><a href="#跳转手淘或者h5" class="headerlink" title="跳转手淘或者h5"></a>跳转手淘或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。<br>需要跳转到优惠券页面的，需要通过url的方式主动访问优惠券。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">id &lt;AlibcTradePage&gt;  page = [AlibcTradePageFactory page:urlStr];</span><br><span class="line"></span><br><span class="line">AlibcTradeShowParams* showParam = [[AlibcTradeShowParams alloc] init];</span><br><span class="line">showParam.isNeedPush= YES;</span><br><span class="line">showParam.backUrl = @&quot;tbopenxxxxxxx&quot;;//不设置的话在淘宝端无法出现返回按钮</span><br><span class="line">  </span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">showParam.openType = AlibcOpenTypeNative; //这里控制跳转手淘还是h5</span><br><span class="line">           </span><br><span class="line">   //这里可以传入百川自带的webview或者自己封装的webview</span><br><span class="line">   //因为需求的关系要做一下骚操作所以选择传入了自己的webviewController</span><br><span class="line">[[AlibcTradeSDK sharedInstance].tradeService show:viewController page:page showParams:showParam taoKeParams:taokeParams trackParam:nil tradeProcessSuccessCallback:^(AlibcTradeResult * _Nullable result) &#123;</span><br><span class="line"> </span><br><span class="line">&#125; tradeProcessFailedCallback:^(NSError * _Nullable error) &#123;</span><br><span class="line">               </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>需要在跳转到商品详情的时候获取到带商品id的链接，然后传给服务器打上标记，并且用sdk跳转到手机淘宝，这样才会为一次成功的推广，用户在完成购物流程之后，我们就能在淘宝联盟的后台中看到购物记录。<br>在webview的代理中，获取点击时候的跳转链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;</span><br></pre></td></tr></table></figure></p>
 <p>处理跳转链接：1、链接中包含 <strong>tbopen://</strong> 都拦截住不做响应 2、链接中包含<strong>detail.htm</strong>、<strong>item.html</strong>、<strong>uland.taobao.com/coupon/edetail</strong>，通过url的方式唤起手淘</p>
 <h2 id="处理应用间跳转"><a href="#处理应用间跳转" class="headerlink" title="处理应用间跳转"></a>处理应用间跳转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary&lt;NSString *,id&gt; *)options &#123;</span><br><span class="line"></span><br><span class="line">    // 新接口写法</span><br><span class="line">    if ([url.absoluteString rangeOfString:@&quot;tbopenxxxxxxx://safepay/&quot;].location != NSNotFound) &#123;</span><br><span class="line">        //支付成功 处理跳转</span><br><span class="line">        在web页购物车中支付成功的时候会收到此回调，但是淘宝的web页不会主动处理页面跳转，需要在这里手动处理</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    if (![[AlibcTradeSDK sharedInstance] application:application</span><br><span class="line">                                             openURL:url</span><br><span class="line">                                             options:options]) &#123;</span><br><span class="line">        //处理其他app跳转到自己的app，如果百川处理过会返回YES</span><br><span class="line">    &#125;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -757,6 +1112,7 @@
 <p>3、如果用户的购物车页面的商品，没有通过应用跳转到手淘过，那么用户直接结算，是不会被淘宝算为我们推广的。所以需要在购物车页面做相关提示。</p>
 <p>4、购物车页面的处理，可以通过注入JS，获取到点击事件以及链接，然后做相关的处理</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(void)webViewDidFinishLoad:(UIWebView *)webView &#123;</span><br><span class="line">	[webView stringByEvaluatingJavaScriptFromString:[self getJDRemoteText]];</span><br><span class="line">	//这里是通过加载一个远程txt文件转换成sring</span><br><span class="line">	//也可以直接写js的代码加载</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、百川sdk再更换bundleID不需要更换整套的sdk，但需要更换安全图片。其他设置无需更改。</p>
 
           
         
@@ -838,8 +1194,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -889,7 +1245,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -897,7 +1253,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 

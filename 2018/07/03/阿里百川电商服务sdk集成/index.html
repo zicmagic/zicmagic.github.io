@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Zic_Magic">
 <meta property="og:description" content="非代码层的集成方式参考百川的官方文档，除了安全图片的V4还是V5的选择有点坑，文档已经很详细细节上基本都描述的很到位。 初始化SDK12345678910111213141516171819[[AlibcTradeSDK sharedInstance] asyncInitWithSuccess:^&amp;#123;    &amp;#125; failure:^(NSError *error) &amp;#123;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-03T08:27:53.149Z">
+<meta property="og:updated_time" content="2018-10-08T07:05:55.913Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="百川电商sdk集成">
 <meta name="twitter:description" content="非代码层的集成方式参考百川的官方文档，除了安全图片的V4还是V5的选择有点坑，文档已经很详细细节上基本都描述的很到位。 初始化SDK12345678910111213141516171819[[AlibcTradeSDK sharedInstance] asyncInitWithSuccess:^&amp;#123;    &amp;#125; failure:^(NSError *error) &amp;#123;">
@@ -106,7 +106,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -186,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -196,7 +196,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -260,9 +260,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -307,7 +307,8 @@
 <h2 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] ALBBSDKInit];</span><br><span class="line">[[ALBBSDK sharedInstance] setAuthOption:NormalAuth];</span><br><span class="line">[[ALBBSDK sharedInstance] auth:[传入当前的控制器] successCallback:^(ALBBSession *session) &#123;</span><br><span class="line">                   </span><br><span class="line">//可以通过session获取用户的AuthCode，不需要利用这里的session也一样能获取到AuthCode</span><br><span class="line">                   </span><br><span class="line">&#125; failureCallback:^(ALBBSession *session, NSError *error) &#123;</span><br><span class="line">          NSLog(@&quot;auth failure&quot;);</span><br><span class="line">&#125;]；</span><br></pre></td></tr></table></figure>
 <h2 id="获取AuthCode"><a href="#获取AuthCode" class="headerlink" title="获取AuthCode"></a>获取AuthCode</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALBBSession *session =[ALBBSession sharedInstance];</span><br><span class="line">ALBBUser *userInfomation = [session getUser];</span><br><span class="line">authCode =  userInfomation.topAuthCode;</span><br></pre></td></tr></table></figure>
 <h2 id="取消授权"><a href="#取消授权" class="headerlink" title="取消授权"></a>取消授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[ALBBSDK sharedInstance] logout];</span><br></pre></td></tr></table></figure>
-<h1 id="跳转手淘或者h5"><a href="#跳转手淘或者h5" class="headerlink" title="跳转手淘或者h5"></a>跳转手淘或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">id &lt;AlibcTradePage&gt;  page = [AlibcTradePageFactory page:urlStr];</span><br><span class="line"></span><br><span class="line">AlibcTradeShowParams* showParam = [[AlibcTradeShowParams alloc] init];</span><br><span class="line">showParam.isNeedPush= YES;</span><br><span class="line">showParam.backUrl = @&quot;tbopenxxxxxxx&quot;;//不设置的话在淘宝端无法出现返回按钮</span><br><span class="line">  </span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">showParam.openType = AlibcOpenTypeNative; //这里控制跳转手淘还是h5</span><br><span class="line">           </span><br><span class="line">   //这里可以传入百川自带的webview或者自己封装的webview</span><br><span class="line">   //因为需求的关系要做一下骚操作所以选择传入了自己的webviewController</span><br><span class="line">[[AlibcTradeSDK sharedInstance].tradeService show:viewController page:page showParams:showParam taoKeParams:taokeParams trackParam:nil tradeProcessSuccessCallback:^(AlibcTradeResult * _Nullable result) &#123;</span><br><span class="line"> </span><br><span class="line">&#125; tradeProcessFailedCallback:^(NSError * _Nullable error) &#123;</span><br><span class="line">               </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
+<h1 id="跳转手淘或者h5"><a href="#跳转手淘或者h5" class="headerlink" title="跳转手淘或者h5"></a>跳转手淘或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。<br>需要跳转到优惠券页面的，需要通过url的方式主动访问优惠券。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">id &lt;AlibcTradePage&gt;  page = [AlibcTradePageFactory page:urlStr];</span><br><span class="line"></span><br><span class="line">AlibcTradeShowParams* showParam = [[AlibcTradeShowParams alloc] init];</span><br><span class="line">showParam.isNeedPush= YES;</span><br><span class="line">showParam.backUrl = @&quot;tbopenxxxxxxx&quot;;//不设置的话在淘宝端无法出现返回按钮</span><br><span class="line">  </span><br><span class="line">AlibcTradeTaokeParams *taokeParams = [[AlibcTradeTaokeParams alloc] init];</span><br><span class="line">taokeParams.pid = baichuanPid;</span><br><span class="line">showParam.openType = AlibcOpenTypeNative; //这里控制跳转手淘还是h5</span><br><span class="line">           </span><br><span class="line">   //这里可以传入百川自带的webview或者自己封装的webview</span><br><span class="line">   //因为需求的关系要做一下骚操作所以选择传入了自己的webviewController</span><br><span class="line">[[AlibcTradeSDK sharedInstance].tradeService show:viewController page:page showParams:showParam taoKeParams:taokeParams trackParam:nil tradeProcessSuccessCallback:^(AlibcTradeResult * _Nullable result) &#123;</span><br><span class="line"> </span><br><span class="line">&#125; tradeProcessFailedCallback:^(NSError * _Nullable error) &#123;</span><br><span class="line">               </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>需要在跳转到商品详情的时候获取到带商品id的链接，然后传给服务器打上标记，并且用sdk跳转到手机淘宝，这样才会为一次成功的推广，用户在完成购物流程之后，我们就能在淘宝联盟的后台中看到购物记录。<br>在webview的代理中，获取点击时候的跳转链接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;</span><br></pre></td></tr></table></figure></p>
 <p>处理跳转链接：1、链接中包含 <strong>tbopen://</strong> 都拦截住不做响应 2、链接中包含<strong>detail.htm</strong>、<strong>item.html</strong>、<strong>uland.taobao.com/coupon/edetail</strong>，通过url的方式唤起手淘</p>
 <h2 id="处理应用间跳转"><a href="#处理应用间跳转" class="headerlink" title="处理应用间跳转"></a>处理应用间跳转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary&lt;NSString *,id&gt; *)options &#123;</span><br><span class="line"></span><br><span class="line">    // 新接口写法</span><br><span class="line">    if ([url.absoluteString rangeOfString:@&quot;tbopenxxxxxxx://safepay/&quot;].location != NSNotFound) &#123;</span><br><span class="line">        //支付成功 处理跳转</span><br><span class="line">        在web页购物车中支付成功的时候会收到此回调，但是淘宝的web页不会主动处理页面跳转，需要在这里手动处理</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    if (![[AlibcTradeSDK sharedInstance] application:application</span><br><span class="line">                                             openURL:url</span><br><span class="line">                                             options:options]) &#123;</span><br><span class="line">        //处理其他app跳转到自己的app，如果百川处理过会返回YES</span><br><span class="line">    &#125;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -319,6 +320,7 @@
 <p>3、如果用户的购物车页面的商品，没有通过应用跳转到手淘过，那么用户直接结算，是不会被淘宝算为我们推广的。所以需要在购物车页面做相关提示。</p>
 <p>4、购物车页面的处理，可以通过注入JS，获取到点击事件以及链接，然后做相关的处理</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(void)webViewDidFinishLoad:(UIWebView *)webView &#123;</span><br><span class="line">	[webView stringByEvaluatingJavaScriptFromString:[self getJDRemoteText]];</span><br><span class="line">	//这里是通过加载一个远程txt文件转换成sring</span><br><span class="line">	//也可以直接写js的代码加载</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、百川sdk再更换bundleID不需要更换整套的sdk，但需要更换安全图片。其他设置无需更改。</p>
 
       
     </div>
@@ -405,10 +407,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -428,8 +430,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -495,7 +497,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -503,7 +505,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 

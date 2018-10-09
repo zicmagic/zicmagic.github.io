@@ -79,14 +79,18 @@
 
 
 
+<meta name="description" content="#单类解析 ##AFHTTPSessionManager 首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。 ###初始化AFHTTPSessionManager     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager] 初始化的时候AFN帮我们初始化了s">
 <meta name="keywords" content="iOS">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zic_Magic">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFN详解">
+<meta property="og:url" content="http://yoursite.com/2018/07/05/AFN详解/index.html">
 <meta property="og:site_name" content="Zic_Magic">
+<meta property="og:description" content="#单类解析 ##AFHTTPSessionManager 首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。 ###初始化AFHTTPSessionManager     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager] 初始化的时候AFN帮我们初始化了s">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-15T10:21:09.155Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zic_Magic">
+<meta name="twitter:title" content="AFN详解">
+<meta name="twitter:description" content="#单类解析 ##AFHTTPSessionManager 首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。 ###初始化AFHTTPSessionManager     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager] 初始化的时候AFN帮我们初始化了s">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/05/AFN详解/"/>
 
 
 
 
 
-  <title>Archive | Zic_Magic</title>
+  <title>AFN详解 | Zic_Magic</title>
   
 
 
@@ -141,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -215,259 +219,158 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/AFN详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">AFN详解</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-05T14:55:41+08:00">
+                2018-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 6 posts in total. Keep on posting.
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/05/OC必须知道的小知识/" itemprop="url">
-              
-                <span itemprop="name">OC必须知道的小知识</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-05T14:55:41+08:00"
-              content="2018-07-05" >
-          07-05
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/05/AFN详解/" itemprop="url">
-              
-                <span itemprop="name">AFN详解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-05T14:55:41+08:00"
-              content="2018-07-05" >
-          07-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/04/GCD的基础使用和探讨/" itemprop="url">
-              
-                <span itemprop="name">GCD的初级探讨</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-04T13:48:59+08:00"
-              content="2018-07-04" >
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>#单类解析</p>
+<p>##AFHTTPSessionManager</p>
+<pre><code>首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。
+</code></pre><p>###初始化AFHTTPSessionManager    </p>
+<pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager]
+</code></pre><p>初始化的时候AFN帮我们初始化了session和一些功能类的默认值（线程数、https证书策略、响应方式、线程锁），还进行了后台返回时候的安全处理。</p>
+<p>###请求数据</p>
+<p>###问题2 AFURLSessionManager<br>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
+<p>###问题3 oc中字典实现的原理<br>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
+<p>###问题4 selectors是什么</p>
+<p>###问题5 消息发送机制和消息转发机制的区别 </p>
+<p>###问题6 静态库和动态库的区别</p>
+<p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
+<p>###问题6 SDWebImage是怎么清理缓存的</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/04/iOS无埋点数据的整体方案/" itemprop="url">
-              
-                <span itemprop="name">iOS无埋点数据方案</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-04T13:48:59+08:00"
-              content="2018-07-04" >
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/03/京东开普勒SDK集成/" itemprop="url">
-              
-                <span itemprop="name">京东开普勒sdk集成</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-03T13:45:13+08:00"
-              content="2018-07-03" >
-          07-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/03/阿里百川电商服务sdk集成/" itemprop="url">
-              
-                <span itemprop="name">百川电商sdk集成</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-03T13:45:13+08:00"
-              content="2018-07-03" >
-          07-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/04/GCD的基础使用和探讨/" rel="next" title="GCD的初级探讨">
+                <i class="fa fa-chevron-left"></i> GCD的初级探讨
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/05/OC必须知道的小知识/" rel="prev" title="OC必须知道的小知识">
+                OC必须知道的小知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -475,6 +378,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -671,6 +578,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
