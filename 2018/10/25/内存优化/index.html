@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic2.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic3.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic4.png">
-<meta property="og:updated_time" content="2018-10-25T14:03:21.739Z">
+<meta property="og:updated_time" content="2018-10-25T14:07:48.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存优化">
 <meta name="twitter:description" content="本文主要介绍一下常见的内存问题及处理办法  #野指针 遇到EXC_BAD_ACCESS的问题，可能是野指针问题。但是此处控制台不会打印更多的信息，无法准的定位问题，可以点击选择 Product - Scheme -Edit Scheme - Run - Diagnostics - Zombie Objects ，这样控制台会打印出一些原因和内存地址，然后查看控制左侧的对象信息,通过内存地址定位到确">
@@ -318,7 +318,7 @@
 <p>2、动态检测方法 instruments 和第三方内存检测工具（暂时先不介绍，后续再介绍）</p>
 <p>3、析构方法 dealloc</p>
 <p>##静态检测方法</p>
-<p>遇到EXC_BAD_ACCESS的问题，经过上一段落的处理办法也无法定位的，因为僵尸对象的检测，只能针对已被释放的对象的地址，无法定位非僵尸对象的问题，就需要使用静态分析的办法，。静态分析的办法分为手动和自动两种，分开介绍。 </p>
+<p>遇到EXC_BAD_ACCESS的问题，经过上一段落的处理办法也无法定位的，因为僵尸对象的检测，只能针对已被释放的对象的地址，无法定位非僵尸对象的问题，就需要使用静态分析的办法，。静态分析的办法分为手动和自动两种，分开介绍。</p>
 <p>###手动静态检测</p>
 <p>点击<strong>Product - Analyze </strong> 可以开启静态检测。</p>
 <p><img src="/2018/10/25/内存优化/pic2.png" alt="图片2"></p>
