@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Zic_Magic">
 <meta property="og:description" content="#单类解析 ##AFHTTPSessionManager 首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。 ###初始化AFHTTPSessionManager     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager] 初始化的时候AFN帮我们初始化了s">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-15T10:21:09.155Z">
+<meta property="og:updated_time" content="2018-10-10T06:09:23.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFN详解">
 <meta name="twitter:description" content="#单类解析 ##AFHTTPSessionManager 首先先来了解一下网络请求流程：通过一个url创建request，生成session创建task，最后手动resume。 ###初始化AFHTTPSessionManager     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager] 初始化的时候AFN帮我们初始化了s">
@@ -245,13 +245,7 @@
 <pre><code>AFHTTPSessionManager *manager = [AFHTTPSessionManager manager]
 </code></pre><p>初始化的时候AFN帮我们初始化了session和一些功能类的默认值（线程数、https证书策略、响应方式、线程锁），还进行了后台返回时候的安全处理。</p>
 <p>###请求数据</p>
-<p>###问题2 AFURLSessionManager<br>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
-<p>###问题3 oc中字典实现的原理<br>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
-<p>###问题4 selectors是什么</p>
-<p>###问题5 消息发送机制和消息转发机制的区别 </p>
-<p>###问题6 静态库和动态库的区别</p>
-<p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
-<p>###问题6 SDWebImage是怎么清理缓存的</p>
+<p>###问题2 AFURLSessionManager </p>
 
         
       </div>
@@ -310,7 +304,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

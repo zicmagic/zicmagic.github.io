@@ -88,7 +88,7 @@
 <meta property="og:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/image1.png">
-<meta property="og:updated_time" content="2018-10-09T01:46:12.186Z">
+<meta property="og:updated_time" content="2018-10-10T01:33:21.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS无埋点数据方案">
 <meta name="twitter:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
@@ -304,7 +304,7 @@
       
         <h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>设计思路参考了网上的多个方案，核心部分关系如下图所示。</p>
 <p><img src="/2018/07/04/iOS无埋点数据的整体方案/image1.png" alt="图片1"></p>
-<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成</p>
+<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成。</p>
 <p>##实现AOP编程</p>
 <h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
 <p>核心的代码部分就是以下这段</p>
@@ -421,8 +421,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/03/京东开普勒SDK集成/" rel="next" title="京东开普勒sdk集成">
-                <i class="fa fa-chevron-left"></i> 京东开普勒sdk集成
+              <a href="/2018/07/04/GCD的基础使用和探讨/" rel="next" title="GCD的初级探讨">
+                <i class="fa fa-chevron-left"></i> GCD的初级探讨
               </a>
             
           </div>
@@ -431,8 +431,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/04/GCD的基础使用和探讨/" rel="prev" title="GCD的初级探讨">
-                GCD的初级探讨 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/05/OC必须知道的小知识/" rel="prev" title="OC必须知道的小知识">
+                OC必须知道的小知识 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -510,7 +510,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

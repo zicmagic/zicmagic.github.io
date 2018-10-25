@@ -230,6 +230,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/25/内存优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/25/内存优化/" itemprop="url">内存优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
+                2018-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文主要介绍一下常见的内存问题及处理办法 </p>
+<p>#野指针</p>
+<p>遇到EXC_BAD_ACCESS的问题，可能是野指针问题。但是此处控制台不会打印更多的信息，无法准的定位问题，可以点击选择 <strong>Product - Scheme -Edit Scheme - Run - Diagnostics - Zombie Objects</strong> ，这样控制台会打印出一些原因和内存地址，然后查看控制左侧的对象信息,通过内存地址定位到确定的对象。如图所示是dataScource的问题,查看属性定义发现是错误地使用了assign。 </p>
+<p><img src="/2018/10/25/内存优化/pic1.png" alt="图片1"></p>
+<p>这里讲一下，assign和weak的区别：</p>
+<p><strong>weak 声明的变量对象释放后会自动清空，赋值为nil。</strong></p>
+<p><strong>assign 声明的变量对象释放后不会自动赋值为nil。</strong></p>
+<p>#内存泄漏</p>
+<p>这里介绍一下检测内存泄漏的一般方法：</p>
+<p>1、静态检测方法</p>
+<p>2、动态检测方法 instruments 和第三方内存检测工具（暂时先不介绍，后续再介绍）</p>
+<p>3、析构方法 dealloc</p>
+<p>##静态检测方法</p>
+<p>遇到EXC_BAD_ACCESS的问题，经过上一段落的处理办法也无法定位的，因为僵尸对象的检测，只能针对已被释放的对象的地址，无法定位非僵尸对象的问题，就需要使用静态分析的办法，。静态分析的办法分为手动和自动两种，分开介绍。 </p>
+<p>###手动静态检测</p>
+<p>点击<strong>Product - Analyze </strong> 可以开启静态检测。</p>
+<p><img src="/2018/10/25/内存优化/pic2.png" alt="图片2"></p>
+<p>如图所示，可以看出是指针为null的问题。但是循环引用的问题的在静态检测中还是无法识别出来。</p>
+<p>###自动静态检测</p>
+<p>自动开启静态检测的话如下图所示，在编译的时候会自动进行检测，我们平常写代码的时候也可以使用，但是工程较大的时候会影响编译速度，不建议直接开启，可以在后期进行内存优化的时候打开。</p>
+<p><img src="/2018/10/25/内存优化/pic3.png" alt="图片3"></p>
+<p>##动态检测方法 instruments</p>
+<p>打开静态分析的工具界面的方法很多这里就不介绍了。</p>
+<p><img src="/2018/10/25/内存优化/pic4.png" alt="图片4"></p>
+<p>轴线图上有红色叉叉的地方代表检测到内存泄漏，右边画红色圈圈的地方发开能直接跳转定位到代码的界面，也十分的简单，但是也依然会有一些错误无法定位，比如block的循环引用。</p>
+<p>##析构方法</p>
+<p>当某个对象的引用计数为0的时候，会自动调用 dealloc 的方法。</p>
+<p>一般block的循环引用的问题，可以用此方法进行检测。解决的办法就是用 __weak typeof (self) weakSelf = self 用 weakSelf 代替 self 就可以了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/OC必须知道的小知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -306,11 +453,222 @@
 <p>1、分类有名字，类扩展没有分类名字，是⼀一种特殊的分类。<br>2、分类只能扩展⽅方法(属性仅仅是声明，并没真正实现)，类扩展可以扩展属性、成员变量和⽅法。<br>3、 继承可以增加，修改或者删除⽅方法，并且可以增加属性。</p>
 <p>###问题2 MVC模式中包含的常用设计模式<br>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
 <p>###问题3 oc中字典实现的原理<br>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
-<p>###问题4 selectors是什么</p>
-<p>###问题5 消息发送机制和消息转发机制的区别 </p>
-<p>###问题6 静态库和动态库的区别</p>
+<p>###问题4 静态库和动态库的区别</p>
 <p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
-<p>###问题6 SDWebImage是怎么清理缓存的</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/iOS无埋点数据的整体方案/" itemprop="url">iOS无埋点数据方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>设计思路参考了网上的多个方案，核心部分关系如下图所示。</p>
+<p><img src="/2018/07/04/iOS无埋点数据的整体方案/image1.png" alt="图片1"></p>
+<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成。</p>
+<p>##实现AOP编程</p>
+<h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
+<p>核心的代码部分就是以下这段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleWithClass:(Class)processedClass originalSelector:(SEL)originSelector swizzleSelector:(SEL)swizzlSelector &#123;</span><br><span class="line"></span><br><span class="line">    Method originMethod = class_getInstanceMethod(processedClass, originSelector);</span><br><span class="line">    Method swizzleMethod = class_getInstanceMethod(processedClass, swizzlSelector);</span><br><span class="line">    BOOL addMethod = class_addMethod(processedClass, originSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));</span><br><span class="line">    </span><br><span class="line">    if (addMethod) &#123;</span><br><span class="line">    </span><br><span class="line">        class_replaceMethod(processedClass, swizzlSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod));</span><br><span class="line">    </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        method_exchangeImplementations(originMethod, swizzleMethod);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="hook类："><a href="#hook类：" class="headerlink" title="hook类："></a>hook类：</h3><p>收集页面数据、点击事件、启动、退出时间等主要需要hook这些类方法</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">系统类</th>
+<th style="text-align:center">类方法       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">UIControl</td>
+<td style="text-align:center">sendAction:to:forEvent</td>
+</tr>
+<tr>
+<td style="text-align:left">UIGestureRecognizer</td>
+<td style="text-align:center">addTarget:action:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">initWithTarget:action:   </td>
+</tr>
+<tr>
+<td style="text-align:left">UIView</td>
+<td style="text-align:center">addGestureRecognizer   </td>
+</tr>
+<tr>
+<td style="text-align:left">UITableView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">tableView:didSelectRowAtIndexPath:</td>
+</tr>
+<tr>
+<td style="text-align:left">UICollectionView</td>
+<td style="text-align:center">setDelegate</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">collectionView:didSelectItemAtIndexPath:       </td>
+</tr>
+<tr>
+<td style="text-align:left">NSNotificationCenter</td>
+<td style="text-align:center">postNotification </td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">postNotificationName:object:userInfo:  </td>
+</tr>
+<tr>
+<td style="text-align:left">UIViewController</td>
+<td style="text-align:center">viewDidAppear:</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">viewDidDisappear:</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Hook说明："><a href="#Hook说明：" class="headerlink" title="Hook说明："></a>Hook说明：</h3><p>1、所有的 UIControl 类型的控件、UITabBarButton 以及在导航栏上自定义添加的 UIBarButtonItem 的点击事件，都可以通过 hook 系统类 UIApplication 的 sendAction:to:from:forEvent: 方法进行拦截。但是，这个方法并不能拦截到导航栏上系统自动添加的返回按钮的点击，实际中没有用到系统导航栏的话就可以不hook，如果需要就可以通过navigationBar:shouldPopItem: 方法来实现对它的点击的拦截。</p>
+<p>2、针对与手势相关的事件，首先通过 hook 系统类 UIGestureRecognizer 的 initWithTarget:action: 与 addTarget:action: 这 2 个方法拿到 target 对象与 action 方法，然后再去 hook target 的 action 方法，从而能够拦截到手势相关的事件，但是<strong>本方案中的点击事件的记录不是在此方案中记录的</strong>，这里只是用来获取手势的方法名。具体的作用后面进行说明。而是通过hook 系统类 UIView 的 addGestureRecognizer，这样可以方便的获取类名用于行成路径。</p>
+<p>3、对于 UITableView、UICollectionView 某一行的点击，首先 hook 它们的 setDelegate: 方法，从而拿到 delegate 对象，然后再去 hook delegate 的 didSelectRowAtIndexPath: 方法即可。</p>
+<p>4、对于启动和退出app的事件，则需要通过hook 系统类 NSNotificationCenter 的 postNotification 和 postNotificationName:object:userInfo: 通过捕捉 UIApplicationDidBecomeActiveNotification 、 UIApplicationWillResignActiveNotification 和 UIApplicationWillTerminateNotification 分别记录此类事件。另外如果需要记录输入框的事件也可以在此处拦截 UITextFieldTextDidChangeNotification </p>
+<p>5、对于UIViewController的进出事件 ，有一些其他方案则是通过 viewWillAppear 进行统计记录，个人认为这里使用 viewDidAppear 会合理一点。</p>
+<p>6、针对滑动事件的处理目前还没有集成，目前需求还没有到此处。</p>
+<p>##Event Collector</p>
+<p>这些要收集的事件数据中包含一些基本信息，分为通用信息和事件信息，通用信息统一放在接口中传输，通用信息包括：                                    userid、 productName（bundleID用于识别不同的项目） 、 version、 osType、osVersion 、 osDeviceType 、networkType 、 isp 、clientid（这里采用IDFA和SIDFA结合）、 gps（如果应用中开启过GPS功能和权限会自动获取否则不获取）。除此之外，还有一些与特定事件相关的信息，例如对于 view 的点击事件，还需要收集与 view 的相关信息；对于列表行的点击，还需要收集点击行的 indexPath 信息。事件信息包括： type 、 uniqueId、 className 、 createTime、 page 、 path 、 functionDescription（功能描述参数） 、 otherDescription（目前没有使用、预留传参参数）</p>
+<p>下面针对一些特别的参数做一些描述</p>
+<p>###uniqueId </p>
+<p>id 的生成是通过 path 加密形成，为了后台存储的统一性，不直接采用 path 作为 id 而是进行了了一层哈希加密</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSString *)Sha256:(NSString *)rawStr  &#123;</span><br><span class="line"></span><br><span class="line">    NSData *keyData = [rawStr dataUsingEncoding:NSUTF8StringEncoding];    </span><br><span class="line">    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = &#123;0&#125;;</span><br><span class="line">    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);</span><br><span class="line">    NSData *out = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];</span><br><span class="line">    NSString *hash = [out description];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot; &quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&lt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&gt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###type</p>
+<p>如果页面设置了 self.title 的属性会自动的取title的名字，如果没有则会使用类名。</p>
+<p>###functionDescription</p>
+<p>这里有好几种情况，针对 UIContorl 直接使用了action的名称，<strong>这里就需要每个程序员规范对每个事件方法名的命名</strong>，可以减少后期和统计人员的核对工作。这个参数主要功能也是这个。 UIView 的话则是先通 Hook 先获取了每个手势的 actionName 。 UITableView 和 UICollectionView 则是获取他们的 indexpath 信息。</p>
+<p>###path</p>
+<p>下面说明这个参数如何获取的。先关键附上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)uniqueIdOfHierarchy &#123;</span><br><span class="line">    </span><br><span class="line">    if (![self isKindOfClass:[UIView class]]) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UIView *curView = self;</span><br><span class="line">    UIView *superView = curView.superview;</span><br><span class="line">    NSMutableString *content = [NSMutableString new];</span><br><span class="line">    </span><br><span class="line">    while (superView) &#123;</span><br><span class="line">        NSArray *subviews = superView.subviews;</span><br><span class="line">        NSInteger counts = subviews.count;</span><br><span class="line">        for (NSInteger index = 0; index &lt; counts; index++) &#123;</span><br><span class="line">            UIView *tView = subviews[index];</span><br><span class="line">            if ([tView isEqual:curView]) &#123;</span><br><span class="line">                [content appendFormat:@&quot;%@[%ld]&quot;,NSStringFromClass([tView class]),(long)index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        curView = superView;</span><br><span class="line">        superView = curView.superview;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个 APP 的视图结构可以看成是一颗树（viewTree），树的根节点就是 UIWindow，树的枝干由UIViewController及UIView组成，树的叶节点都是由UIView组成。</p>
+<p>那么在viewTree中用什么信息来表示其中任意一个 view 的位置呢？很容易想到的就是使用目标 view 到根之间的每个节点的深度（层次）组成一个路径，而节点的深度（层次）是指此节点在父节点中的 index。这样确实能够唯一的表示此 view 了，但是有一个缺点：它的可读性很差。因此在此基础上又增加了每个节点的名称，节点的名称由当前节点的 view 的类名来表示。同时在开头都添加了一个页面名称作为标识。</p>
+<p>因此，在 viewTree 中，由一个 view 到根节点之间的每个节点的名称与深度（层次）共同组成的信息构成了此 view 的viewPath。另外，由于在做 view 的统计分析时，都是以页面为单位的，因此 SDK 在生成 viewPath 时，只到 view 所在的 UIViewController 级别，而非根部的 UIWindow。这样做也在一定程度上减少了viewPath 的长度。</p>
+<p><strong>项目中 UITableView 和 UICollectionView 的树级关系没有到每个具体的 cell</strong> ，避免产生很多无用的id，而是将 indexpath 作为描述信息传入。上述已经描述过了。</p>
+<p>##Event Cache</p>
+<p>数据的存储主要由 ZCTrackManage 和 ZCTrackFileManger 完成的。 每一次的事件都会被直接存入本地文件之中。目前这个部分的性能还没有经过测试，还要更细致的啊考虑线程安全的问题，后期还可以采用压缩单挑数据的方式减少传输的数据量。</p>
+<p>存储的代码如下 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)writeToFileWithRecord:(NSString *)aTrackRecord &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">    </span><br><span class="line">    if(![fileManager fileExistsAtPath:self.trackFilePath])&#123;</span><br><span class="line"></span><br><span class="line">        [aTrackRecord writeToFile:self.trackFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line"></span><br><span class="line">        NSString *newStr = [NSString stringWithFormat:@&quot;,%@&quot;,aTrackRecord];</span><br><span class="line">        NSFileHandle * fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.trackFilePath];</span><br><span class="line">        [fileHandle seekToEndOfFile];</span><br><span class="line">        [fileHandle writeData:[newStr dataUsingEncoding:NSUTF8StringEncoding]];</span><br><span class="line">        [fileHandle closeFile];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>##Event Upload</p>
+<p>目前数据上传设置了几个触发点，在页面切换、APP启动和APP关闭的时候会进行数据的上传，页面切换的时候还要符合一下的两个策略中的其中一个：<strong>间隔时间大于30秒</strong> 或 <strong>记录的条数大于10条</strong>。</p>
 
           
         
@@ -490,220 +848,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-07-05 11:22:02.286226+0800 GCDTest[47438:4721450] 5618</span><br></pre></td></tr></table></figure>
 <p>可以使用NSLock来解决刚刚出现的问题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;</span><br><span class="line">NSLock *lock = [NSLock new];</span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    [lock lock];</span><br><span class="line">    _number++;</span><br><span class="line">    [lock unlock];</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zic_magic">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zic_Magic">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/04/iOS无埋点数据的整体方案/" itemprop="url">iOS无埋点数据方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
-                2018-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>设计思路参考了网上的多个方案，核心部分关系如下图所示。</p>
-<p><img src="/2018/07/04/iOS无埋点数据的整体方案/image1.png" alt="图片1"></p>
-<p>方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事件目前也还没有集成。其他按钮、列表、手势等事件的获取都已集成</p>
-<p>##实现AOP编程</p>
-<h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
-<p>核心的代码部分就是以下这段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleWithClass:(Class)processedClass originalSelector:(SEL)originSelector swizzleSelector:(SEL)swizzlSelector &#123;</span><br><span class="line"></span><br><span class="line">    Method originMethod = class_getInstanceMethod(processedClass, originSelector);</span><br><span class="line">    Method swizzleMethod = class_getInstanceMethod(processedClass, swizzlSelector);</span><br><span class="line">    BOOL addMethod = class_addMethod(processedClass, originSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));</span><br><span class="line">    </span><br><span class="line">    if (addMethod) &#123;</span><br><span class="line">    </span><br><span class="line">        class_replaceMethod(processedClass, swizzlSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod));</span><br><span class="line">    </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        method_exchangeImplementations(originMethod, swizzleMethod);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="hook类："><a href="#hook类：" class="headerlink" title="hook类："></a>hook类：</h3><p>收集页面数据、点击事件、启动、退出时间等主要需要hook这些类方法</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">系统类</th>
-<th style="text-align:center">类方法       </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">UIControl</td>
-<td style="text-align:center">sendAction:to:forEvent</td>
-</tr>
-<tr>
-<td style="text-align:left">UIGestureRecognizer</td>
-<td style="text-align:center">addTarget:action:</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:center">initWithTarget:action:   </td>
-</tr>
-<tr>
-<td style="text-align:left">UIView</td>
-<td style="text-align:center">addGestureRecognizer   </td>
-</tr>
-<tr>
-<td style="text-align:left">UITableView</td>
-<td style="text-align:center">setDelegate</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:center">tableView:didSelectRowAtIndexPath:</td>
-</tr>
-<tr>
-<td style="text-align:left">UICollectionView</td>
-<td style="text-align:center">setDelegate</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:center">collectionView:didSelectItemAtIndexPath:       </td>
-</tr>
-<tr>
-<td style="text-align:left">NSNotificationCenter</td>
-<td style="text-align:center">postNotification </td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:center">postNotificationName:object:userInfo:  </td>
-</tr>
-<tr>
-<td style="text-align:left">UIViewController</td>
-<td style="text-align:center">viewDidAppear:</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:center">viewDidDisappear:</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Hook说明："><a href="#Hook说明：" class="headerlink" title="Hook说明："></a>Hook说明：</h3><p>1、所有的 UIControl 类型的控件、UITabBarButton 以及在导航栏上自定义添加的 UIBarButtonItem 的点击事件，都可以通过 hook 系统类 UIApplication 的 sendAction:to:from:forEvent: 方法进行拦截。但是，这个方法并不能拦截到导航栏上系统自动添加的返回按钮的点击，实际中没有用到系统导航栏的话就可以不hook，如果需要就可以通过navigationBar:shouldPopItem: 方法来实现对它的点击的拦截。</p>
-<p>2、针对与手势相关的事件，首先通过 hook 系统类 UIGestureRecognizer 的 initWithTarget:action: 与 addTarget:action: 这 2 个方法拿到 target 对象与 action 方法，然后再去 hook target 的 action 方法，从而能够拦截到手势相关的事件，但是<strong>本方案中的点击事件的记录不是在此方案中记录的</strong>，这里只是用来获取手势的方法名。具体的作用后面进行说明。而是通过hook 系统类 UIView 的 addGestureRecognizer，这样可以方便的获取类名用于行成路径。</p>
-<p>3、对于 UITableView、UICollectionView 某一行的点击，首先 hook 它们的 setDelegate: 方法，从而拿到 delegate 对象，然后再去 hook delegate 的 didSelectRowAtIndexPath: 方法即可。</p>
-<p>4、对于启动和退出app的事件，则需要通过hook 系统类 NSNotificationCenter 的 postNotification 和 postNotificationName:object:userInfo: 通过捕捉 UIApplicationDidBecomeActiveNotification 、 UIApplicationWillResignActiveNotification 和 UIApplicationWillTerminateNotification 分别记录此类事件。另外如果需要记录输入框的事件也可以在此处拦截 UITextFieldTextDidChangeNotification </p>
-<p>5、对于UIViewController的进出事件 ，有一些其他方案则是通过 viewWillAppear 进行统计记录，个人认为这里使用 viewDidAppear 会合理一点。</p>
-<p>6、针对滑动事件的处理目前还没有集成，目前需求还没有到此处。</p>
-<p>##Event Collector</p>
-<p>这些要收集的事件数据中包含一些基本信息，分为通用信息和事件信息，通用信息统一放在接口中传输，通用信息包括：                                    userid、 productName（bundleID用于识别不同的项目） 、 version、 osType、osVersion 、 osDeviceType 、networkType 、 isp 、clientid（这里采用IDFA和SIDFA结合）、 gps（如果应用中开启过GPS功能和权限会自动获取否则不获取）。除此之外，还有一些与特定事件相关的信息，例如对于 view 的点击事件，还需要收集与 view 的相关信息；对于列表行的点击，还需要收集点击行的 indexPath 信息。事件信息包括： type 、 uniqueId、 className 、 createTime、 page 、 path 、 functionDescription（功能描述参数） 、 otherDescription（目前没有使用、预留传参参数）</p>
-<p>下面针对一些特别的参数做一些描述</p>
-<p>###uniqueId </p>
-<p>id 的生成是通过 path 加密形成，为了后台存储的统一性，不直接采用 path 作为 id 而是进行了了一层哈希加密</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSString *)Sha256:(NSString *)rawStr  &#123;</span><br><span class="line"></span><br><span class="line">    NSData *keyData = [rawStr dataUsingEncoding:NSUTF8StringEncoding];    </span><br><span class="line">    uint8_t digest[CC_SHA256_DIGEST_LENGTH] = &#123;0&#125;;</span><br><span class="line">    CC_SHA256(keyData.bytes, (CC_LONG)keyData.length, digest);</span><br><span class="line">    NSData *out = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];</span><br><span class="line">    NSString *hash = [out description];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot; &quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&lt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    hash = [hash stringByReplacingOccurrencesOfString:@&quot;&gt;&quot; withString:@&quot;&quot;];</span><br><span class="line">    </span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>###type</p>
-<p>如果页面设置了 self.title 的属性会自动的取title的名字，如果没有则会使用类名。</p>
-<p>###functionDescription</p>
-<p>这里有好几种情况，针对 UIContorl 直接使用了action的名称，<strong>这里就需要每个程序员规范对每个事件方法名的命名</strong>，可以减少后期和统计人员的核对工作。这个参数主要功能也是这个。 UIView 的话则是先通 Hook 先获取了每个手势的 actionName 。 UITableView 和 UICollectionView 则是获取他们的 indexpath 信息。</p>
-<p>###path</p>
-<p>下面说明这个参数如何获取的。先关键附上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (NSString *)uniqueIdOfHierarchy &#123;</span><br><span class="line">    </span><br><span class="line">    if (![self isKindOfClass:[UIView class]]) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UIView *curView = self;</span><br><span class="line">    UIView *superView = curView.superview;</span><br><span class="line">    NSMutableString *content = [NSMutableString new];</span><br><span class="line">    </span><br><span class="line">    while (superView) &#123;</span><br><span class="line">        NSArray *subviews = superView.subviews;</span><br><span class="line">        NSInteger counts = subviews.count;</span><br><span class="line">        for (NSInteger index = 0; index &lt; counts; index++) &#123;</span><br><span class="line">            UIView *tView = subviews[index];</span><br><span class="line">            if ([tView isEqual:curView]) &#123;</span><br><span class="line">                [content appendFormat:@&quot;%@[%ld]&quot;,NSStringFromClass([tView class]),(long)index];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        curView = superView;</span><br><span class="line">        superView = curView.superview;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>整个 APP 的视图结构可以看成是一颗树（viewTree），树的根节点就是 UIWindow，树的枝干由UIViewController及UIView组成，树的叶节点都是由UIView组成。</p>
-<p>那么在viewTree中用什么信息来表示其中任意一个 view 的位置呢？很容易想到的就是使用目标 view 到根之间的每个节点的深度（层次）组成一个路径，而节点的深度（层次）是指此节点在父节点中的 index。这样确实能够唯一的表示此 view 了，但是有一个缺点：它的可读性很差。因此在此基础上又增加了每个节点的名称，节点的名称由当前节点的 view 的类名来表示。同时在开头都添加了一个页面名称作为标识。</p>
-<p>因此，在 viewTree 中，由一个 view 到根节点之间的每个节点的名称与深度（层次）共同组成的信息构成了此 view 的viewPath。另外，由于在做 view 的统计分析时，都是以页面为单位的，因此 SDK 在生成 viewPath 时，只到 view 所在的 UIViewController 级别，而非根部的 UIWindow。这样做也在一定程度上减少了viewPath 的长度。</p>
-<p><strong>项目中 UITableView 和 UICollectionView 的树级关系没有到每个具体的 cell</strong> ，避免产生很多无用的id，而是将 indexpath 作为描述信息传入。上述已经描述过了。</p>
-<p>##Event Cache</p>
-<p>数据的存储主要由 ZCTrackManage 和 ZCTrackFileManger 完成的。 每一次的事件都会被直接存入本地文件之中。目前这个部分的性能还没有经过测试，还要更细致的啊考虑线程安全的问题，后期还可以采用压缩单挑数据的方式减少传输的数据量。</p>
-<p>存储的代码如下 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)writeToFileWithRecord:(NSString *)aTrackRecord &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">    </span><br><span class="line">    if(![fileManager fileExistsAtPath:self.trackFilePath])&#123;</span><br><span class="line"></span><br><span class="line">        [aTrackRecord writeToFile:self.trackFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];</span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line"></span><br><span class="line">        NSString *newStr = [NSString stringWithFormat:@&quot;,%@&quot;,aTrackRecord];</span><br><span class="line">        NSFileHandle * fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.trackFilePath];</span><br><span class="line">        [fileHandle seekToEndOfFile];</span><br><span class="line">        [fileHandle writeData:[newStr dataUsingEncoding:NSUTF8StringEncoding]];</span><br><span class="line">        [fileHandle closeFile];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>##Event Upload</p>
-<p>目前数据上传设置了几个触发点，在页面切换、APP启动和APP关闭的时候会进行数据的上传，页面切换的时候还要符合一下的两个策略中的其中一个：<strong>间隔时间大于30秒</strong> 或 <strong>记录的条数大于10条</strong>。</p>
 
           
         
@@ -1061,7 +1205,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
