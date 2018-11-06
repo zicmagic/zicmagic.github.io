@@ -230,6 +230,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/RAC的使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/26/RAC的使用/" itemprop="url">RAC的使用与源码分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
+                2018-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文主要讲 RAC <strong>7.0</strong> 的使用和源码分析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的<br>用 <strong>pod ‘ReactiveObjC’</strong> 不要用 pod ‘ReactiveCocoa’.</p>
+<p>本文先讲述RAC的用法，先从使用的方式上理解一下响应式函数编程的特点，再深入的了解RAC的具体实现方式，和网上有很多讲RAC的文章不同，这篇文章主要讲一些细节部分，没有那种大方向的解析，主要是对已经学习过RAC的同学进行归纳整理和补充的。</p>
+<h1 id="RAC的初级用法"><a href="#RAC的初级用法" class="headerlink" title="RAC的初级用法"></a>RAC的初级用法</h1><p>初级的使用比较，只做简单的罗列，不做详细的介绍。</p>
+<p>初级的使用可以代替之前的其他消息传递的方式，减少代码的冗余，使初始化话和实现代码结合起来，在代码上更加的清晰。这是RAC的主要功能，但显然这不是RAC的最核心的功能，后面介绍进阶用法的时候再进行解释。</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>给属性添加一个观察者。其实这个本身就是一个替代KVO的作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[RACObserve(self, self.type) subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">    NSLog(@&quot;%li&quot;, self.type);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="NSNotificationCenter"><a href="#NSNotificationCenter" class="headerlink" title="NSNotificationCenter"></a>NSNotificationCenter</h2><p>通知的写法，通知的重复添加后面再介绍。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillShowNotification object:nil] subscribeNext:^(NSNotification * _Nullable x) &#123;</span><br><span class="line">   </span><br><span class="line">    NSLog(@&quot;keyboard show&quot;);</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="UIbutton"><a href="#UIbutton" class="headerlink" title="UIbutton"></a>UIbutton</h2><p>给按钮添加一个监听事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[self.buttonLeft rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) &#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="UITextField"><a href="#UITextField" class="headerlink" title="UITextField"></a>UITextField</h2><p>给输入框加一个监听事件，这里后面还会介绍一些进阶的用法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[self.textField.rac_textSignal subscribeNext:^(NSString * _Nullable x) &#123;</span><br><span class="line">     </span><br><span class="line">     NSLog(@&quot;%@&quot;, x);</span><br><span class="line">     </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="UIGestureRecognizer"><a href="#UIGestureRecognizer" class="headerlink" title="UIGestureRecognizer"></a>UIGestureRecognizer</h2><p>给这里举一个 UITapGestureRecognizer 的例子，其他手势同理，方法也和其他的类似的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];</span><br><span class="line">[tap.rac_gestureSignal subscribeNext:^(__kindof UIGestureRecognizer * _Nullable x) &#123;</span><br><span class="line">   </span><br><span class="line">    NSLog(@&quot;%@&quot;, x);</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="数组遍历"><a href="#数组遍历" class="headerlink" title="数组遍历"></a>数组遍历</h2><p>RAC提供了一个数组和字典的方法遍历的方法。但是字典遍历出来的是一个元组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[self.array.rac_sequence.signal subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>RAC也提供了一个多线程的封装,在block里面的代码是运行在子线程之中的。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[RACSignal interval:1 onScheduler:[RACScheduler scheduler]] subscribeNext:^(NSDate * _Nullable x) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h1 id="RAC的进阶用法"><a href="#RAC的进阶用法" class="headerlink" title="RAC的进阶用法"></a>RAC的进阶用法</h1><p>简单的罗列一下RAC的进阶使用有以下的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、信号映射： map 与 flattenMap</span><br><span class="line"></span><br><span class="line">2、信号过滤： filter、 ignore、 distinctUntilChanged </span><br><span class="line"></span><br><span class="line">3、信号合并： combineLatest、 reduce、 merge、 zipWith</span><br><span class="line"></span><br><span class="line">4、信号连接： concat、 then</span><br><span class="line"></span><br><span class="line">5、信号操作时间： timeout、 interval、 dely</span><br><span class="line"></span><br><span class="line">6、信号取值： take、 takeLast、 takeUntil</span><br><span class="line"></span><br><span class="line">7、信号跳过： skip</span><br><span class="line"></span><br><span class="line">8、信号发送顺序： donext、 cocompleted</span><br><span class="line"></span><br><span class="line">9、获取信号中的信号： switchToLatest</span><br><span class="line"></span><br><span class="line">10、信号错误重试： retry</span><br></pre></td></tr></table></figure>
+<p>很多东西实际开发中都不会使用到，或者使用的很少，这次主要先讲解一下一些比较实用和常用的功能</p>
+<h2 id="信号映射-map"><a href="#信号映射-map" class="headerlink" title="信号映射 map"></a>信号映射 map</h2><p>首先要先导入 <strong>#import \&lt;ReactiveObjC/RACReturnSignal.h></strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[self.textField.rac_textSignal flattenMap:^__kindof RACSignal * _Nullable(NSString * _Nullable value) &#123;</span><br><span class="line">    </span><br><span class="line">    return [RACReturnSignal return:[NSString stringWithFormat:@&quot;返回的信号：%@&quot;,value]];</span><br><span class="line">    </span><br><span class="line">&#125;] subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">   </span><br><span class="line">    NSLog(@&quot;%@&quot;, x);</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>这里先不看实现的原理，先看结果，打印X的值，发现信号变成了renturn后面的内容，所以map的作用就是用来<strong>修饰返回的值</strong>。上述代码用的是flattenMap，map和flattenMap是一样的。</p>
+<p>bind 和 map 是类似的 map底层也是调用的bind。</p>
+<h2 id="信号过滤-filter"><a href="#信号过滤-filter" class="headerlink" title="信号过滤 filter"></a>信号过滤 filter</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@weakify(self);</span><br><span class="line">[[self.searchTextField.rac_textSignal filter:^BOOL(NSString * _Nullable value) &#123;</span><br><span class="line">    </span><br><span class="line">    @strongify(self);</span><br><span class="line">    </span><br><span class="line">    return YES;</span><br><span class="line">    </span><br><span class="line">&#125;] subscribeNext:^(NSString * _Nullable x) &#123;</span><br><span class="line">    NSLog(@&quot;订阅到的内容%@&quot;, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>retrun YES 信号可以流传，为 NO 者阻断了信号的流传（只是信号的传递被阻断了，subscribeNext这个block中无法接受到信号，实际控件中的内容还需要再加额外的控制），通常可以用来限制输入框的长度等。@weakify(self) 和  @strongify(self) 是为了防止循环引用，后续会介绍内存管理的问题，如果要在 block 中要对self中的内容进行引用的话，需要加这一对代码。</p>
+<p><strong>ignore</strong> 是说忽略某一个条件，底层也是调用filter<br><strong>distinctUntilChanged</strong> 是说输入的某一个值和上一个值是否一致</p>
+<h2 id="合并-combineLaster"><a href="#合并-combineLaster" class="headerlink" title="合并 combineLaster"></a>合并 combineLaster</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *sinalA = self.accountTF.rac_textSignal;</span><br><span class="line">RACSignal *sinalB = self.passwordTF.rac_textSignal;</span><br><span class="line"></span><br><span class="line">[[RACSignal combineLatest:@[sinalA,sinalB] reduce:^id(NSString *account,NSString *password)&#123;</span><br><span class="line">    return @(account.length &amp;&amp; password.length);</span><br><span class="line">&#125;] subscribeNext:^(NSNumber *x) &#123;</span><br><span class="line">    </span><br><span class="line">    self.loginButton.enabled = x.integerValue;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>代码功能上来讲就是同时输入账号和密码的时候，登陆按钮能够点击，长期不使用RAC的同学不难发现，使用RAC减少了超多的冗余代码。</p>
+<p><strong>对于一些有延迟或者耗时的操作</strong>，比如多个网络请求，或者动画等。有时候需要等待两个什么都执行完成才能进行下一步，使用RAC就变得非常的简单，但是RAC没有直接提供 self.accountTF.rac_textSignal 类似这样的信号属性给网络请求和动画使用，我们需要自己额外的添加属性。</p>
+<h2 id="takeUntil"><a href="#takeUntil" class="headerlink" title="takeUntil"></a>takeUntil</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">RACSubject *subject1 = [RACSubject subject];</span><br><span class="line">RACSubject *subject2 = [RACSubject subject];</span><br><span class="line"></span><br><span class="line">[[subject1 takeUntil:subject2] subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,x);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[subject1 sendNext:@&quot;subject1&quot;];</span><br><span class="line">[subject2 sendNext:@&quot;subject2&quot;];</span><br><span class="line">[subject1 sendNext:@&quot;subject1&quot;];</span><br></pre></td></tr></table></figure>
+<p>从打印结果来看 只打印了一次 subject1，takeUntil的作用就是，第二个信号收到的时候，第一个信号将无法继续被接受。</p>
+<h2 id="信号取消"><a href="#信号取消" class="headerlink" title="信号取消"></a>信号取消</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *signal = [RACSignal createSignal:^RACDisposable * _Nullable(id&lt;RACSubscriber&gt;  _Nonnull subscriber) &#123;</span><br><span class="line">   </span><br><span class="line">    [subscriber sendNext:@&quot;zic_magic&quot;];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    RACDisposable *disposable = [RACDisposable disposableWithBlock:^&#123;</span><br><span class="line">       </span><br><span class="line">        //信号发送或者发送错误都会自动执行这个block</span><br><span class="line">        NSLog(@&quot;disposable&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    //[subscriber sendCompleted] //当不需要订阅信号的时候，发送信号完成 取消订阅信号</span><br><span class="line">    return disposable;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="信号压缩-zip"><a href="#信号压缩-zip" class="headerlink" title="信号压缩 zip"></a>信号压缩 zip</h2><p>zip的作用相当于一个 || 的作用，就是两个信号任何一个发送信号都能被监听到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RACSignal *signalA = self.searchTextField.rac_textSignal;</span><br><span class="line">RACSignal *signalB = [self.buttonRight rac_signalForControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">RACSignal *zipSignal = [signalA zipWith:signalB];</span><br><span class="line"></span><br><span class="line">[zipSignal subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>定义压缩信号，内部会自动订阅 signalA 和 signalB 。</p>
+<h1 id="RAC的流程分析"><a href="#RAC的流程分析" class="headerlink" title="RAC的流程分析"></a>RAC的流程分析</h1><p>RAC的核心就是signal，流程分为以下四部分</p>
+<p>1、信号的产生</p>
+<p>2、订阅信号</p>
+<p>3、发送信号</p>
+<p>4、信号销毁</p>
+<p>基础的流程代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//创建信号</span><br><span class="line">RACSignal *signal = [RACSignal createSignal:^RACDisposable * _Nullable(id&lt;RACSubscriber&gt;  _Nonnull subscriber) &#123;</span><br><span class="line">    </span><br><span class="line">    //信号发送</span><br><span class="line">    [subscriber sendNext:@&quot;zic_magic&quot;];</span><br><span class="line">    </span><br><span class="line">    NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:5000 userInfo:@&#123;@&quot;key&quot; : @&quot;error&quot;&#125;];</span><br><span class="line">    [subscriber sendError:error];</span><br><span class="line">    </span><br><span class="line">   // RACDisposable 信号回收</span><br><span class="line">    return [RACDisposable disposableWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;信号销毁&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br><span class="line">//信号订阅</span><br><span class="line">[signal subscribeNext:^(id  _Nullable x) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[signal subscribeError:^(NSError * _Nullable error) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>因为发生了两次订阅，所以会发生2次销毁。具体的原因在分析底层的时候会进行解释。</p>
+<p>下面我们看一下RAC分别在创建、订阅、发送、回收的时候做了什么事</p>
+<p>创建信号的时候，对信号进行了保存</p>
+<pre><code>signal-&gt;_didSubscribe = [didSubscribe copy];
+</code></pre><p>信号订阅的时候，对nextBlock等进行了保存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribeNext:(void (^)(id x))nextBlock &#123;</span><br><span class="line">	NSCParameterAssert(nextBlock != NULL);</span><br><span class="line">	</span><br><span class="line">	RACSubscriber *o = [RACSubscriber subscriberWithNext:nextBlock error:NULL completed:NULL];//这步中对block中进行了保存</span><br><span class="line">	return [self subscribe:o];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里传入了信号流程的所有元素,这里非常的关键，后续再讲解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribe:(id&lt;RACSubscriber&gt;)subscriber &#123;</span><br><span class="line">	NSCParameterAssert(subscriber != nil);</span><br><span class="line"></span><br><span class="line">	RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];</span><br><span class="line">	subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:self disposable:disposable];</span><br><span class="line"></span><br><span class="line">	if (self.didSubscribe != NULL) &#123;</span><br><span class="line">		RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^&#123;</span><br><span class="line">			RACDisposable *innerDisposable = self.didSubscribe(subscriber);</span><br><span class="line">			//这里执行了这个这个代码块 发送了信号 串联了流程</span><br><span class="line">			</span><br><span class="line">			[disposable addDisposable:innerDisposable];</span><br><span class="line">		&#125;];</span><br><span class="line"></span><br><span class="line">		[disposable addDisposable:schedulingDisposable];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return disposable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个核心的流程其实非常简单，但是逻辑非常值得学习。比如网络请求方面，进行 RAC 的二次封装，封装 success 和 fail 的回调。</p>
+<h1 id="RAC源码分析"><a href="#RAC源码分析" class="headerlink" title="RAC源码分析"></a>RAC源码分析</h1><h2 id="RACDisposable"><a href="#RACDisposable" class="headerlink" title="RACDisposable"></a>RACDisposable</h2><h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><h1 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h1><h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/12.1 (16B5068g).zip</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/25/内存优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1188,7 +1361,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
