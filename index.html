@@ -230,7 +230,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/端对端加密通讯协议/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/端对端加密通讯/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zic_magic">
@@ -249,7 +249,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/21/端对端加密通讯协议/" itemprop="url">端对端加密通讯协议</a></h1>
+                <a class="post-title-link" href="/2019/05/21/端对端加密通讯/" itemprop="url">端对端加密通讯协议</a></h1>
         
 
         <div class="post-meta">
@@ -306,7 +306,7 @@
 <h3 id="DH密钥交换-Diffie–Hellman-key-exchange"><a href="#DH密钥交换-Diffie–Hellman-key-exchange" class="headerlink" title="DH密钥交换 (Diffie–Hellman key exchange)"></a>DH密钥交换 (Diffie–Hellman key exchange)</h3><p>DH密钥交换是1976年由Diffie和Hellman共同发明的一种算法。使用这种算法，通信双方仅通过交换一些可以公开的信息就能够生成出共享的密码数字，而这一密码数字就可以被用作对称密码的密钥。IPsec中就使用了经过改良的DH密钥交换。</p>
 <p>虽然这种方法的名字叫“密钥交换”，但实际上双方并没有真正交换密钥，而是通过计算生成出一个相同的共享密钥。因此，这种方法也称DH密钥协商</p>
 <h4 id="交换的流程"><a href="#交换的流程" class="headerlink" title="交换的流程"></a>交换的流程</h4><p>流程图参考网上的一个资源，感觉是画的最好的一个。</p>
-<p><img src="/2019/05/21/端对端加密通讯协议/端对端加密通讯/image1.png" alt="图片1"></p>
+<p><img src="/2019/05/21/端对端加密通讯/image1.png" alt="图片1"></p>
 <p>以下是对图示内容的讲解</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">1 Alice向Bob发送两个质数P和G</span><br><span class="line"></span><br><span class="line">P必须是一个非常大的质数，而G则是一个和P相关的数，称为生成元。G可以是一个较小的数字。</span><br><span class="line"></span><br><span class="line">P和G不需要保密，被窃听者获取了也没关系。</span><br><span class="line"></span><br><span class="line">P和G可以由Alice和Bob中的任意一方生成。</span><br><span class="line"></span><br><span class="line">2 Alice生成一个随机数A</span><br><span class="line"></span><br><span class="line">A是一个1~P-2之间的整数。这个数是一个只有Alice知道的秘密数字，没有必要告诉Bob，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">3 Bob生成一个随机数B</span><br><span class="line"></span><br><span class="line">B是一个1~P-2之间的整数。这个数是一个只有Bob知道的秘密数字，没有必要高数Alice，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">4 Alice将 G的A次方 mod P 这个数发送给Bob</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">5 Bob 将 G的B次方 mod P 这个数发送给Alice</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">6 Alice用Bob发过来的数计算A次方并求 mod P</span><br><span class="line"></span><br><span class="line">这个数就是共享密钥。</span><br><span class="line"></span><br><span class="line">Alice计算的密钥 = $G^A$</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的B次方的A次方” 改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">7 Bob用Alice发过来的数计算B次方并求 mod P</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的A次方的B次方”改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">于是Alice和Bob就计算出相等的共享密钥了。</span><br></pre></td></tr></table></figure>
 
