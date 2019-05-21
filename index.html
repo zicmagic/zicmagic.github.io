@@ -230,6 +230,133 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/端对端加密通讯协议/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/21/端对端加密通讯协议/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+                2019-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="端对端加密通讯协议"><a href="#端对端加密通讯协议" class="headerlink" title="端对端加密通讯协议"></a>端对端加密通讯协议</h1><p>近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。</p>
+<h2 id="术语解析"><a href="#术语解析" class="headerlink" title="术语解析"></a>术语解析</h2><p>要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，如果只是想知道端对端加密通讯协议是个什么，可以直接看第二部分。</p>
+<h3 id="DH密钥交换-Diffie–Hellman-key-exchange"><a href="#DH密钥交换-Diffie–Hellman-key-exchange" class="headerlink" title="DH密钥交换 (Diffie–Hellman key exchange)"></a>DH密钥交换 (Diffie–Hellman key exchange)</h3><p>DH密钥交换是1976年由Diffie和Hellman共同发明的一种算法。使用这种算法，通信双方仅通过交换一些可以公开的信息就能够生成出共享的密码数字，而这一密码数字就可以被用作对称密码的密钥。IPsec中就使用了经过改良的DH密钥交换。</p>
+<p>虽然这种方法的名字叫“密钥交换”，但实际上双方并没有真正交换密钥，而是通过计算生成出一个相同的共享密钥。因此，这种方法也称DH密钥协商</p>
+<h4 id="交换的流程"><a href="#交换的流程" class="headerlink" title="交换的流程"></a>交换的流程</h4><p>流程图参考网上的一个资源，感觉是画的最好的一个。</p>
+<p><img src="/2019/05/21/端对端加密通讯协议/端对端加密通讯/image1.png" alt="图片1"></p>
+<p>以下是对图示内容的讲解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">1 Alice向Bob发送两个质数P和G</span><br><span class="line"></span><br><span class="line">P必须是一个非常大的质数，而G则是一个和P相关的数，称为生成元。G可以是一个较小的数字。</span><br><span class="line"></span><br><span class="line">P和G不需要保密，被窃听者获取了也没关系。</span><br><span class="line"></span><br><span class="line">P和G可以由Alice和Bob中的任意一方生成。</span><br><span class="line"></span><br><span class="line">2 Alice生成一个随机数A</span><br><span class="line"></span><br><span class="line">A是一个1~P-2之间的整数。这个数是一个只有Alice知道的秘密数字，没有必要告诉Bob，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">3 Bob生成一个随机数B</span><br><span class="line"></span><br><span class="line">B是一个1~P-2之间的整数。这个数是一个只有Bob知道的秘密数字，没有必要高数Alice，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">4 Alice将 G的A次方 mod P 这个数发送给Bob</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">5 Bob 将 G的B次方 mod P 这个数发送给Alice</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">6 Alice用Bob发过来的数计算A次方并求 mod P</span><br><span class="line"></span><br><span class="line">这个数就是共享密钥。</span><br><span class="line"></span><br><span class="line">Alice计算的密钥 = $G^A$</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的B次方的A次方” 改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">7 Bob用Alice发过来的数计算B次方并求 mod P</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的A次方的B次方”改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">于是Alice和Bob就计算出相等的共享密钥了。</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/RAC的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -495,129 +622,6 @@
 <p>轴线图上有红色叉叉的地方代表检测到内存泄漏，右边画红色圈圈的地方发开能直接跳转定位到代码的界面，也十分的简单，但是也依然会有一些错误无法定位，比如block的循环引用。</p>
 <h2 id="析构方法"><a href="#析构方法" class="headerlink" title="析构方法"></a>析构方法</h2><p>当某个对象的引用计数为0的时候，会自动调用 dealloc 的方法。</p>
 <p>一般block的循环引用的问题，可以用此方法进行检测。解决的办法就是用 __weak typeof (self) weakSelf = self 用 weakSelf 代替 self 就可以了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/OC必须知道的小知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zic_magic">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zic_Magic">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/05/OC必须知道的小知识/" itemprop="url">OC必须知道的小知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-05T14:55:41+08:00">
-                2018-07-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="必须知道的小知识"><a href="#必须知道的小知识" class="headerlink" title="必须知道的小知识"></a>必须知道的小知识</h1><h2 id="问题1-Category-类别-、-Extension-扩展-和继承的区别"><a href="#问题1-Category-类别-、-Extension-扩展-和继承的区别" class="headerlink" title="问题1 Category(类别)、 Extension(扩展)和继承的区别"></a>问题1 Category(类别)、 Extension(扩展)和继承的区别</h2><p>1、分类有名字，类扩展没有分类名字，是⼀一种特殊的分类。<br>2、分类只能扩展⽅方法(属性仅仅是声明，并没真正实现)，类扩展可以扩展属性、成员变量和⽅法。<br>3、 继承可以增加，修改或者删除⽅方法，并且可以增加属性。</p>
-<h2 id="问题2-MVC模式中包含的常用设计模式"><a href="#问题2-MVC模式中包含的常用设计模式" class="headerlink" title="问题2 MVC模式中包含的常用设计模式"></a>问题2 MVC模式中包含的常用设计模式</h2><p>代理模式、命令模式（action）、观察者模式、中介者模式（mvc本身）、策略模式（view与model的<br>交互）</p>
-<h2 id="问题3-oc中字典实现的原理"><a href="#问题3-oc中字典实现的原理" class="headerlink" title="问题3 oc中字典实现的原理"></a>问题3 oc中字典实现的原理</h2><p>1、底层是一个哈希表（数组）<br>2、根据哈希函数（算法算法 md5 SHA1）找到相应的位置，时间复杂度为1，哈希函数是压缩的印象<br>3、地址重复的时候采用开放地址法，给一个增量。时间复杂度为x</p>
-<h2 id="问题4-静态库和动态库的区别"><a href="#问题4-静态库和动态库的区别" class="headerlink" title="问题4 静态库和动态库的区别"></a>问题4 静态库和动态库的区别</h2><p>静态库：链接时会被完整的肤质到可执行的文件之中，被多次使用就有多分拷贝<br>动态库：链接时不复制，程序运行时由系统动态加载到内存，系统只加载一次，多个程序共用、节省内存</p>
 
           
         
@@ -1402,7 +1406,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

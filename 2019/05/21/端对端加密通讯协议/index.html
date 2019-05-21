@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="非代码层的集成方式参考开普勒的官方文档 初始化SDK123456[[KeplerApiManager sharedKPService] asyncInitSdk:JDappKey secretKey:JDSecretKey sucessCallback:^&amp;#123;    &amp;#125; failedCallback:^(NSError *error) &amp;#123;    &amp;#125;];[Kep">
+<meta name="description" content="端对端加密通讯协议近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。 术语解析要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，如果只是想知道端对端加密通讯协议是个什么，可以直接看第二部分。">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="京东开普勒sdk集成">
-<meta property="og:url" content="http://yoursite.com/2018/07/03/京东开普勒SDK集成/index.html">
+<meta property="og:title" content="Zic_Magic">
+<meta property="og:url" content="http://yoursite.com/2019/05/21/端对端加密通讯协议/index.html">
 <meta property="og:site_name" content="Zic_Magic">
-<meta property="og:description" content="非代码层的集成方式参考开普勒的官方文档 初始化SDK123456[[KeplerApiManager sharedKPService] asyncInitSdk:JDappKey secretKey:JDSecretKey sucessCallback:^&amp;#123;    &amp;#125; failedCallback:^(NSError *error) &amp;#123;    &amp;#125;];[Kep">
+<meta property="og:description" content="端对端加密通讯协议近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。 术语解析要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，如果只是想知道端对端加密通讯协议是个什么，可以直接看第二部分。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-08T07:02:22.837Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/端对端加密通讯协议/端对端加密通讯/image1.png">
+<meta property="og:updated_time" content="2019-05-21T06:13:33.127Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="京东开普勒sdk集成">
-<meta name="twitter:description" content="非代码层的集成方式参考开普勒的官方文档 初始化SDK123456[[KeplerApiManager sharedKPService] asyncInitSdk:JDappKey secretKey:JDSecretKey sucessCallback:^&amp;#123;    &amp;#125; failedCallback:^(NSError *error) &amp;#123;    &amp;#125;];[Kep">
+<meta name="twitter:title" content="Zic_Magic">
+<meta name="twitter:description" content="端对端加密通讯协议近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。 术语解析要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，如果只是想知道端对端加密通讯协议是个什么，可以直接看第二部分。">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/21/端对端加密通讯协议/端对端加密通讯/image1.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/03/京东开普勒SDK集成/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/21/端对端加密通讯协议/"/>
 
 
 
 
 
-  <title>京东开普勒sdk集成 | Zic_Magic</title>
+  <title> | Zic_Magic</title>
   
 
 
@@ -233,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/京东开普勒SDK集成/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/端对端加密通讯协议/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zic_magic">
@@ -250,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">京东开普勒sdk集成</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -262,8 +264,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
-                2018-07-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+                2019-05-21
               </time>
             
 
@@ -300,23 +302,14 @@
       
 
       
-        <p>非代码层的集成方式参考开普勒的<a href="http://kepler.jd.com/console/docCenterCatalog/docContent?channelId=46" target="_blank" rel="noopener">官方文档</a></p>
-<h1 id="初始化SDK"><a href="#初始化SDK" class="headerlink" title="初始化SDK"></a>初始化SDK</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] asyncInitSdk:JDappKey secretKey:JDSecretKey sucessCallback:^&#123;</span><br><span class="line">    </span><br><span class="line">&#125; failedCallback:^(NSError *error) &#123;</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br><span class="line">[KeplerApiManager sharedKPService].JDappBackTagID = @&quot;kpl_jdxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;;//这个tagid需要找京东申请</span><br></pre></td></tr></table></figure>
-<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><h2 id="授权状态检测"><a href="#授权状态检测" class="headerlink" title="授权状态检测"></a>授权状态检测</h2><p>在响应京东sdk的时候需要检测一下一下授权状态,不然有些操作会失败</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] keplerLoginWithSuccess:^&#123;</span><br><span class="line">         </span><br><span class="line">&#125; failure:^&#123;</span><br><span class="line">    </span><br><span class="line">    [JDSDKManager login];</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="授权-1"><a href="#授权-1" class="headerlink" title="授权"></a>授权</h2><p>检测授权状态就一行，但是实际运用的时候还需要本地记录一下用户的authCode，和用户id对应起来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] keplerLoginWithViewController:[[JDSDKManager sharedManager] getCurrentVC] success:^&#123;</span><br><span class="line">               </span><br><span class="line">&#125; failure:^(NSError *error) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="取消授权"><a href="#取消授权" class="headerlink" title="取消授权"></a>取消授权</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[KeplerApiManager sharedKPService] cancelAuth];</span><br></pre></td></tr></table></figure>
-<h1 id="跳转手机京东或者h5"><a href="#跳转手机京东或者h5" class="headerlink" title="跳转手机京东或者h5"></a>跳转手机京东或者h5</h1><h2 id="跳转代码"><a href="#跳转代码" class="headerlink" title="跳转代码"></a>跳转代码</h2><p>这里介绍一下通过url方式跳转 其他的跳转方式自己看sdk或者文档，这里就不列举了，都是一样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[KeplerApiManager sharedKPService].isOpenByH5 = YES;</span><br><span class="line"></span><br><span class="line">[[KeplerApiManager sharedKPService]openNavigationPage:viewController jumpType:2 customParams:[RdAppUserProfile getUserUserid]];</span><br><span class="line"> @param jumpType         跳转类型(默认 push) 1代表present 2代表push</span><br><span class="line"> @param customParams     自定义订单统计参数 需要传入用户id不然不好统计订单来源</span><br><span class="line"> //参数格式错误会导致跳转失败</span><br></pre></td></tr></table></figure>
-<h2 id="拦截h5页面"><a href="#拦截h5页面" class="headerlink" title="拦截h5页面"></a>拦截h5页面</h2><p>这里和淘宝的处理方式一样，参照上一片博文，就是拦截的地址不一样</p>
-<h1 id="细节补充"><a href="#细节补充" class="headerlink" title="细节补充"></a>细节补充</h1><p>1、京东有些页面会出现点击下载的空间，拦截也需要注入js，处理方式和前面一片描述的相同</p>
-<p>2、京东会出现以下两种掉单情况：（1）后端接口能查询到购买商品，京东后台无法查到购物商品（2）后台订单中有订单，但是找不到对应的购买人ID。为了解决此问题也需要像淘宝的一样，后台拉取用户订单列表。</p>
-<p>通过后台访问订单列表页（不能只实例化，不持有，不然无法获取内容）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://wqs.jd.com/order/orderlist_merge.shtml</span><br></pre></td></tr></table></figure>
-<p>拦截以下接口地址内容,提交给后台。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://wqdeal.jd.com/bases/orderlist/deallist</span><br></pre></td></tr></table></figure>
-<p>3、京东sdk是和bundleID绑定，更换bundleID需要更换整套的sdk。其他设置无需更改。</p>
+        <h1 id="端对端加密通讯协议"><a href="#端对端加密通讯协议" class="headerlink" title="端对端加密通讯协议"></a>端对端加密通讯协议</h1><p>近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。</p>
+<h2 id="术语解析"><a href="#术语解析" class="headerlink" title="术语解析"></a>术语解析</h2><p>要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，如果只是想知道端对端加密通讯协议是个什么，可以直接看第二部分。</p>
+<h3 id="DH密钥交换-Diffie–Hellman-key-exchange"><a href="#DH密钥交换-Diffie–Hellman-key-exchange" class="headerlink" title="DH密钥交换 (Diffie–Hellman key exchange)"></a>DH密钥交换 (Diffie–Hellman key exchange)</h3><p>DH密钥交换是1976年由Diffie和Hellman共同发明的一种算法。使用这种算法，通信双方仅通过交换一些可以公开的信息就能够生成出共享的密码数字，而这一密码数字就可以被用作对称密码的密钥。IPsec中就使用了经过改良的DH密钥交换。</p>
+<p>虽然这种方法的名字叫“密钥交换”，但实际上双方并没有真正交换密钥，而是通过计算生成出一个相同的共享密钥。因此，这种方法也称DH密钥协商</p>
+<h4 id="交换的流程"><a href="#交换的流程" class="headerlink" title="交换的流程"></a>交换的流程</h4><p>流程图参考网上的一个资源，感觉是画的最好的一个。</p>
+<p><img src="/2019/05/21/端对端加密通讯协议/端对端加密通讯/image1.png" alt="图片1"></p>
+<p>以下是对图示内容的讲解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">1 Alice向Bob发送两个质数P和G</span><br><span class="line"></span><br><span class="line">P必须是一个非常大的质数，而G则是一个和P相关的数，称为生成元。G可以是一个较小的数字。</span><br><span class="line"></span><br><span class="line">P和G不需要保密，被窃听者获取了也没关系。</span><br><span class="line"></span><br><span class="line">P和G可以由Alice和Bob中的任意一方生成。</span><br><span class="line"></span><br><span class="line">2 Alice生成一个随机数A</span><br><span class="line"></span><br><span class="line">A是一个1~P-2之间的整数。这个数是一个只有Alice知道的秘密数字，没有必要告诉Bob，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">3 Bob生成一个随机数B</span><br><span class="line"></span><br><span class="line">B是一个1~P-2之间的整数。这个数是一个只有Bob知道的秘密数字，没有必要高数Alice，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">4 Alice将 G的A次方 mod P 这个数发送给Bob</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">5 Bob 将 G的B次方 mod P 这个数发送给Alice</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">6 Alice用Bob发过来的数计算A次方并求 mod P</span><br><span class="line"></span><br><span class="line">这个数就是共享密钥。</span><br><span class="line"></span><br><span class="line">Alice计算的密钥 = $G^A$</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的B次方的A次方” 改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">7 Bob用Alice发过来的数计算B次方并求 mod P</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的A次方的B次方”改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">于是Alice和Bob就计算出相等的共享密钥了。</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -341,8 +334,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/03/阿里百川电商服务sdk集成/" rel="next" title="百川电商sdk集成">
-                <i class="fa fa-chevron-left"></i> 百川电商sdk集成
+              <a href="/2018/10/26/RAC的使用/" rel="next" title="RAC的使用与源码分析">
+                <i class="fa fa-chevron-left"></i> RAC的使用与源码分析
               </a>
             
           </div>
@@ -350,10 +343,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/04/iOS无埋点数据的整体方案/" rel="prev" title="iOS无埋点数据方案">
-                iOS无埋点数据方案 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -467,7 +456,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化SDK"><span class="nav-number">1.</span> <span class="nav-text">初始化SDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#授权"><span class="nav-number">2.</span> <span class="nav-text">授权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#授权状态检测"><span class="nav-number">2.1.</span> <span class="nav-text">授权状态检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权-1"><span class="nav-number">2.2.</span> <span class="nav-text">授权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消授权"><span class="nav-number">2.3.</span> <span class="nav-text">取消授权</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#跳转手机京东或者h5"><span class="nav-number">3.</span> <span class="nav-text">跳转手机京东或者h5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#跳转代码"><span class="nav-number">3.1.</span> <span class="nav-text">跳转代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截h5页面"><span class="nav-number">3.2.</span> <span class="nav-text">拦截h5页面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#细节补充"><span class="nav-number">4.</span> <span class="nav-text">细节补充</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#端对端加密通讯协议"><span class="nav-number">1.</span> <span class="nav-text">端对端加密通讯协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语解析"><span class="nav-number">1.1.</span> <span class="nav-text">术语解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DH密钥交换-Diffie–Hellman-key-exchange"><span class="nav-number">1.1.1.</span> <span class="nav-text">DH密钥交换 (Diffie–Hellman key exchange)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#交换的流程"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">交换的流程</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
