@@ -102,7 +102,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -183,7 +183,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -193,7 +193,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -259,9 +259,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
                 2019-05-21
               </time>
             
@@ -474,7 +474,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/RAC的使用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/26/RAC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zic_magic">
@@ -493,7 +493,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/26/RAC的使用/" itemprop="url">RAC的使用与源码分析</a></h1>
+                <a class="post-title-link" href="/2018/10/26/RAC/" itemprop="url">RAC的使用解析</a></h1>
         
 
         <div class="post-meta">
@@ -503,9 +503,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
                 2018-10-26
               </time>
             
@@ -545,7 +545,7 @@
       
         
           
-            <p>本文主要讲 RAC <strong>7.0</strong> 的使用和源码分析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的<br>用 <strong>pod ‘ReactiveObjC’</strong> 不要用 pod ‘ReactiveCocoa’.</p>
+            <p>本文主要讲 RAC <strong>7.0</strong> 的使用解析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的<br>用 <strong>pod ‘ReactiveObjC’</strong> 不要用 pod ‘ReactiveCocoa’.</p>
 <p>本文先讲述RAC的用法，先从使用的方式上理解一下响应式函数编程的特点，再深入的了解RAC的具体实现方式，和网上有很多讲RAC的文章不同，这篇文章主要讲一些细节部分，没有那种大方向的解析，主要是对已经学习过RAC的同学进行归纳整理和补充的。</p>
 <h1 id="RAC的初级用法"><a href="#RAC的初级用法" class="headerlink" title="RAC的初级用法"></a>RAC的初级用法</h1><p>初级的使用比较，只做简单的罗列，不做详细的介绍。</p>
 <p>初级的使用可以代替之前的其他消息传递的方式，减少代码的冗余，使初始化话和实现代码结合起来，在代码上更加的清晰。这是RAC的主要功能，但显然这不是RAC的最核心的功能，后面介绍进阶用法的时候再进行解释。</p>
@@ -598,7 +598,6 @@
 <p>这里传入了信号流程的所有元素,这里非常的关键，后续再讲解。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (RACDisposable *)subscribe:(id&lt;RACSubscriber&gt;)subscriber &#123;</span><br><span class="line">	NSCParameterAssert(subscriber != nil);</span><br><span class="line"></span><br><span class="line">	RACCompoundDisposable *disposable = [RACCompoundDisposable compoundDisposable];</span><br><span class="line">	subscriber = [[RACPassthroughSubscriber alloc] initWithSubscriber:subscriber signal:self disposable:disposable];</span><br><span class="line"></span><br><span class="line">	if (self.didSubscribe != NULL) &#123;</span><br><span class="line">		RACDisposable *schedulingDisposable = [RACScheduler.subscriptionScheduler schedule:^&#123;</span><br><span class="line">			RACDisposable *innerDisposable = self.didSubscribe(subscriber);</span><br><span class="line">			//这里执行了这个这个代码块 发送了信号 串联了流程</span><br><span class="line">			</span><br><span class="line">			[disposable addDisposable:innerDisposable];</span><br><span class="line">		&#125;];</span><br><span class="line"></span><br><span class="line">		[disposable addDisposable:schedulingDisposable];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return disposable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个核心的流程其实非常简单，但是逻辑非常值得学习。比如网络请求方面，进行 RAC 的二次封装，封装 success 和 fail 的回调。</p>
-<h1 id="RAC源码分析"><a href="#RAC源码分析" class="headerlink" title="RAC源码分析"></a>RAC源码分析</h1><h2 id="RACDisposable"><a href="#RACDisposable" class="headerlink" title="RACDisposable"></a>RACDisposable</h2><h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><h1 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h1><h1 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h1><p>/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/12.1 (16B5068g).zip</p>
 
           
         
@@ -676,9 +675,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
                 2018-10-25
               </time>
             
@@ -816,9 +815,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -995,9 +994,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -1202,9 +1201,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1338,9 +1337,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1483,7 +1482,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -1533,7 +1532,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -1541,7 +1540,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
