@@ -102,7 +102,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -183,7 +183,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -193,7 +193,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -259,9 +259,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
                 2019-05-21
               </time>
             
@@ -301,16 +301,17 @@
       
         
           
-            <p>近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。（可以先看第二部分，有部分不了解的可以再回头看第一部分）都是围绕着Signal protocol 进行梳理和解释，Signal protocol是真正的端到端的通讯加密协议，号称是世界上最安全的通讯协议，任何第三方包括服务器都无法查看通讯内容.</p>
+            <p>近期对WhatsApp做了破解，但是做到了最后发现是端对端的聊天，导致方案预先设计的流程无法实现，所以就对次进行进一步的了解与学习，本文算是整理的一个学习笔记，仅供大家学习。学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。（可以先看第二部分，有部分不了解的可以再回头看第一部分）都是围绕着Signal protocol 进行梳理和解释，Signal protocol是真正的端到端的通讯加密协议，号称是世界上最安全的通讯协议，任何第三方包括服务器都无法查看通讯内容.</p>
 <h2 id="术语解析"><a href="#术语解析" class="headerlink" title="术语解析"></a>术语解析</h2><p>要了解整个的加密通讯协议，首先就是要了解一些密钥交换和加密方法，除了DH密钥交换会稍微的讲一下是如何得到，其他的只做流程上的介绍不深入。</p>
 <h3 id="DH密钥交换-Diffie–Hellman-key-exchange"><a href="#DH密钥交换-Diffie–Hellman-key-exchange" class="headerlink" title="DH密钥交换 (Diffie–Hellman key exchange)"></a>DH密钥交换 (Diffie–Hellman key exchange)</h3><p>DH密钥交换是1976年由Diffie和Hellman共同发明的一种算法。使用这种算法，通信双方仅通过交换一些可以公开的信息就能够生成出共享的密码数字，而这一密码数字就可以被用作对称密码的密钥。DH只是一种密钥交换的方法而不是密钥的加密算法。</p>
 <p>虽然这种方法的名字叫“密钥交换”，但实际上双方并没有真正交换密钥，而是通过计算生成出一个相同的共享密钥。因此，这种方法也称DH密钥协商。</p>
 <h4 id="交换的流程"><a href="#交换的流程" class="headerlink" title="交换的流程"></a>交换的流程</h4><p>流程图参考网上的一个资源，感觉是画的最好的一个。</p>
 <p><img src="/2019/05/21/端对端加密通讯/image1.png" alt="图片1"></p>
 <p>以下是对图示内容的讲解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">1 Alice向Bob发送两个质数P和G</span><br><span class="line"></span><br><span class="line">P必须是一个非常大的质数，而G则是一个和P相关的数，称为生成元。G可以是一个较小的数字。</span><br><span class="line"></span><br><span class="line">P和G不需要保密，被窃听者获取了也没关系。</span><br><span class="line"></span><br><span class="line">P和G可以由Alice和Bob中的任意一方生成。</span><br><span class="line"></span><br><span class="line">2 Alice生成一个随机数A</span><br><span class="line"></span><br><span class="line">A是一个1~P-2之间的整数。这个数是一个只有Alice知道的秘密数字，没有必要告诉Bob，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">3 Bob生成一个随机数B</span><br><span class="line"></span><br><span class="line">B是一个1~P-2之间的整数。这个数是一个只有Bob知道的秘密数字，没有必要高数Alice，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">4 Alice将 G的A次方 mod P 这个数发送给Bob</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">5 Bob 将 G的B次方 mod P 这个数发送给Alice</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">6 Alice用Bob发过来的数计算A次方并求 mod P</span><br><span class="line"></span><br><span class="line">这个数就是共享密钥。</span><br><span class="line"></span><br><span class="line">Alice计算的密钥 = (G^B mod(P))^A mod(P)</span><br><span class="line">		      = G^(A*B) mod(P)</span><br><span class="line">(百度了好久 用markdown编辑数学公式都失败了 有知道的大佬可以指点我一下)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的B次方的A次方” 改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">7 Bob用Alice发过来的数计算B次方并求 mod P</span><br><span class="line"></span><br><span class="line">Bob计算的密钥 = (G^A mod(P))^B mod(P)</span><br><span class="line">		      = G^(A*B) mod(P)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">于是Alice和Bob就计算出相等的共享密钥了。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">1 Alice向Bob发送两个质数P和G</span><br><span class="line"></span><br><span class="line">P必须是一个非常大的质数，而G则是一个和P相关的数，称为生成元。G可以是一个较小的数字。</span><br><span class="line"></span><br><span class="line">P和G不需要保密，被窃听者获取了也没关系。</span><br><span class="line"></span><br><span class="line">P和G可以由Alice和Bob中的任意一方生成。</span><br><span class="line"></span><br><span class="line">2 Alice生成一个随机数A</span><br><span class="line"></span><br><span class="line">A是一个1~P-2之间的整数。这个数是一个只有Alice知道的秘密数字，没有必要告诉Bob，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">3 Bob生成一个随机数B</span><br><span class="line"></span><br><span class="line">B是一个1~P-2之间的整数。这个数是一个只有Bob知道的秘密数字，没有必要高数Alice，也不能让窃听者知道。</span><br><span class="line"></span><br><span class="line">4 Alice将 G的A次方 mod P 这个数发送给Bob</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">5 Bob 将 G的B次方 mod P 这个数发送给Alice</span><br><span class="line"></span><br><span class="line">这个数让窃听者知道也没关系。</span><br><span class="line"></span><br><span class="line">6 Alice用Bob发过来的数计算A次方并求 mod P</span><br><span class="line"></span><br><span class="line">这个数就是共享密钥。</span><br><span class="line"></span><br><span class="line">Alice计算的密钥 = (G^B mod(P))^A mod(P)</span><br><span class="line">		      = G^(A*B) mod(P)</span><br><span class="line">(百度了好久 用markdown编辑数学公式都失败了 有知道的大佬可以指点我一下)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">上面将mod P的“G的B次方的A次方” 改写成了“G的A*B次方”</span><br><span class="line"></span><br><span class="line">7 Bob用Alice发过来的数计算B次方并求 mod P</span><br><span class="line"></span><br><span class="line">Bob计算的密钥 = (G^A mod(P))^B mod(P)</span><br><span class="line">		      = G^(A*B) mod(P)</span><br><span class="line"></span><br><span class="line">于是Alice和Bob就计算出相等的共享密钥了。</span><br></pre></td></tr></table></figure>
 <h3 id="ECDH"><a href="#ECDH" class="headerlink" title="ECDH"></a>ECDH</h3><p>ECDH是EC是”elliptic curves”的意思，DH是”Diffie-Hellman”的意思，就是ECC算法和DH的结合使用.ECC是建立在基于椭圆曲线的离散对数问题上的密码体制，给定椭圆曲线上的一个点P，一个整数k，求解Q=kP很容易；给定一个点P、Q，知道Q=kP，求整数k确是一个难题。ECDH即建立在此数学难题之上。密钥磋商过程:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">假设密钥交换双方为Alice、Bob，其有共享曲线参数（椭圆曲线E、阶N、基点G（ji公钥））。</span><br><span class="line"></span><br><span class="line">1 Alice生成随机整数a，计算A=a*G。 #生成Alice公钥</span><br><span class="line"></span><br><span class="line">2 Bob生成随机整数b，计算B=b*G。 #生产Bob公钥</span><br><span class="line"></span><br><span class="line">3 Alice将A传递给Bob。A的传递可以公开，即攻击者可以获取A</span><br><span class="line">   </span><br><span class="line">4 Bob将B传递给Alice。同理，B的传递可以公开</span><br><span class="line"></span><br><span class="line">5 Bob收到Alice传递的A，计算Q =b*A#Bob通过自己的私钥和Alice的公钥得到对称密钥Q6) Alice收到Bob传递的B，计算Q&apos;=a*B#Alice通过自己的私钥和Bob的公钥得到对称密钥Q&apos;</span><br><span class="line"></span><br><span class="line">Alice、Bob双方即得Q=b*A=b*(a*G)=(b*a)*G=(a*b)*G=a*(b*G)=a*B=Q&apos; (交换律和结合律)，即双方得到一致的密钥Q</span><br><span class="line"></span><br><span class="line">由于椭圆曲线的离散对数问题是难题，所以攻击者不可以通过A、G计算出a（这里不对ecc算法做具体的研究可以自行了解，是个比较复杂的数据问题）</span><br></pre></td></tr></table></figure>
+<p>这里没有介绍ECC算法 可以参考这个链接去学习 <a href="https://cloud.tencent.com/developer/article/1141115" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1141115</a></p>
 <h3 id="X3DH-——DH协议的3倍扩展版"><a href="#X3DH-——DH协议的3倍扩展版" class="headerlink" title="X3DH ——DH协议的3倍扩展版"></a>X3DH ——DH协议的3倍扩展版</h3><p>whatsAPP 采用的是X3DH协议，更确切的说，是X3ECDH协议。</p>
 <p>X3DH协议基于DH协议，但是引入更多的公钥参数以提高安全性。在X3DH协议下，有3个角色：</p>
 <p>1、会话发起者，本例我们假设是Alice；</p>
@@ -328,6 +329,39 @@
 <p>DH2 = DH(EPK-A, IPK-B)</p>
 <p>DH3= DH(EPK-A, SPK-B)</p>
 <p>DH4 = DH(IPK-A, OPK-B)</p>
+<p><img src="/2019/05/21/端对端加密通讯/image2.png" alt="图片2"></p>
+<p>然后将计算得到的四个值，前后连接起来，就得到了初始密钥，</p>
+<p>如下DH = DH1 || DH2 || DH3 || DH4</p>
+<p>注：“||”代表连接符，比如 456||123=456123但是DH这个密钥太长，不适合作为消息密钥，所以对这个初始密钥进行一次KDF计算（KDF是密钥衍生算法的一种，可以看成加强版的hash），以衍生出固定长度的消息密钥</p>
+<p>SS = KDF（DH1 || DH2 || DH3 || DH4）</p>
+<p>这一步，Alice终于计算出了消息密钥S。</p>
+<p>4) Alice使用消息密钥S对消息进行加密，连同自己的身份公钥IPK-A和临时公钥EPK-A一同发给Bob</p>
+<p>5) Bob收到Alice的信息后，取出Alice的2个公钥，连同自己的密钥，使用与Alice相同的算法计算消息密钥S。</p>
+<p>6) Bob和Alice使用消息密钥进行加密通讯。</p>
+<p>由上可知，X3DH实际是复杂版的DH协议，解决了在不安全的网络里如何确定消息密钥的问题。但是仍然不够安全，你可以想一下，一旦消息密钥被破解（虽然概率很小，但是也有可能发生），那么Alice和Bob所有的消息就都能解密了，泄露一个密钥，所有的聊天就会被破解，这代价有些太大了。如果可以做到每发一条消息，就换一次消息密钥，那么即使某个消息密钥被破解了，黑客也只能解密这一条消息，其它消息仍然无法解密。这样简直就完美了，于是，棘轮算法就诞生了。</p>
+<h3 id="棘轮算法"><a href="#棘轮算法" class="headerlink" title="棘轮算法"></a>棘轮算法</h3><p>Signal Protocol采用棘轮算法来生成消息密钥，使用1个棘轮算法，能实现每条消息使用不同的密钥，即使一条消息的密钥被破解了，只能推算后面消息的密钥，而不能向前推算之前消息的密钥，我们称之为前向安全。</p>
+<p>如果再加上一个棘轮算法，就可以再前向安全的基础上保障后向安全，即一条消息的密钥被破解，之前和之后的消息密钥都无法推算，这种算法被称为“双棘轮算法”</p>
+<p>Signal Protocol在双方通讯中采用的双棘轮算法是“KDF链棘轮”+“DH棘轮”。以保证消息的前向安全和后向安全。</p>
+<h4 id="“KDF链”棘轮"><a href="#“KDF链”棘轮" class="headerlink" title="“KDF链”棘轮"></a>“KDF链”棘轮</h4><p>KDF是一种密钥导出函数，通过附加一些数据（数据被称为“盐”，附加数据又称“加盐”），将原始密钥导出新的密钥，提高原始密钥的保密性。公式表达为</p>
+<p>KDF (原密钥，盐) = 导出密钥</p>
+<p>KDF算法可用于更安全地保存用户密码，普通的密码管理方式是服务器保存用户密码的哈希值，以避免服务器被攻击后黑客拿到用户密码原文，但是一些简单密码的哈希值仍然可以通过少量的碰撞破解出来，比如123456的哈希值就很容易被碰撞出来。更加安全的做法是在用户哈希值附加其它信息（比如用户注册时间，用户住址等等），通过KDF算法导出，得出的密钥具有非常强的随机性，就很难被碰撞出来。比如原始密码是123456的哈希值为”hash (123456)”，使用KDF算法得出最终密钥</p>
+<p>KDF（hash (123456)，用户注册时间）=最终密钥</p>
+<p>服务器只保存最终密钥。这样的密码管理方式的好处是，不管用户设置的密码多么简单，服务器保存的密钥都是非常随机的，很难被碰撞出来。“KDF链棘轮”就是运用KDF算法，设计出一种密钥不断变化的效果，的流程如下：</p>
+<p><img src="/2019/05/21/端对端加密通讯/image3.png" alt="图片3"></p>
+<p>第一步里，将初始密钥使用KDF算法导出新的密钥，新的密钥被切成2部分，前半部分作为下一次KDF计算的输入，后半部分作为消息密钥。每迭代一次（也可以说 棘轮步进一次），就会生成新的消息密钥。</p>
+<p>假设每发一条消息，就棘轮步进一次，那么每条消息的密钥都会不同，而且由于KDF算法的单向性，通过这条消息的密钥无法倒推出上一条消息密钥的。这就保证了密钥的前向安全。</p>
+<p>但是这种设计不能保证后向安全，黑客一旦破解了某条密钥，并掌握了盐的内容，那么它就可以按照这种算法计算出以后所有的消息密钥。</p>
+<p>所以，为了保证后向安全，就要设计一种算法，使每次迭代时引入的盐是随机的，从而保证每次的消息密钥是不可以向后推算的。Signal Protocol 通过增加“DH棘轮”来保证盐的随机性。</p>
+<h4 id="DH棘轮算法"><a href="#DH棘轮算法" class="headerlink" title="DH棘轮算法"></a>DH棘轮算法</h4><p>“DH棘轮”算法能保证每次计算引入的盐的随机性。由前文可知，2对密钥对可以通过DH协议生成一个安全的协商密钥，如果更换其中一个密钥对，新的协商密钥也会变化。DH棘轮算法就是通过轮流更换一个密钥对，每次生成不同的协商密钥，作为KDF棘轮算法的盐。每进行一个消息轮回，DH棘轮就更新一次临时密钥对，盐就被更新，KDF棘轮算法生成的消息密钥就具有后向安全性。</p>
+<p>在前文提过，Alice要给Bob发送消息，根据X3DH协议，Alice要创建一个临时密钥对（EK-A），用于创建初始消息密钥S。其实这个临时密钥对还有另外一个用途，就是用于生成第一个盐。</p>
+<p>继续接前文Alice和Bob通过X3DH协议建立了会话，Bob要给Alice回复消息，那么DH棘轮大概的流程如下</p>
+<p><img src="/2019/05/21/端对端加密通讯/image4.png" alt="图片4"></p>
+<p>由上图可知，每当收到对方的消息，并回应时，自己都要新生成一个随机DH密钥对，用以生成新的DH密钥作为新盐。从而保证了每次生成的消息密钥都是完全随机的。</p>
+<p>更复杂一点的情况，在上例中第三回合，假如Bob没有回复Alice，Alice又发了一条消息给Bob，此时消息密钥是如何计算的呢？此时因为消息还没有进行一次轮回（就像打乒乓球，球发过去了，但是对方没打回来，不算一个回合），DH密钥对不进行更新，也就是说KDF棘轮引入的盐不变，但是消息密钥仍然是变化的。流程如下</p>
+<p><img src="/2019/05/21/端对端加密通讯/image5.png" alt="图片5"></p>
+<p>这种设计可以保证在乱序接收消息时，接收方仍能正确解密消息。</p>
+<p>综上所述，双棘轮算法提供加密的前向和后向安全。同时我们也知道，在Signal Protocol中，与每一个人的单独对话，都会保存单独的KDF链棘轮和DH棘轮，所以相对于普通会话，加密对话会消耗更多的运算和存储空间。</p>
+<p>Signal Protocol在群组聊天中的设计又有所不同，由于群聊的保密性要求相对低一些，只采用了KDF链棘轮以保障加密的前向安全。</p>
 <h2 id="WhatsAPP-通讯流程"><a href="#WhatsAPP-通讯流程" class="headerlink" title="WhatsAPP 通讯流程"></a>WhatsAPP 通讯流程</h2><h3 id="客户端注册"><a href="#客户端注册" class="headerlink" title="客户端注册"></a>客户端注册</h3><p>在注册时，WhatsApp 客户端将身份公钥（public Identity Key）、已签名的预共享公钥（public Signed Pre Key）和一批一次性预共享公钥（One-Time Pre Keys）发送给服务器。WhatsApp 服务器存储用户身份相关的公钥。WhatsApp 服务器无法访问任何客户端的私钥。</p>
 <h3 id="会话初始化设置"><a href="#会话初始化设置" class="headerlink" title="会话初始化设置"></a>会话初始化设置</h3><p>要与另一个 WhatsApp 用户通信，WhatsApp 客户端需要先建立一个加密会话。加密会话一旦被创建，客户端就不需要再重复创建会话，除非会话失效（例如重新安装应用或更换设备）。</p>
 <p>建立会话：</p>
@@ -469,9 +503,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
                 2018-10-26
               </time>
             
@@ -642,9 +676,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
                 2018-10-25
               </time>
             
@@ -753,185 +787,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/GCD的基础使用和探讨/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zic_magic">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zic_Magic">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/04/GCD的基础使用和探讨/" itemprop="url">GCD的初级探讨</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
-                2018-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="GCD的使用和API介绍"><a href="#GCD的使用和API介绍" class="headerlink" title="GCD的使用和API介绍"></a>GCD的使用和API介绍</h1><h2 id="名次解释"><a href="#名次解释" class="headerlink" title="名次解释"></a>名次解释</h2><p><strong>线程</strong>：程序中执行任务的最小单位</p>
-<p><strong>任务</strong>：简单的来说就是代码段，在GCD中可以理解为block的内容。</p>
-<p><strong>队列</strong>：用存放任务的数组</p>
-<p><strong>异步执行</strong>：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。<strong>异步执行</strong>则不可</p>
-<p><strong>并行队列</strong>： 队列中的任务可以同时执行。<strong>串行队列</strong>则要按顺序执行。</p>
-<h2 id="异步串行"><a href="#异步串行" class="headerlink" title="异步串行"></a>异步串行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;串行队列&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p>打印结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 09:24:55.687033+0800 GCDTest[35136:2948182] begin</span><br><span class="line">2018-07-04 09:24:55.687252+0800 GCDTest[35136:2948182] end</span><br><span class="line">2018-07-04 09:24:55.687360+0800 GCDTest[35136:2948295] 1&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687547+0800 GCDTest[35136:2948295] 2&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687940+0800 GCDTest[35136:2948295] 3&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>number是线程的id，异步不一定开辟多个线程，3个异步只开辟一条线程</strong></p>
-<h2 id="异步并发"><a href="#异步并发" class="headerlink" title="异步并发"></a>异步并发</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p>观察打印结果，begin是最先执行的，其他的都是随机执行的顺序<br>打印结果1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:00:28.196254+0800 GCDTest[36056:3040688] begin</span><br><span class="line">2018-07-04 10:00:28.196496+0800 GCDTest[36056:3040688] end</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040764] 3&lt;NSThread: 0x60000027cf80&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040763] 2&lt;NSThread: 0x604000461d00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040761] 1&lt;NSThread: 0x60000027bfc0&gt;&#123;number = 4, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="同步并发"><a href="#同步并发" class="headerlink" title="同步并发"></a>同步并发</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p>打印结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:18:57.227972+0800 GCDTest[36721:3088411] begin</span><br><span class="line">2018-07-04 10:18:57.228646+0800 GCDTest[36721:3088411] 1&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.228978+0800 GCDTest[36721:3088411] 2&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.229188+0800 GCDTest[36721:3088411] 3&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.229794+0800 GCDTest[36721:3088411] end</span><br></pre></td></tr></table></figure>
-<h2 id="同步串行"><a href="#同步串行" class="headerlink" title="同步串行"></a>同步串行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p>打印结果同步并发相同</p>
-<p>同步并发和同步串行在不嵌套的时候打印结果是一样的,这里看不出两个方式的区别。</p>
-<h2 id="并行队列嵌套"><a href="#并行队列嵌套" class="headerlink" title="并行队列嵌套"></a>并行队列嵌套</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">    &#125;);</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p><strong>从结果来看，新开的一条线程时间不可控，打印2的出现顺序随机。</strong></p>
-<p><strong>两个异步的嵌套这不做展示，132的顺序不改变，只是影响的end的打印顺序</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:37:21.426757+0800 GCDTest[37310:3132795] begin</span><br><span class="line">2018-07-04 10:37:21.427051+0800 GCDTest[37310:3132795] 1&lt;NSThread: 0x604000062480&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:37:21.427265+0800 GCDTest[37310:3132795] 3&lt;NSThread: 0x604000062480&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:37:21.427323+0800 GCDTest[37310:3132828] 2&lt;NSThread: 0x6000002741c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 10:37:21.427371+0800 GCDTest[37310:3132795] end</span><br></pre></td></tr></table></figure>
-<h2 id="串行队列嵌套"><a href="#串行队列嵌套" class="headerlink" title="串行队列嵌套"></a>串行队列嵌套</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;串行队列&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">    &#125;);</span><br><span class="line">    sleep(2)</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p><strong>串行队列需要等block1，走完才会走block2</strong></p>
-<p><strong>串行队列中不能使用两个同步互相嵌套，两个同步的嵌套会造成两个任务的相互等待，会造成死锁</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 13:46:15.774814+0800 GCDTest[39474:3486304] begin</span><br><span class="line">2018-07-04 13:46:15.775053+0800 GCDTest[39474:3486304] 1&lt;NSThread: 0x60400006b500&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 13:46:15.775224+0800 GCDTest[39474:3486304] 3&lt;NSThread: 0x60400006b500&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 13:46:15.775335+0800 GCDTest[39474:3486304] end</span><br><span class="line">2018-07-04 13:46:15.775415+0800 GCDTest[39474:3486510] 2&lt;NSThread: 0x604000271540&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="主队列"><a href="#主队列" class="headerlink" title="主队列"></a>主队列</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_main_queue();</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p><strong>主队是一个串行队列，拥有串行队列的特点，但是异步执行的时候不会开辟子线程，需要等待主线程中的任务执行完成才会执行，同理主队列中也不能添加同步任务</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 15:01:28.459287+0800 GCDTest[41033:3717107] begin</span><br><span class="line">2018-07-04 15:01:28.459502+0800 GCDTest[41033:3717107] end</span><br><span class="line">2018-07-04 15:01:28.464891+0800 GCDTest[41033:3717107] 1&lt;NSThread: 0x604000260000&gt;&#123;number = 1, name = main&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="GCD常用API"><a href="#GCD常用API" class="headerlink" title="GCD常用API"></a>GCD常用API</h1><h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><p>添加多个异步任务,类似for循环添加一步任务，但是有细微区别，end会最后执行</p>
-<p><strong>如果block中是一步任务则不会阻塞当前线程</strong>，这个可以自己尝试一下，end会提前打印。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;test&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_apply(10, queue, ^(size_t index) &#123;</span><br><span class="line">    NSLog(@&quot;%zd %@&quot;, index, [NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
-<p>打印结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 2018-07-04 15:34:41.335083+0800 GCDTest[41890:3828157] 1 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335157+0800 GCDTest[41890:3828159] 2 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335086+0800 GCDTest[41890:3828158] 3 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335667+0800 GCDTest[41890:3828157] 4 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335667+0800 GCDTest[41890:3828159] 5 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335725+0800 GCDTest[41890:3828158] 6 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335860+0800 GCDTest[41890:3828157] 7 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335860+0800 GCDTest[41890:3828159] 8 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.336154+0800 GCDTest[41890:3828158] 9 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335347+0800 GCDTest[41890:3828048] 0 &lt;NSThread: 0x600000062180&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 15:34:41.339147+0800 GCDTest[41890:3828048] end</span><br></pre></td></tr></table></figure>
-<p>##group</p>
-<p>功能与apply相似，有一个任务完成的通知，在子线程任务全部完成之后会发送一个通知执行end。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;end&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>打印结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 15:43:38.342061+0800 GCDTest[42188:3864043] 1</span><br><span class="line">2018-07-04 15:43:38.342109+0800 GCDTest[42188:3864054] 2</span><br><span class="line">2018-07-04 15:43:38.342231+0800 GCDTest[42188:3864062] 3</span><br><span class="line">2018-07-04 15:43:38.342750+0800 GCDTest[42188:3864062] end</span><br></pre></td></tr></table></figure>
-<p><strong>但是任务中再添加异步，通知会失效，需要使用enter和leave的功能,每个任务中都要使用。apply中则没有这样的功能。这个功能可以用在异步下载最后合成的功能中。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;end&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>##barrier</p>
-<p>barrier起来的是栅栏的作用，可以将1234分段执行</p>
-<p><strong>队列必须用自定义的队列，不能使用主队列或者全局队列</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;barrier&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;4&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>打印结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 16:16:21.877826+0800 GCDTest[43024:3977925] 2</span><br><span class="line">2018-07-04 16:16:21.877826+0800 GCDTest[43024:3977926] 1</span><br><span class="line">2018-07-04 16:16:21.878054+0800 GCDTest[43024:3977925] barrier</span><br><span class="line">2018-07-04 16:16:21.878211+0800 GCDTest[43024:3977925] 3</span><br><span class="line">2018-07-04 16:16:21.878230+0800 GCDTest[43024:3977926] 4</span><br></pre></td></tr></table></figure>
-<h2 id="semaphore"><a href="#semaphore" class="headerlink" title="semaphore"></a>semaphore</h2><p><strong>使用信号量的个数只会有相应个数的线程在运行，即并发数</strong></p>
-<p><strong>当信号量为1的时候就能保证线程的安全，即只有一条线程对当前对象进行操作</strong></p>
-<p><strong>实际上semaphore就是一种线程锁</strong>下面再介绍两种常用的线程锁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(2);</span><br><span class="line">dispatch_apply(5, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    NSLog(@&quot;%zd&quot;,index);</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;%zd ok&quot;,index);</span><br><span class="line">    dispatch_semaphore_signal(semaphore);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239516] 1</span><br><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239437] 0</span><br><span class="line">2018-07-04 17:20:03.905419+0800 GCDTest[44526:4239437] 0 ok</span><br><span class="line">2018-07-04 17:20:03.905614+0800 GCDTest[44526:4239512] 2</span><br><span class="line">2018-07-04 17:20:03.906958+0800 GCDTest[44526:4239516] 1 ok</span><br><span class="line">2018-07-04 17:20:03.907148+0800 GCDTest[44526:4239517] 3</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239517] 3 ok</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239512] 2 ok</span><br><span class="line">2018-07-04 17:20:05.909922+0800 GCDTest[44526:4239437] 4</span><br><span class="line">2018-07-04 17:20:07.911063+0800 GCDTest[44526:4239437] 4 ok</span><br></pre></td></tr></table></figure>
-<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>synchronized在县城锁当中的<strong>性能</strong>是最差的，在数量级大的情况下不建议使用，会造成严重的卡顿</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">   </span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        NSLog(@&quot;1&quot;);</span><br><span class="line">        sleep(1);</span><br><span class="line">        NSLog(@&quot;1 ok&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="nonatomic和atomic"><a href="#nonatomic和atomic" class="headerlink" title="nonatomic和atomic"></a>nonatomic和atomic</h2><p><strong>nonatomic</strong>和<strong>atomic</strong>,字面意思就是原子性和非原子性，atomic会在<strong>set/get</strong>的时候加锁，但是会影响使用的性能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;//用atomic定义</span><br><span class="line"></span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    _number++;</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
-<p>从打印结果来看并没有得到预期的10000，因为只能在set/get的时候使用，使用上非常的有局限性并不能保证线程的安全而且十分的影响性能。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-07-05 11:22:02.286226+0800 GCDTest[47438:4721450] 5618</span><br></pre></td></tr></table></figure>
-<p>可以使用NSLock来解决刚刚出现的问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;</span><br><span class="line">NSLock *lock = [NSLock new];</span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    [lock lock];</span><br><span class="line">    _number++;</span><br><span class="line">    [lock unlock];</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -961,9 +816,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -1139,6 +994,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/04/GCD的基础使用和探讨/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/04/GCD的基础使用和探讨/" itemprop="url">GCD的初级探讨</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+                2018-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="GCD的使用和API介绍"><a href="#GCD的使用和API介绍" class="headerlink" title="GCD的使用和API介绍"></a>GCD的使用和API介绍</h1><h2 id="名次解释"><a href="#名次解释" class="headerlink" title="名次解释"></a>名次解释</h2><p><strong>线程</strong>：程序中执行任务的最小单位</p>
+<p><strong>任务</strong>：简单的来说就是代码段，在GCD中可以理解为block的内容。</p>
+<p><strong>队列</strong>：用存放任务的数组</p>
+<p><strong>异步执行</strong>：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。<strong>异步执行</strong>则不可</p>
+<p><strong>并行队列</strong>： 队列中的任务可以同时执行。<strong>串行队列</strong>则要按顺序执行。</p>
+<h2 id="异步串行"><a href="#异步串行" class="headerlink" title="异步串行"></a>异步串行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;串行队列&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>打印结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 09:24:55.687033+0800 GCDTest[35136:2948182] begin</span><br><span class="line">2018-07-04 09:24:55.687252+0800 GCDTest[35136:2948182] end</span><br><span class="line">2018-07-04 09:24:55.687360+0800 GCDTest[35136:2948295] 1&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687547+0800 GCDTest[35136:2948295] 2&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687940+0800 GCDTest[35136:2948295] 3&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>number是线程的id，异步不一定开辟多个线程，3个异步只开辟一条线程</strong></p>
+<h2 id="异步并发"><a href="#异步并发" class="headerlink" title="异步并发"></a>异步并发</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">       NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>观察打印结果，begin是最先执行的，其他的都是随机执行的顺序<br>打印结果1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:00:28.196254+0800 GCDTest[36056:3040688] begin</span><br><span class="line">2018-07-04 10:00:28.196496+0800 GCDTest[36056:3040688] end</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040764] 3&lt;NSThread: 0x60000027cf80&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040763] 2&lt;NSThread: 0x604000461d00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 10:00:28.196679+0800 GCDTest[36056:3040761] 1&lt;NSThread: 0x60000027bfc0&gt;&#123;number = 4, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="同步并发"><a href="#同步并发" class="headerlink" title="同步并发"></a>同步并发</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>打印结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:18:57.227972+0800 GCDTest[36721:3088411] begin</span><br><span class="line">2018-07-04 10:18:57.228646+0800 GCDTest[36721:3088411] 1&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.228978+0800 GCDTest[36721:3088411] 2&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.229188+0800 GCDTest[36721:3088411] 3&lt;NSThread: 0x604000072680&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:18:57.229794+0800 GCDTest[36721:3088411] end</span><br></pre></td></tr></table></figure>
+<h2 id="同步串行"><a href="#同步串行" class="headerlink" title="同步串行"></a>同步串行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>打印结果同步并发相同</p>
+<p>同步并发和同步串行在不嵌套的时候打印结果是一样的,这里看不出两个方式的区别。</p>
+<h2 id="并行队列嵌套"><a href="#并行队列嵌套" class="headerlink" title="并行队列嵌套"></a>并行队列嵌套</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">    &#125;);</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p><strong>从结果来看，新开的一条线程时间不可控，打印2的出现顺序随机。</strong></p>
+<p><strong>两个异步的嵌套这不做展示，132的顺序不改变，只是影响的end的打印顺序</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 10:37:21.426757+0800 GCDTest[37310:3132795] begin</span><br><span class="line">2018-07-04 10:37:21.427051+0800 GCDTest[37310:3132795] 1&lt;NSThread: 0x604000062480&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:37:21.427265+0800 GCDTest[37310:3132795] 3&lt;NSThread: 0x604000062480&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 10:37:21.427323+0800 GCDTest[37310:3132828] 2&lt;NSThread: 0x6000002741c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 10:37:21.427371+0800 GCDTest[37310:3132795] end</span><br></pre></td></tr></table></figure>
+<h2 id="串行队列嵌套"><a href="#串行队列嵌套" class="headerlink" title="串行队列嵌套"></a>串行队列嵌套</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;串行队列&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line"></span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">    </span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">    &#125;);</span><br><span class="line">    sleep(2)</span><br><span class="line">    NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p><strong>串行队列需要等block1，走完才会走block2</strong></p>
+<p><strong>串行队列中不能使用两个同步互相嵌套，两个同步的嵌套会造成两个任务的相互等待，会造成死锁</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 13:46:15.774814+0800 GCDTest[39474:3486304] begin</span><br><span class="line">2018-07-04 13:46:15.775053+0800 GCDTest[39474:3486304] 1&lt;NSThread: 0x60400006b500&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 13:46:15.775224+0800 GCDTest[39474:3486304] 3&lt;NSThread: 0x60400006b500&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 13:46:15.775335+0800 GCDTest[39474:3486304] end</span><br><span class="line">2018-07-04 13:46:15.775415+0800 GCDTest[39474:3486510] 2&lt;NSThread: 0x604000271540&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主队列"><a href="#主队列" class="headerlink" title="主队列"></a>主队列</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_main_queue();</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p><strong>主队是一个串行队列，拥有串行队列的特点，但是异步执行的时候不会开辟子线程，需要等待主线程中的任务执行完成才会执行，同理主队列中也不能添加同步任务</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 15:01:28.459287+0800 GCDTest[41033:3717107] begin</span><br><span class="line">2018-07-04 15:01:28.459502+0800 GCDTest[41033:3717107] end</span><br><span class="line">2018-07-04 15:01:28.464891+0800 GCDTest[41033:3717107] 1&lt;NSThread: 0x604000260000&gt;&#123;number = 1, name = main&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="GCD常用API"><a href="#GCD常用API" class="headerlink" title="GCD常用API"></a>GCD常用API</h1><h2 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h2><p>添加多个异步任务,类似for循环添加一步任务，但是有细微区别，end会最后执行</p>
+<p><strong>如果block中是一步任务则不会阻塞当前线程</strong>，这个可以自己尝试一下，end会提前打印。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;test&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_apply(10, queue, ^(size_t index) &#123;</span><br><span class="line">    NSLog(@&quot;%zd %@&quot;, index, [NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>打印结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 2018-07-04 15:34:41.335083+0800 GCDTest[41890:3828157] 1 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335157+0800 GCDTest[41890:3828159] 2 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335086+0800 GCDTest[41890:3828158] 3 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335667+0800 GCDTest[41890:3828157] 4 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335667+0800 GCDTest[41890:3828159] 5 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335725+0800 GCDTest[41890:3828158] 6 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335860+0800 GCDTest[41890:3828157] 7 &lt;NSThread: 0x600000265c00&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335860+0800 GCDTest[41890:3828159] 8 &lt;NSThread: 0x600000265cc0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.336154+0800 GCDTest[41890:3828158] 9 &lt;NSThread: 0x604000271f40&gt;&#123;number = 5, name = (null)&#125;</span><br><span class="line">2018-07-04 15:34:41.335347+0800 GCDTest[41890:3828048] 0 &lt;NSThread: 0x600000062180&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018-07-04 15:34:41.339147+0800 GCDTest[41890:3828048] end</span><br></pre></td></tr></table></figure>
+<p>##group</p>
+<p>功能与apply相似，有一个任务完成的通知，在子线程任务全部完成之后会发送一个通知执行end。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;end&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>打印结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 15:43:38.342061+0800 GCDTest[42188:3864043] 1</span><br><span class="line">2018-07-04 15:43:38.342109+0800 GCDTest[42188:3864054] 2</span><br><span class="line">2018-07-04 15:43:38.342231+0800 GCDTest[42188:3864062] 3</span><br><span class="line">2018-07-04 15:43:38.342750+0800 GCDTest[42188:3864062] end</span><br></pre></td></tr></table></figure>
+<p><strong>但是任务中再添加异步，通知会失效，需要使用enter和leave的功能,每个任务中都要使用。apply中则没有这样的功能。这个功能可以用在异步下载最后合成的功能中。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_t group = dispatch_group_create();</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_enter(group);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">    dispatch_group_leave(group);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_group_notify(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    NSLog(@&quot;end&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>##barrier</p>
+<p>barrier起来的是栅栏的作用，可以将1234分段执行</p>
+<p><strong>队列必须用自定义的队列，不能使用主队列或者全局队列</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(NULL, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;1&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;2&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;barrier&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;3&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    NSLog(@&quot;4&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>打印结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 16:16:21.877826+0800 GCDTest[43024:3977925] 2</span><br><span class="line">2018-07-04 16:16:21.877826+0800 GCDTest[43024:3977926] 1</span><br><span class="line">2018-07-04 16:16:21.878054+0800 GCDTest[43024:3977925] barrier</span><br><span class="line">2018-07-04 16:16:21.878211+0800 GCDTest[43024:3977925] 3</span><br><span class="line">2018-07-04 16:16:21.878230+0800 GCDTest[43024:3977926] 4</span><br></pre></td></tr></table></figure>
+<h2 id="semaphore"><a href="#semaphore" class="headerlink" title="semaphore"></a>semaphore</h2><p><strong>使用信号量的个数只会有相应个数的线程在运行，即并发数</strong></p>
+<p><strong>当信号量为1的时候就能保证线程的安全，即只有一条线程对当前对象进行操作</strong></p>
+<p><strong>实际上semaphore就是一种线程锁</strong>下面再介绍两种常用的线程锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t semaphore = dispatch_semaphore_create(2);</span><br><span class="line">dispatch_apply(5, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">    NSLog(@&quot;%zd&quot;,index);</span><br><span class="line">    sleep(2);</span><br><span class="line">    NSLog(@&quot;%zd ok&quot;,index);</span><br><span class="line">    dispatch_semaphore_signal(semaphore);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239516] 1</span><br><span class="line">2018-07-04 17:20:01.904894+0800 GCDTest[44526:4239437] 0</span><br><span class="line">2018-07-04 17:20:03.905419+0800 GCDTest[44526:4239437] 0 ok</span><br><span class="line">2018-07-04 17:20:03.905614+0800 GCDTest[44526:4239512] 2</span><br><span class="line">2018-07-04 17:20:03.906958+0800 GCDTest[44526:4239516] 1 ok</span><br><span class="line">2018-07-04 17:20:03.907148+0800 GCDTest[44526:4239517] 3</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239517] 3 ok</span><br><span class="line">2018-07-04 17:20:05.909733+0800 GCDTest[44526:4239512] 2 ok</span><br><span class="line">2018-07-04 17:20:05.909922+0800 GCDTest[44526:4239437] 4</span><br><span class="line">2018-07-04 17:20:07.911063+0800 GCDTest[44526:4239437] 4 ok</span><br></pre></td></tr></table></figure>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>synchronized在县城锁当中的<strong>性能</strong>是最差的，在数量级大的情况下不建议使用，会造成严重的卡顿</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">   </span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        NSLog(@&quot;1&quot;);</span><br><span class="line">        sleep(1);</span><br><span class="line">        NSLog(@&quot;1 ok&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="nonatomic和atomic"><a href="#nonatomic和atomic" class="headerlink" title="nonatomic和atomic"></a>nonatomic和atomic</h2><p><strong>nonatomic</strong>和<strong>atomic</strong>,字面意思就是原子性和非原子性，atomic会在<strong>set/get</strong>的时候加锁，但是会影响使用的性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;//用atomic定义</span><br><span class="line"></span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    _number++;</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
+<p>从打印结果来看并没有得到预期的10000，因为只能在set/get的时候使用，使用上非常的有局限性并不能保证线程的安全而且十分的影响性能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-07-05 11:22:02.286226+0800 GCDTest[47438:4721450] 5618</span><br></pre></td></tr></table></figure>
+<p>可以使用NSLock来解决刚刚出现的问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_number = 0;</span><br><span class="line">NSLock *lock = [NSLock new];</span><br><span class="line">dispatch_apply(10000, dispatch_get_global_queue(0, 0), ^(size_t index) &#123;</span><br><span class="line">    [lock lock];</span><br><span class="line">    _number++;</span><br><span class="line">    [lock unlock];</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;%d&quot;, _number);</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/03/京东开普勒SDK集成/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1168,9 +1202,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1304,9 +1338,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1449,7 +1483,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
@@ -1499,7 +1533,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -1507,7 +1541,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
