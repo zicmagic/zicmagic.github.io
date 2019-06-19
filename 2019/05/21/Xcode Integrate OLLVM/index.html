@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="zic_magic" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简介这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。OLLVM的原理就不介绍了，主要是一个集成的介绍。 下载混淆工具包因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源https://github.com/heroims/obfuscator。在分支里可以选择对应的版本，分支里面也有不同xc">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xcode集成OLLVM踩坑">
+<meta property="og:url" content="http://yoursite.com/2019/05/21/Xcode Integrate OLLVM/index.html">
+<meta property="og:site_name" content="Zic_Magic">
+<meta property="og:description" content="简介这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。OLLVM的原理就不介绍了，主要是一个集成的介绍。 下载混淆工具包因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源https://github.com/heroims/obfuscator。在分支里可以选择对应的版本，分支里面也有不同xc">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/Xcode%20Integrate%20OLLVM/image1.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/Xcode%20Integrate%20OLLVM/image2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/21/Xcode%20Integrate%20OLLVM/image3.png">
+<meta property="og:updated_time" content="2019-06-19T03:32:18.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xcode集成OLLVM踩坑">
+<meta name="twitter:description" content="简介这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。OLLVM的原理就不介绍了，主要是一个集成的介绍。 下载混淆工具包因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源https://github.com/heroims/obfuscator。在分支里可以选择对应的版本，分支里面也有不同xc">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/21/Xcode%20Integrate%20OLLVM/image1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/21/Xcode Integrate OLLVM/"/>
+
+
+
+
+
+  <title>Xcode集成OLLVM踩坑 | Zic_Magic</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zic_Magic</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/Xcode Integrate OLLVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Xcode集成OLLVM踩坑</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+                2019-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。OLLVM的原理就不介绍了，主要是一个集成的介绍。</p>
+<h1 id="下载混淆工具包"><a href="#下载混淆工具包" class="headerlink" title="下载混淆工具包"></a>下载混淆工具包</h1><p>因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源<a href="https://github.com/heroims/obfuscator" target="_blank" rel="noopener">https://github.com/heroims/obfuscator</a>。在分支里可以选择对应的版本，分支里面也有不同xcode的版本。但是老版本的集成方式会有略微的不同。这次以Xcode10 为介绍对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b llvm-8.0 https://github.com/heroims/obfuscator.git</span><br></pre></td></tr></table></figure>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>第二步是需要我们编译我们的工具包，这个地方时间比较久，我花了大概1个小时的时间，而且会导致电脑十分的卡。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">#如果不想跑测试用例加上-DLLVM_INCLUDE_TESTS=OFF </span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_CREATE_XCODE_TOOLCHAIN=ON ../obfuscator/</span><br><span class="line">make -j4   //这里是选择编译的线程数 可以自己选择</span><br></pre></td></tr></table></figure>
+<p>没有安装cmake的用brew安装一下，不然会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install cmake</span><br></pre></td></tr></table></figure>
+<p>遇见下方这个错误的时候我重新编译了一次解决了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make install-xcode-toolchain</span><br><span class="line">make: *** No rule to make target `install-xcode-toolchain&apos;. Stop.</span><br></pre></td></tr></table></figure>
+<h1 id="生成工具链"><a href="#生成工具链" class="headerlink" title="生成工具链"></a>生成工具链</h1><p>Xcode需要生成工具链包 然后放在指定的目录下面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make install-xcode-toolchain</span><br><span class="line">sudo mv /usr/local/Toolchains  /Library/Developer/</span><br></pre></td></tr></table></figure>
+<p>如果第二行指令执行不了 可以手动移动一下。到这里为止之前编译的内容和下载下来的包都可以删掉了，挺大的优点占资源</p>
+<p><img src="/2019/05/21/Xcode Integrate OLLVM/image1.png" alt="图片1"></p>
+<p>xcode这里出现这个就表示成功了，选择ollvm，然后进行下一步的配置。</p>
+<p>还有利用xcplugin进行集成的会非常麻烦，这里不推荐，而且xcode10 已经弃用了这个方式。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>按照图示配置两项非常简单。</p>
+<p><img src="/2019/05/21/Xcode Integrate OLLVM/image2.png" alt="图片1"><br><img src="/2019/05/21/Xcode Integrate OLLVM/image3.png" alt="图片1"></p>
+<h1 id="配置项解释"><a href="#配置项解释" class="headerlink" title="配置项解释"></a>配置项解释</h1><h2 id="控制流扁平化"><a href="#控制流扁平化" class="headerlink" title="控制流扁平化"></a>控制流扁平化</h2><p>这个模式主要是把一些if-else语句，嵌套成do-while语句<br>-mllvm -fla：激活控制流扁平化<br>-mllvm -split：激活基本块分割。在一起使用时改善展平。<br>-mllvm -split_num=3：如果激活了传递，则在每个基本块上应用3次。默认值：1</p>
+<h2 id="指令替换"><a href="#指令替换" class="headerlink" title="指令替换"></a>指令替换</h2><p>这个模式主要用功能上等效但更复杂的指令序列替换标准二元运算符(+ , – , &amp; , | 和 ^)<br>-mllvm -sub：激活指令替换<br>-mllvm -sub_loop=3：如果激活了传递，则在函数上应用3次。默认值：1</p>
+<h2 id="虚假控制流程"><a href="#虚假控制流程" class="headerlink" title="虚假控制流程"></a>虚假控制流程</h2><p>这个模式主要嵌套几层判断逻辑，一个简单的运算都会在外面包几层if-else，所以这个模式加上编译速度会慢很多因为要做几层假的逻辑包裹真正有用的代码。<br>另外说一下这个模式编译的时候要浪费相当长时间<br>-mllvm -bcf：激活虚假控制流程<br>-mllvm -bcf_loop=3：如果激活了传递，则在函数上应用3次。默认值：1<br>-mllvm -bcf_prob=40：如果激活了传递，基本块将以40％的概率进行模糊处理。默认值：30</p>
+<h2 id="字符串混淆"><a href="#字符串混淆" class="headerlink" title="字符串混淆"></a>字符串混淆</h2><p>-mllvm -sobf：编译时候添加选项开启字符串加密<br>-mllvm -seed=0xdeadbeaf：指定随机数生成器种子</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/21/SignalProtocol/" rel="next" title="端对端加密通讯协议（WhatsAPP）">
+                <i class="fa fa-chevron-left"></i> 端对端加密通讯协议（WhatsAPP）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zic_magic</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载混淆工具包"><span class="nav-number">2.</span> <span class="nav-text">下载混淆工具包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译"><span class="nav-number">3.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成工具链"><span class="nav-number">4.</span> <span class="nav-text">生成工具链</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">5.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置项解释"><span class="nav-number">6.</span> <span class="nav-text">配置项解释</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制流扁平化"><span class="nav-number">6.1.</span> <span class="nav-text">控制流扁平化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令替换"><span class="nav-number">6.2.</span> <span class="nav-text">指令替换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚假控制流程"><span class="nav-number">6.3.</span> <span class="nav-text">虚假控制流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串混淆"><span class="nav-number">6.4.</span> <span class="nav-text">字符串混淆</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zic_magic</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
