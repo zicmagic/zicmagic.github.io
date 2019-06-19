@@ -102,7 +102,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: '博主'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -183,7 +183,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -193,7 +193,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -230,7 +230,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/XcodeIntegrateOLLVM/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/OLLVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="zic_magic">
@@ -249,7 +249,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/19/XcodeIntegrateOLLVM/" itemprop="url">Xcode集成OLLVM踩坑</a></h1>
+                <a class="post-title-link" href="/2019/06/19/OLLVM/" itemprop="url">Xcode集成OLLVM踩坑</a></h1>
         
 
         <div class="post-meta">
@@ -259,9 +259,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T11:43:48+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-19T11:43:48+08:00">
                 2019-06-19
               </time>
             
@@ -313,11 +313,11 @@
 <h1 id="生成工具链"><a href="#生成工具链" class="headerlink" title="生成工具链"></a>生成工具链</h1><p>Xcode需要生成工具链包 然后放在指定的目录下面</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make install-xcode-toolchain</span><br><span class="line">sudo mv /usr/local/Toolchains  /Library/Developer/</span><br></pre></td></tr></table></figure>
 <p>如果第二行指令执行不了 可以手动移动一下。到这里为止之前编译的内容和下载下来的包都可以删掉了，挺大的优点占资源</p>
-<p><img src="/2019/06/19/XcodeIntegrateOLLVM/image1.png" alt="图片1"></p>
+<p><img src="/2019/06/19/OLLVM/image1.png" alt="图片1"></p>
 <p>xcode这里出现这个就表示成功了，选择ollvm，然后进行下一步的配置。</p>
 <p>还有利用xcplugin进行集成的会非常麻烦，这里不推荐，而且xcode10 已经弃用了这个方式。</p>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>按照图示配置两项非常简单。</p>
-<p><img src="/2019/06/19/XcodeIntegrateOLLVM/image2.png" alt="图片1"><br><img src="/2019/06/19/XcodeIntegrateOLLVM/image3.png" alt="图片1"></p>
+<p><img src="/2019/06/19/OLLVM/image2.png" alt="图片1"><br><img src="/2019/06/19/OLLVM/image3.png" alt="图片1"></p>
 <h1 id="配置项解释"><a href="#配置项解释" class="headerlink" title="配置项解释"></a>配置项解释</h1><h2 id="控制流扁平化"><a href="#控制流扁平化" class="headerlink" title="控制流扁平化"></a>控制流扁平化</h2><p>这个模式主要是把一些if-else语句，嵌套成do-while语句<br>-mllvm -fla：激活控制流扁平化<br>-mllvm -split：激活基本块分割。在一起使用时改善展平。<br>-mllvm -split_num=3：如果激活了传递，则在每个基本块上应用3次。默认值：1</p>
 <h2 id="指令替换"><a href="#指令替换" class="headerlink" title="指令替换"></a>指令替换</h2><p>这个模式主要用功能上等效但更复杂的指令序列替换标准二元运算符(+ , – , &amp; , | 和 ^)<br>-mllvm -sub：激活指令替换<br>-mllvm -sub_loop=3：如果激活了传递，则在函数上应用3次。默认值：1</p>
 <h2 id="虚假控制流程"><a href="#虚假控制流程" class="headerlink" title="虚假控制流程"></a>虚假控制流程</h2><p>这个模式主要嵌套几层判断逻辑，一个简单的运算都会在外面包几层if-else，所以这个模式加上编译速度会慢很多因为要做几层假的逻辑包裹真正有用的代码。<br>另外说一下这个模式编译的时候要浪费相当长时间<br>-mllvm -bcf：激活虚假控制流程<br>-mllvm -bcf_loop=3：如果激活了传递，则在函数上应用3次。默认值：1<br>-mllvm -bcf_prob=40：如果激活了传递，基本块将以40％的概率进行模糊处理。默认值：30</p>
@@ -399,9 +399,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-21T14:00:16+08:00">
                 2019-05-21
               </time>
             
@@ -645,9 +645,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-26T13:11:01+08:00">
                 2018-10-26
               </time>
             
@@ -817,9 +817,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-25T14:48:19+08:00">
                 2018-10-25
               </time>
             
@@ -957,9 +957,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -1136,9 +1136,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-04T13:48:59+08:00">
                 2018-07-04
               </time>
             
@@ -1343,9 +1343,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1479,9 +1479,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-03T13:45:13+08:00">
                 2018-07-03
               </time>
             
@@ -1624,7 +1624,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">8</span>
-                  <span class="site-state-item-name">日志</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -1674,7 +1674,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -1682,7 +1682,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
