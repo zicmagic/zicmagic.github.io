@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image1.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image2.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image3.png">
-<meta property="og:updated_time" content="2019-08-28T08:09:51.642Z">
+<meta property="og:updated_time" content="2019-08-28T08:27:26.242Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="talos-hammer 网络抓包工具">
 <meta name="twitter:description" content="目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方">
@@ -315,6 +315,7 @@
 <p>5、抓包数据无法持久化存储</p>
 <p>这里针对如何第二点做一个补充。之前在测试抓取闲鱼芝麻信用的数据接口时发现，此处的接口通过多种方式都无法获取，最终通过在偶然的巧合下，发现电脑端开启全局vpn时，然后再通过charles（需要开启sockets proxy）,才能有大概率抓到包（不是100%），基于各种情况判断，可能是网络延迟的问题导致，蚂蚁的SPDY中可能要基于网络的判定，会导致无法触发他的SPDY协议（还未实锤）。</p>
 <p>其他的情景还需要其他的同学继续提供无法抓包的情景以完善这个工具方案。</p>
+<a id="more"></a>
 <h2 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h2><p>这里简单的解释一下SPDY。需要详细了解的同学，iOS端的开源项目可以研究一下<a href="https://github.com/twitter/CocoaSPDY" target="_blank" rel="noopener">CocoaSPDY</a></p>
 <p>目前关于HTTP / 2.0的工作草案主要基于SPDY协议</p>
 <p>为了使HTTP请求更快，SPDY进行了一些改进：</p>
