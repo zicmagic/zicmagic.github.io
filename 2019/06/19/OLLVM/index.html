@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/06/19/OLLVM/image1.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/19/OLLVM/image2.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/19/OLLVM/image3.png">
-<meta property="og:updated_time" content="2019-06-19T03:48:39.451Z">
+<meta property="og:updated_time" content="2019-08-28T08:33:03.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode集成OLLVM踩坑">
 <meta name="twitter:description" content="简介这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。 下载混淆工具包因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源https://github.com/heroims/obfuscator。在分支里可以选择对应的版本，分支里面也有不同xcode的版本。但是老版本的集成方式会有略微的不同。">
@@ -307,6 +307,7 @@
         <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这里主要是用Xcode10去集成OLLVM，主要集成的时候遇见了好几个坑，所以写一个踩坑的帖子。</p>
 <h1 id="下载混淆工具包"><a href="#下载混淆工具包" class="headerlink" title="下载混淆工具包"></a>下载混淆工具包</h1><p>因为是XCode10 LLVM和Clang的版本有更新，所以不能使用老版本的OLLVM。这里是我这次使用的资源<a href="https://github.com/heroims/obfuscator" target="_blank" rel="noopener">https://github.com/heroims/obfuscator</a>。在分支里可以选择对应的版本，分支里面也有不同xcode的版本。但是老版本的集成方式会有略微的不同。这次以Xcode10 为介绍对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b llvm-8.0 https://github.com/heroims/obfuscator.git</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>第二步是需要我们编译我们的工具包，这个地方时间比较久，我花了大概1个小时的时间，而且会导致电脑十分的卡。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">#如果不想跑测试用例加上-DLLVM_INCLUDE_TESTS=OFF </span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_CREATE_XCODE_TOOLCHAIN=ON ../obfuscator/</span><br><span class="line">make -j4   //这里是选择编译的线程数 可以自己选择</span><br></pre></td></tr></table></figure>
 <p>没有安装cmake的用brew安装一下，不然会报错</p>

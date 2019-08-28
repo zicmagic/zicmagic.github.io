@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/21/SignalProtocol/image3.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/SignalProtocol/image4.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/21/SignalProtocol/image5.png">
-<meta property="og:updated_time" content="2019-06-05T10:14:39.413Z">
+<meta property="og:updated_time" content="2019-08-28T08:33:19.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="端对端加密通讯协议（WhatsAPP）">
 <meta name="twitter:description" content="本文是一个以whatsapp为案例的，针对端对端聊天加密通讯协议整理的一个学习笔记，仅供大家学习。Signal protocol是真正的端到端的通讯加密协议，号称是世界上最安全的通讯协议，任何第三方包括服务器都无法查看通讯内容。全篇都是围绕着Signal protocol 进行梳理和解释，学习的内容大致分为二个大部分：1、术语解析 2、WhatsAPP的通讯流程。 术语解析要了解整个的加密通讯协议">
@@ -310,6 +310,7 @@
 <h2 id="术语解析"><a href="#术语解析" class="headerlink" title="术语解析"></a>术语解析</h2><p>要了解整个的加密通讯协议，首先就是要了解一些不常见的密钥交换方法和算法，可以先看第二部分，有不懂的点再回头看上面的介绍。</p>
 <h3 id="DH密钥交换-Diffie–Hellman-key-exchange"><a href="#DH密钥交换-Diffie–Hellman-key-exchange" class="headerlink" title="DH密钥交换 (Diffie–Hellman key exchange)"></a>DH密钥交换 (Diffie–Hellman key exchange)</h3><p>DH密钥交换是1976年由Diffie和Hellman共同发明的一种算法。使用这种算法，通信双方仅通过交换一些可以公开的信息就能够生成出共享的密码数字，而这一密码数字就可以被用作对称密码的密钥。DH只是一种密钥交换的方法而不是密钥的加密算法。</p>
 <p>虽然这种方法的名字叫“密钥交换”，但实际上双方并没有真正交换密钥，而是通过计算生成出一个相同的共享密钥。因此，这种方法也称DH密钥协商。</p>
+<a id="more"></a>
 <h4 id="交换的流程"><a href="#交换的流程" class="headerlink" title="交换的流程"></a>交换的流程</h4><p>流程图参考网上的一个资源，感觉是画的最好的一个。</p>
 <p><img src="/2019/05/21/SignalProtocol/image1.png" alt="图片1"></p>
 <p>以下是对图示内容的讲解</p>

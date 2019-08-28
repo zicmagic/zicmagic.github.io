@@ -88,7 +88,7 @@
 <meta property="og:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/07/04/iOS无埋点数据的整体方案/image1.png">
-<meta property="og:updated_time" content="2018-10-25T14:17:33.549Z">
+<meta property="og:updated_time" content="2019-08-28T08:34:03.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS无埋点数据方案">
 <meta name="twitter:description" content="整体思路概述设计思路参考了网上的多个方案，核心部分关系如下图所示。  方案主要包含4个部分：AOP（切片）、Event Collector（事件收集）、Event Cache（事件缓存）、Event Upload（事件上传）。基于当前的应用情况，收集的数据并不完全，系统弹窗事件、截图事件、系统导航栏的返回事件（此类事件在实际中都采用了自定义的控件、目前实际中没有使用到所以暂未集成），RN中的点击事">
@@ -309,6 +309,7 @@
 <h3 id="AOP核心代码："><a href="#AOP核心代码：" class="headerlink" title="AOP核心代码："></a>AOP核心代码：</h3><p>在iOS中实现AOP编程的技术就是基于 Objective-C Runtime 特性的 Method Swizzling。</p>
 <p>核心的代码部分就是以下这段</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleWithClass:(Class)processedClass originalSelector:(SEL)originSelector swizzleSelector:(SEL)swizzlSelector &#123;</span><br><span class="line"></span><br><span class="line">    Method originMethod = class_getInstanceMethod(processedClass, originSelector);</span><br><span class="line">    Method swizzleMethod = class_getInstanceMethod(processedClass, swizzlSelector);</span><br><span class="line">    BOOL addMethod = class_addMethod(processedClass, originSelector, method_getImplementation(swizzleMethod), method_getTypeEncoding(swizzleMethod));</span><br><span class="line">    </span><br><span class="line">    if (addMethod) &#123;</span><br><span class="line">    </span><br><span class="line">        class_replaceMethod(processedClass, swizzlSelector, method_getImplementation(originMethod), method_getTypeEncoding(originMethod));</span><br><span class="line">    </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        method_exchangeImplementations(originMethod, swizzleMethod);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="hook类："><a href="#hook类：" class="headerlink" title="hook类："></a>hook类：</h3><p>收集页面数据、点击事件、启动、退出时间等主要需要hook这些类方法</p>
 <table>
 <thead>

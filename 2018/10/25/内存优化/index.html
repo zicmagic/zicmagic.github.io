@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic2.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic3.png">
 <meta property="og:image" content="http://yoursite.com/2018/10/25/内存优化/pic4.png">
-<meta property="og:updated_time" content="2018-10-25T14:18:11.178Z">
+<meta property="og:updated_time" content="2019-08-28T08:34:34.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存优化">
 <meta name="twitter:description" content="本文主要介绍一下常见的内存问题及处理办法  野指针遇到EXC_BAD_ACCESS的问题，可能是野指针问题。但是此处控制台不会打印更多的信息，无法准的定位问题，可以点击选择 Product - Scheme -Edit Scheme - Run - Diagnostics - Zombie Objects ，这样控制台会打印出一些原因和内存地址，然后查看控制左侧的对象信息,通过内存地址定位到确定的">
@@ -311,6 +311,7 @@
 <p>这里讲一下，assign和weak的区别：</p>
 <p><strong>weak 声明的变量对象释放后会自动清空，赋值为nil。</strong></p>
 <p><strong>assign 声明的变量对象释放后不会自动赋值为nil。</strong></p>
+<a id="more"></a>
 <h1 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h1><p>这里介绍一下检测内存泄漏的一般方法：</p>
 <p>1、静态检测方法</p>
 <p>2、动态检测方法 instruments 和第三方内存检测工具（暂时先不介绍，后续再介绍）</p>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 异步串行123456789101112dispatch_queue_t queue = di">
+<meta name="description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD的初级探讨">
 <meta property="og:url" content="http://yoursite.com/2018/07/04/GCD的基础使用和探讨/index.html">
 <meta property="og:site_name" content="Zic_Magic">
-<meta property="og:description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 异步串行123456789101112dispatch_queue_t queue = di">
+<meta property="og:description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-05T06:46:09.054Z">
+<meta property="og:updated_time" content="2019-08-28T08:34:19.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD的初级探讨">
-<meta name="twitter:description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。 异步串行123456789101112dispatch_queue_t queue = di">
+<meta name="twitter:description" content="GCD的使用和API介绍名次解释线程：程序中执行任务的最小单位 任务：简单的来说就是代码段，在GCD中可以理解为block的内容。 队列：用存放任务的数组 异步执行：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。异步执行则不可 并行队列： 队列中的任务可以同时执行。串行队列则要按顺序执行。">
 
 
 
@@ -305,6 +305,7 @@
 <p><strong>队列</strong>：用存放任务的数组</p>
 <p><strong>异步执行</strong>：任务创建后可以绕过当先线程的任务，开辟一条新的线程去执行任务。<strong>异步执行</strong>则不可</p>
 <p><strong>并行队列</strong>： 队列中的任务可以同时执行。<strong>串行队列</strong>则要按顺序执行。</p>
+<a id="more"></a>
 <h2 id="异步串行"><a href="#异步串行" class="headerlink" title="异步串行"></a>异步串行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;串行队列&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">NSLog(@&quot;begin&quot;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;1%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;2%@&quot;,[NSThread currentThread]);</span><br><span class="line">   &#125;);</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">	NSLog(@&quot;3%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line">NSLog(@&quot;end&quot;);</span><br></pre></td></tr></table></figure>
 <p>打印结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2018-07-04 09:24:55.687033+0800 GCDTest[35136:2948182] begin</span><br><span class="line">2018-07-04 09:24:55.687252+0800 GCDTest[35136:2948182] end</span><br><span class="line">2018-07-04 09:24:55.687360+0800 GCDTest[35136:2948295] 1&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687547+0800 GCDTest[35136:2948295] 2&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018-07-04 09:24:55.687940+0800 GCDTest[35136:2948295] 3&lt;NSThread: 0x60000026c4c0&gt;&#123;number = 3, name = (null)&#125;</span><br></pre></td></tr></table></figure>

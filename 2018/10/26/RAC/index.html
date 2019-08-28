@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Zic_Magic">
 <meta property="og:description" content="本文主要讲 RAC 7.0 的使用解析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的用 pod ‘ReactiveObjC’ 不要用 pod ‘ReactiveCocoa’. 本文先讲述RAC的用法，先从使用的方式上理解一下响应式函数编程的特点，再深入的了解RAC的具体实现方式，和网上有很多讲RAC的文章不同，这篇文章主要讲一些细节部分，没有那种大方向的解析，主">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-22T08:55:10.451Z">
+<meta property="og:updated_time" content="2019-08-28T08:33:41.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RAC的使用解析">
 <meta name="twitter:description" content="本文主要讲 RAC 7.0 的使用解析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的用 pod ‘ReactiveObjC’ 不要用 pod ‘ReactiveCocoa’. 本文先讲述RAC的用法，先从使用的方式上理解一下响应式函数编程的特点，再深入的了解RAC的具体实现方式，和网上有很多讲RAC的文章不同，这篇文章主要讲一些细节部分，没有那种大方向的解析，主">
@@ -302,6 +302,7 @@
       
         <p>本文主要讲 RAC <strong>7.0</strong> 的使用解析。集成的方法这里就不详细介绍了，网上的方法一堆，这里讲一点细节。集成objc版本的<br>用 <strong>pod ‘ReactiveObjC’</strong> 不要用 pod ‘ReactiveCocoa’.</p>
 <p>本文先讲述RAC的用法，先从使用的方式上理解一下响应式函数编程的特点，再深入的了解RAC的具体实现方式，和网上有很多讲RAC的文章不同，这篇文章主要讲一些细节部分，没有那种大方向的解析，主要是对已经学习过RAC的同学进行归纳整理和补充的。</p>
+<a id="more"></a>
 <h1 id="RAC的初级用法"><a href="#RAC的初级用法" class="headerlink" title="RAC的初级用法"></a>RAC的初级用法</h1><p>初级的使用比较，只做简单的罗列，不做详细的介绍。</p>
 <p>初级的使用可以代替之前的其他消息传递的方式，减少代码的冗余，使初始化话和实现代码结合起来，在代码上更加的清晰。这是RAC的主要功能，但显然这不是RAC的最核心的功能，后面介绍进阶用法的时候再进行解释。</p>
 <h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>给属性添加一个观察者。其实这个本身就是一个替代KVO的作用</p>
