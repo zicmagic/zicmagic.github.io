@@ -82,18 +82,20 @@
 <meta name="description" content="目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS网络监控">
+<meta property="og:title" content="talos-hammer 网络抓包工具">
 <meta property="og:url" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/index.html">
 <meta property="og:site_name" content="Zic_Magic">
 <meta property="og:description" content="目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image4.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image1.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image2.jpg">
-<meta property="og:updated_time" content="2019-08-28T07:16:03.032Z">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image3.png">
+<meta property="og:updated_time" content="2019-08-28T07:57:23.647Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS网络监控">
+<meta name="twitter:title" content="talos-hammer 网络抓包工具">
 <meta name="twitter:description" content="目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方">
-<meta name="twitter:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image4.png">
 
 
 
@@ -129,7 +131,7 @@
 
 
 
-  <title>iOS网络监控 | Zic_Magic</title>
+  <title>talos-hammer 网络抓包工具 | Zic_Magic</title>
   
 
 
@@ -253,7 +255,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS网络监控</h1>
+          <h1 class="post-title" itemprop="name headline">talos-hammer 网络抓包工具</h1>
         
 
         <div class="post-meta">
@@ -303,36 +305,40 @@
       
 
       
-        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方案。</p>
-<h2 id="抓包工具的现状"><a href="#抓包工具的现状" class="headerlink" title="抓包工具的现状"></a>抓包工具的现状</h2><p>主要以charles为例，wireshark使用起来并不是十分的友好，无法直接看见明文数据。</p>
+        <h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方案。</p>
+<h1 id="抓包工具的现状"><a href="#抓包工具的现状" class="headerlink" title="抓包工具的现状"></a>抓包工具的现状</h1><p>主要以charles为例，wireshark使用起来并不是十分的友好，无法直接看见明文数据。</p>
 <p>一下列出几点iOS无法抓包的情形</p>
 <p>1、APP内存在证书校验的数据</p>
 <p>2、经过SPDY优化处理的数据 </p>
 <p>3、存在代理校验的APP无法抓包</p>
-<p>4、WKwebview的数据无法获取</p>
+<p>4、iOS WKwebview的数据无法获取</p>
+<p>5、抓包数据无法持久化存储</p>
 <p>这里针对如何第二点做一个补充。之前在测试抓取闲鱼芝麻信用的数据接口时发现，此处的接口通过多种方式都无法获取，最终通过在偶然的巧合下，发现电脑端开启全局vpn时，然后再通过charles（需要开启sockets proxy）,才能有大概率抓到包（不是100%），基于各种情况判断，可能是网络延迟的问题导致，蚂蚁的SPDY中可能要基于网络的判定，会导致无法触发他的SPDY协议（还未实锤）。</p>
 <p>其他的情景还需要其他的同学继续提供无法抓包的情景以完善这个工具方案。</p>
-<h3 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h3><p>这里简单的解释一下SPDY。需要详细了解的同学，可以研究一下<a href="https://github.com/twitter/CocoaSPDY" target="_blank" rel="noopener">CocoaSPDY</a></p>
+<h2 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h2><p>这里简单的解释一下SPDY。需要详细了解的同学，iOS端的开源项目可以研究一下<a href="https://github.com/twitter/CocoaSPDY" target="_blank" rel="noopener">CocoaSPDY</a></p>
 <p>目前关于HTTP / 2.0的工作草案主要基于SPDY协议</p>
 <p>为了使HTTP请求更快，SPDY进行了一些改进：</p>
 <p>1、请求多路复用。SPDY不是通过一个TCP连接一次发送一个请求，而是可以通过单个TCP会话同时发出许多请求，并且只要它们可用就以任何顺序处理响应。</p>
 <p>2、SPDY压缩请求和响应头。在请求之间，标题通常几乎相同，通常包含大量重复的文本，并且可能非常大。这使它们成为压缩的理想候选者。1</p>
 <p>3、SPDY引入了服务器推送。这可以允许服务器推送客户端不知道它需要的内容。此类内容的范围可以从样式和图像等附加资产到有关实时事件的通知。</p>
-<h2 id="iOS网络编程总结"><a href="#iOS网络编程总结" class="headerlink" title="iOS网络编程总结"></a>iOS网络编程总结</h2><p><img src="/2019/08/28/iOSNetworkMonitor/image1.png" alt="图片1"></p>
+<h2 id="整体方案描述"><a href="#整体方案描述" class="headerlink" title="整体方案描述"></a>整体方案描述</h2><p><img src="/2019/08/28/iOSNetworkMonitor/image4.png" alt="图片4"></p>
+<p>整体流程设计如上，通过hammer工具获取相关数据，将数据保存在本地，将手机作为一个server。网页端通过轮训请求，获取本地的抓包数据，进行展示，同时也支持了本地展示，支持请求的重放，请求数据持久化等功能。</p>
+<p>采用本机server，是为了减少集成的难度，减少对后台人员的依赖，减少跨域问题，避免了使用服务器带来的成本，减少了部署的问题。</p>
+<h2 id="iOS网络监控方案"><a href="#iOS网络监控方案" class="headerlink" title="iOS网络监控方案"></a>iOS网络监控方案</h2><h3 id="iOS网络编程总结"><a href="#iOS网络编程总结" class="headerlink" title="iOS网络编程总结"></a>iOS网络编程总结</h3><p><img src="/2019/08/28/iOSNetworkMonitor/image1.png" alt="图片1"></p>
 <p>由上图可以看出目前iOS的网络编程分四层：</p>
 <p>WebKit：属于Cocoa层，苹果很多地方用到的页面渲染引擎WKWebview；<br>NSURL：属于Cocoa层，对各类URL请求的封装(NSURLRequest)；<br>CFNetwork：属于Core Foundation层，基于C的封装，同样的还有CFNetServices(write/readstream)；<br>BSD sockets：属于OS层，也是基于C的封装；</p>
 <p>这只是网络编程的抽象层级，并不是ios的调用层级关系。这里和我们网络监控方案的关系比较大。因为不是往上调用的关系，所以需要每个层级都进行监控才能实现全网络的监控。目前监控方案也只兼容了上面3层的网络请求（目前还没有发现使用CFNetwork的应用，有发现的同学可以告诉我一下 进行实际效果的测试）。</p>
 <p>基于层级关系，ios提供了3种API的编程方式。因为web层级是系统调用的，并没有开放相关的API。</p>
-<h3 id="socket-方式"><a href="#socket-方式" class="headerlink" title="socket 方式"></a>socket 方式</h3><p>iOS 提供的socket方式的网络编程接口为CFSocket。CFSocket是BSD sockets的抽象和封装，CFSocket提供BSD sockets几乎所有的功能，并与runloop集成，用来实现多线程网络编程和网络事件监听。基于 CFSocket可以实现各种类型的 socket编程，包括stream-based 的sockets(如tcp)和packet-based 的sockets(如udp)。</p>
-<h3 id="stream-方式"><a href="#stream-方式" class="headerlink" title="stream 方式"></a>stream 方式</h3><p>stream编程模式提供了与unix的文件操作类似的模式。首先创建和设置流，接着打开流，然后读写流，在流存在时还可以通过查询流的相关属性来读取流的相关信息，在流使用完毕后关闭流。</p>
+<h4 id="socket-方式"><a href="#socket-方式" class="headerlink" title="socket 方式"></a>socket 方式</h4><p>iOS 提供的socket方式的网络编程接口为CFSocket。CFSocket是BSD sockets的抽象和封装，CFSocket提供BSD sockets几乎所有的功能，并与runloop集成，用来实现多线程网络编程和网络事件监听。基于 CFSocket可以实现各种类型的 socket编程，包括stream-based 的sockets(如tcp)和packet-based 的sockets(如udp)。</p>
+<h4 id="stream-方式"><a href="#stream-方式" class="headerlink" title="stream 方式"></a>stream 方式</h4><p>stream编程模式提供了与unix的文件操作类似的模式。首先创建和设置流，接着打开流，然后读写流，在流存在时还可以通过查询流的相关属性来读取流的相关信息，在流使用完毕后关闭流。</p>
 <p>iOS 为stream编程模式提供的api编程接口包括两大类，</p>
 <p>一类是Core Foundation框架层用C语言实现的CFStream API（包括CFStream、 CFReadStream 、CFWriteStream等）,</p>
 <p>一类是基于其上的在Foundation框架层用Objective-C语言实现的NSStream API（包括NSStream、NSInputStream NSOutputStream等）,两者提供相似的接口和行为，其中某些对象是toll-free bridged类型的，如CFStream 与NSStream，CFReadStream与NSInputStream，CFWriteStream与NSOutputStream之间，因此可以混合使用，只要进行桥接即可。</p>
-<h3 id="url-方式"><a href="#url-方式" class="headerlink" title="url 方式"></a>url 方式</h3><p>url 编程模式通过URL 的方式来实现网络编程，任何要存取的网络资源（包括局域网和广域网）都可以用一个URL来表示和存取，并支持设备间的资源共享。url 编程模式系统提供http, https, file, ftp, data等五种协议支持，并允许用户自己开发和登记相关类来支持另外的应用层网络协议，进行协议的扩展。</p>
+<h4 id="url-方式"><a href="#url-方式" class="headerlink" title="url 方式"></a>url 方式</h4><p>url 编程模式通过URL 的方式来实现网络编程，任何要存取的网络资源（包括局域网和广域网）都可以用一个URL来表示和存取，并支持设备间的资源共享。url 编程模式系统提供http, https, file, ftp, data等五种协议支持，并允许用户自己开发和登记相关类来支持另外的应用层网络协议，进行协议的扩展。</p>
 <p>url 编程模式在IOS系统可以使用两种编程接口：NSURLSession 和NSURLConnection。</p>
-<h2 id="iOS网络监控方案"><a href="#iOS网络监控方案" class="headerlink" title="iOS网络监控方案"></a>iOS网络监控方案</h2><p>网络监控一般通过和代码注入（Hook）这两种方式来实现，由于 NSURLProtocol 作为上层接口，又能够直接获取webview的相关请求，使用起来更为方便（实际会存在一些小问题，后面会详细描述），因此很自然选择它作为网络监控的首选切入点，但是 NSURLProtocol 属于 URL Loading System 体系中，所以存在一定的局限性，无法完全覆盖所有的网络请求。CFNetwork则还是需要利用 fishhook 进行额外的处理。</p>
+<h3 id="监控方案"><a href="#监控方案" class="headerlink" title="监控方案"></a>监控方案</h3><p>网络监控一般通过和代码注入（Hook）这两种方式来实现，由于 NSURLProtocol 作为上层接口，又能够直接获取webview的相关请求，使用起来更为方便（实际会存在一些小问题，后面会详细描述），因此很自然选择它作为网络监控的首选切入点，但是 NSURLProtocol 属于 URL Loading System 体系中，所以存在一定的局限性，无法完全覆盖所有的网络请求。CFNetwork则还是需要利用 fishhook 进行额外的处理。</p>
 <p><img src="/2019/08/28/iOSNetworkMonitor/image2.jpg" alt="图片2"></p>
-<h3 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h3><p>NSURLProtocol这个类我们不能直接使用，我们需要自己创建一个子类然后去注册这个子类</p>
+<h4 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h4><p>NSURLProtocol这个类我们不能直接使用，我们需要自己创建一个子类然后去注册这个子类</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSURLProtocol registerClass:[ZCNetEye class]];</span><br></pre></td></tr></table></figure>
 <p>在这个类中我们可以拦截到请求，然后进行处理。这个类中有几个非常重要的方法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (BOOL)canInitWithRequest:(NSURLRequest *)request;</span><br></pre></td></tr></table></figure>
@@ -365,8 +371,14 @@
 <h3 id="CFNetwork"><a href="#CFNetwork" class="headerlink" title="CFNetwork"></a>CFNetwork</h3><p>这里简单的描述一下CFNetwork的流程</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">	//创建URL</span><br><span class="line">    CFURLRef theURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR(&quot;http://10.57.244.171:1203/query_packets&quot;), NULL);</span><br><span class="line">    //创建Message 可以类比为request</span><br><span class="line">    CFHTTPMessageRef requestMessage = CFHTTPMessageCreateRequest(kCFAllocatorDefault, CFSTR(&quot;GET&quot;), theURL, kCFHTTPVersion1_1);</span><br><span class="line">    //设置请求头</span><br><span class="line">    CFHTTPMessageSetHeaderFieldValue(requestMessage,CFSTR(&quot;testKey&quot;) , CFSTR(&quot;testValue&quot;));</span><br><span class="line"></span><br><span class="line">//	  post请求会使用以下的方法 设置请求体</span><br><span class="line">//    NSString *dataStr = @&quot;dattadadad&quot;;</span><br><span class="line">//    NSData *bodyData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">//    CFHTTPMessageSetBody(requestMessage , (__bridge_retained CFDataRef)bodyData);</span><br><span class="line"></span><br><span class="line">    CFRelease(theURL);</span><br><span class="line">    //创建数据流，这个其实就是response，在服务器数据返回的时候，才会真实的调用。</span><br><span class="line">    CFReadStreamRef readStream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, requestMessage);</span><br><span class="line">    CFRelease(requestMessage);</span><br><span class="line">    </span><br><span class="line">    //加入到runloop中 </span><br><span class="line">    CFReadStreamScheduleWithRunLoop(readStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);</span><br><span class="line">    </span><br><span class="line">    CFOptionFlags flags = (kCFStreamEventHasBytesAvailable | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered);</span><br><span class="line">    CFStreamClientContext context = &#123;0, NULL, NULL, NULL, NULL&#125;;</span><br><span class="line">    //设置Client </span><br><span class="line">    CFReadStreamSetClient(readStream, flags, GetRequestCallBack, &amp;context);</span><br><span class="line">    CFReadStreamOpen(readStream);</span><br></pre></td></tr></table></figure>
 <p>从CF的请求过程中可以发现 CFReadStreamCreateForHTTPRequest 是我们需要的一部，这里我们可以得到CFHTTPMessageRef，也能直接获取CFReadStreamRef。这样一个完整的请求就直接能拿到了。剩下的就是解析，这部分的数据。</p>
-<p>CF网上的资料非常少，一些细节地方还是花了很多时间去研究。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//从请求中获取方法</span><br><span class="line">CFStringRef httpMethod = CFHTTPMessageCopyRequestMethod(request);</span><br><span class="line">//从请求中获取请求头 </span><br><span class="line">CFDictionaryRef requestHeader = CFHTTPMessageCopyAllHeaderFields(request);</span><br><span class="line">//从请求中获取请求体，这里是流数据需要单独的解析。</span><br><span class="line">CFDataRef requestBody = CFHTTPMessageCopyBody(request);</span><br><span class="line">//获取请求状态</span><br><span class="line">CFIndex statusCode = CFHTTPMessageGetResponseStatusCode(request);</span><br></pre></td></tr></table></figure>
+<p>CF网上的资料非常少，虽然最后的结果非常的简单，但是iOS的不开源，一些细节地方还是花了很多时间去研究。</p>
+<p>目前只测试了自己发起的网络请求的拦截，实际上还没有找到市面上，是用CFNetwork写的APP，有知道的小伙伴可以提供一下。</p>
+<h2 id="android-网络监控方案"><a href="#android-网络监控方案" class="headerlink" title="android 网络监控方案"></a>android 网络监控方案</h2><p><img src="/2019/08/28/iOSNetworkMonitor/image3.png" alt="图片4"></p>
+<h2 id="工具的使用"><a href="#工具的使用" class="headerlink" title="工具的使用"></a>工具的使用</h2><h3 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h3><p>iOS端的使用，只需要在MonkeyDev的工程中，拖入工程和web资源包，运行成功后即成功注入APP。</p>
+<p>越狱设备可通过DYLD_INSERT_LIBRARIES函数注入插件。</p>
+<p>运行后，摇一摇会出现，本机展示页面，和web页的链接，PC端输入链接则可以直接查看相关数据。</p>
+<h3 id="android"><a href="#android" class="headerlink" title="android"></a>android</h3><p>安卓只需要安装apk的包即可使用，以一个单独的app形式存在，打开app有相应的web地址和APP列表，可以选择相应的app进行监控。</p>
 
       
     </div>
@@ -513,7 +525,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓包工具的现状"><span class="nav-number">2.</span> <span class="nav-text">抓包工具的现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SPDY"><span class="nav-number">2.1.</span> <span class="nav-text">SPDY</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络编程总结"><span class="nav-number">3.</span> <span class="nav-text">iOS网络编程总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#socket-方式"><span class="nav-number">3.1.</span> <span class="nav-text">socket 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stream-方式"><span class="nav-number">3.2.</span> <span class="nav-text">stream 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#url-方式"><span class="nav-number">3.3.</span> <span class="nav-text">url 方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络监控方案"><span class="nav-number">4.</span> <span class="nav-text">iOS网络监控方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSURLProtocol"><span class="nav-number">4.1.</span> <span class="nav-text">NSURLProtocol</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点1"><span class="nav-number">4.1.1.</span> <span class="nav-text">踩坑点1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点2"><span class="nav-number">4.1.2.</span> <span class="nav-text">踩坑点2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点3"><span class="nav-number">4.1.3.</span> <span class="nav-text">踩坑点3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点4"><span class="nav-number">4.1.4.</span> <span class="nav-text">踩坑点4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CFNetwork"><span class="nav-number">4.2.</span> <span class="nav-text">CFNetwork</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抓包工具的现状"><span class="nav-number">2.</span> <span class="nav-text">抓包工具的现状</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SPDY"><span class="nav-number">2.1.</span> <span class="nav-text">SPDY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整体方案描述"><span class="nav-number">2.2.</span> <span class="nav-text">整体方案描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络监控方案"><span class="nav-number">2.3.</span> <span class="nav-text">iOS网络监控方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS网络编程总结"><span class="nav-number">2.3.1.</span> <span class="nav-text">iOS网络编程总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#socket-方式"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">socket 方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stream-方式"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">stream 方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#url-方式"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">url 方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监控方案"><span class="nav-number">2.3.2.</span> <span class="nav-text">监控方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NSURLProtocol"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">NSURLProtocol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点1"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">踩坑点1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点2"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">踩坑点2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点3"><span class="nav-number">2.3.2.4.</span> <span class="nav-text">踩坑点3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#踩坑点4"><span class="nav-number">2.3.2.5.</span> <span class="nav-text">踩坑点4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CFNetwork"><span class="nav-number">2.3.3.</span> <span class="nav-text">CFNetwork</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#android-网络监控方案"><span class="nav-number">2.4.</span> <span class="nav-text">android 网络监控方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具的使用"><span class="nav-number">2.5.</span> <span class="nav-text">工具的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS"><span class="nav-number">2.5.1.</span> <span class="nav-text">iOS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android"><span class="nav-number">2.5.2.</span> <span class="nav-text">android</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
