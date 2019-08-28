@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="zic_magic" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="iOS网络监控方案目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zic_Magic">
+<meta property="og:url" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/index.html">
+<meta property="og:site_name" content="Zic_Magic">
+<meta property="og:description" content="iOS网络监控方案目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image1.png">
+<meta property="og:updated_time" content="2019-08-28T03:30:10.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zic_Magic">
+<meta name="twitter:description" content="iOS网络监控方案目的写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/28/iOSNetworkMonitor/image1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/28/iOSNetworkMonitor/"/>
+
+
+
+
+
+  <title> | Zic_Magic</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zic_Magic</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/28/iOSNetworkMonitor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zic_magic">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zic_Magic">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-28T10:20:10+08:00">
+                2019-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="iOS网络监控方案"><a href="#iOS网络监控方案" class="headerlink" title="iOS网络监控方案"></a>iOS网络监控方案</h2><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>写这个监控方案主要是为了方便做逆向的同学更加方便的获取抓包数据，解决一些平时无法抓包或者数据缺失的问题，看到更加完整的数据，减少逆向时踩坑的概率，挖掘更多的有用数据，同时也方便一些非开发的同学进行抓包（最后点主要是安卓同学会受益，这次方案有两个版本（ios和安卓），因为使用的问题，iOS版本目前对普通的同学还不是很友好，安卓目前解决了这个问题），同时也希望有知道的同学能给我提供一个更好的解决方案。</p>
+<h2 id="抓包工具的现状"><a href="#抓包工具的现状" class="headerlink" title="抓包工具的现状"></a>抓包工具的现状</h2><p>主要以charles为例，wireshark使用起来并不是十分的友好，无法直接看见明文数据。</p>
+<p>一下列出几点iOS无法抓包的情形</p>
+<p>1、APP内存在证书校验的数据</p>
+<p>2、经过SPDY优化处理的数据 </p>
+<p>3、存在代理校验的APP无法抓包</p>
+<p>4、WKwebview的数据无法获取</p>
+<p>这里针对如何第二点做一个补充。之前在测试抓取闲鱼芝麻信用的数据接口时发现，此处的接口通过多种方式都无法获取，最终通过在偶然的巧合下，发现电脑端开启全局vpn时，然后再通过charles（需要开启sockets proxy）,才能有大概率抓到包（不是100%），基于各种情况判断，可能是网络延迟的问题导致，蚂蚁的SPDY中可能要基于网络的判定，会导致无法触发他的SPDY协议（还未实锤）。</p>
+<p>其他的情景还需要其他的同学继续提供无法抓包的情景以完善这个工具方案。</p>
+<h3 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h3><p>这里简单的解释一下SPDY。需要详细了解的同学，可以研究一下<a href="https://github.com/twitter/CocoaSPDY" target="_blank" rel="noopener">CocoaSPDY</a></p>
+<p>目前关于HTTP / 2.0的工作草案主要基于SPDY协议</p>
+<p>为了使HTTP请求更快，SPDY进行了一些改进：</p>
+<p>1、请求多路复用。SPDY不是通过一个TCP连接一次发送一个请求，而是可以通过单个TCP会话同时发出许多请求，并且只要它们可用就以任何顺序处理响应。</p>
+<p>2、SPDY压缩请求和响应头。在请求之间，标题通常几乎相同，通常包含大量重复的文本，并且可能非常大。这使它们成为压缩的理想候选者。1</p>
+<p>3、SPDY引入了服务器推送。这可以允许服务器推送客户端不知道它需要的内容。此类内容的范围可以从样式和图像等附加资产到有关实时事件的通知。</p>
+<h2 id="iOS网络编程总结"><a href="#iOS网络编程总结" class="headerlink" title="iOS网络编程总结"></a>iOS网络编程总结</h2><p><img src="/2019/08/28/iOSNetworkMonitor/image1.png" alt="图片1"></p>
+<p>由上图可以看出目前iOS的网络编程分四层：</p>
+<p>WebKit：属于Cocoa层，苹果很多地方用到的页面渲染引擎WKWebview；<br>NSURL：属于Cocoa层，对各类URL请求的封装(NSURLRequest)；<br>CFNetwork：属于Core Foundation层，基于C的封装，同样的还有CFNetServices(write/readstream)；<br>BSD sockets：属于OS层，也是基于C的封装；</p>
+<p>这只是网络编程的抽象层级，并不是ios的调用层级关系。这里和我们网络监控方案的关系比较大。因为不是往上调用的关系，所以需要每个层级都进行监控才能实现全网络的监控。目前监控方案也只兼容了上面3层的网络请求（目前还没有发现使用CFNetwork的应用，有发现的同学可以告诉我一下 进行实际效果的测试）。</p>
+<p>基于层级关系，ios提供了3种API的编程方式。因为web层级是系统调用的，并没有开放相关的API。</p>
+<h3 id="socket-方式"><a href="#socket-方式" class="headerlink" title="socket 方式"></a>socket 方式</h3><p>iOS 提供的socket方式的网络编程接口为CFSocket。CFSocket是BSD sockets的抽象和封装，CFSocket提供BSD sockets几乎所有的功能，并与runloop集成，用来实现多线程网络编程和网络事件监听。基于 CFSocket可以实现各种类型的 socket编程，包括stream-based 的sockets(如tcp)和packet-based 的sockets(如udp)。</p>
+<h3 id="stream-方式"><a href="#stream-方式" class="headerlink" title="stream 方式"></a>stream 方式</h3><p>stream编程模式提供了与unix的文件操作类似的模式。首先创建和设置流，接着打开流，然后读写流，在流存在时还可以通过查询流的相关属性来读取流的相关信息，在流使用完毕后关闭流。</p>
+<p>iOS 为stream编程模式提供的api编程接口包括两大类，</p>
+<p>一类是Core Foundation框架层用C语言实现的CFStream API（包括CFStream、 CFReadStream 、CFWriteStream等）,</p>
+<p>一类是基于其上的在Foundation框架层用Objective-C语言实现的NSStream API（包括NSStream、NSInputStream NSOutputStream等）,两者提供相似的接口和行为，其中某些对象是toll-free bridged类型的，如CFStream 与NSStream，CFReadStream与NSInputStream，CFWriteStream与NSOutputStream之间，因此可以混合使用，只要进行桥接即可。</p>
+<h3 id="url-方式"><a href="#url-方式" class="headerlink" title="url 方式"></a>url 方式</h3><p>url 编程模式通过URL 的方式来实现网络编程，任何要存取的网络资源（包括局域网和广域网）都可以用一个URL来表示和存取，并支持设备间的资源共享。url 编程模式系统提供http, https, file, ftp, data等五种协议支持，并允许用户自己开发和登记相关类来支持另外的应用层网络协议，进行协议的扩展。</p>
+<p>url 编程模式在IOS系统可以使用两种编程接口：NSURLSession 和NSURLConnection。</p>
+<h2 id="iOS网络监控方案-1"><a href="#iOS网络监控方案-1" class="headerlink" title="iOS网络监控方案"></a>iOS网络监控方案</h2><p>网络监控一般通过 NSURLProtocol 和代码注入（Hook）这两种方式来实现，由于 NSURLProtocol 作为上层接口，又能够直接获取webview的相关请求，使用起来更为方便（实际会存在一些小问题，后面会详细描述），因此很自然选择它作为网络监控的首选切入点，但是 NSURLProtocol 属于 URL Loading System 体系中，所以存在一定的局限性，无法完全覆盖所有的网络请求。CFNetwork则还是需要利用fishhook 进行额外的处理。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/19/OLLVM/" rel="next" title="Xcode集成OLLVM踩坑">
+                <i class="fa fa-chevron-left"></i> Xcode集成OLLVM踩坑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zic_magic</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络监控方案"><span class="nav-number">1.</span> <span class="nav-text">iOS网络监控方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">2.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抓包工具的现状"><span class="nav-number">3.</span> <span class="nav-text">抓包工具的现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SPDY"><span class="nav-number">3.1.</span> <span class="nav-text">SPDY</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络编程总结"><span class="nav-number">4.</span> <span class="nav-text">iOS网络编程总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#socket-方式"><span class="nav-number">4.1.</span> <span class="nav-text">socket 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stream-方式"><span class="nav-number">4.2.</span> <span class="nav-text">stream 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#url-方式"><span class="nav-number">4.3.</span> <span class="nav-text">url 方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS网络监控方案-1"><span class="nav-number">5.</span> <span class="nav-text">iOS网络监控方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zic_magic</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
